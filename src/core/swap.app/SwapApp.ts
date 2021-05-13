@@ -207,6 +207,7 @@ class SwapApp extends EventEmitter {
     Object.keys(this.services).forEach((serviceName) =>
       this.services[serviceName]._tryInitService()
     )
+    console.log('SERVICES!!!!!', this.services);
   }
 
   _addSwap(swap) {

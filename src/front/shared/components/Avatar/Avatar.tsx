@@ -9,13 +9,7 @@ import styles from './Avatar.scss'
 
 const Avatar = ({ value, className, size }) => (
   <Fragment>
-    <img
-      className={className}
-      styleName="avatar"
-      alt={value}
-      title={value}
-      src={`data:image/svg+xml,${encodeURIComponent(jdenticon.toSvg(value, size))}`}
-    />
+    <span/>
   </Fragment>
 )
 

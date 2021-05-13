@@ -10,6 +10,7 @@ import Connection from './connection'
 import encoding from './encoding'
 import directConnection from './direct-connection-handler'
 import namedQueryRun from '../../utils/namedQuery'
+import peersInfo from 'common/messaging/pubsubRoom/ws.client';
 
 const DEFAULT_OPTIONS = {
   pollInterval: 1000
@@ -129,8 +130,9 @@ export default class PubSubRoom extends EventEmitter {
   }
 
   async _pollPeers () {
-    const newPeers = (await this._libp2p.pubsub.getSubscribers(this._topic)).sort()
-
+    const peers = (await this._libp2p.pubsub.getSubscribers(this._topic)).sort()
+    const wssPeers = peersInfo.getPeers();
+    const newPeers = [...new Set([...peers, ...wssPeers])].sort()
     if (this._emitChanges(newPeers)) {
       this._peers = newPeers
     }
@@ -146,7 +148,6 @@ export default class PubSubRoom extends EventEmitter {
   }
 
   _onMessage (message) {
-
     this.emit('message', message)
   }
 

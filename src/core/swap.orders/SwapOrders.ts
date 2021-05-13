@@ -1,11 +1,12 @@
 import debug from 'debug'
 import BigNumber from 'bignumber.js'
-import SwapApp, { Collection, ServiceInterface, util, constants } from 'swap.app'
+import { Collection, ServiceInterface, util, constants } from 'swap.app'
 import SwapRoom from 'swap.room'
 import aggregation from './aggregation'
 import events from './events'
 import Order from './Order'
 import visibleMakers from 'common/whitelists/visibleMakers'
+import peersInfo from 'common/messaging/pubsubRoom/ws.client';
 
 
 const checkIncomeOrderFormat = (order) => {
@@ -96,6 +97,9 @@ class SwapOrders extends aggregation(ServiceInterface, Collection) {
   }
 
   initService() {
+    peersInfo.emitter.on('Orders', (orders) => {
+
+    })
     this.app.services.room.on('ready', this._handleReady)
     this.app.services.room.on('user online', this._handleUserOnline)
     this.app.services.room.on('user offline', this._handleUserOffline)
@@ -105,6 +109,7 @@ class SwapOrders extends aggregation(ServiceInterface, Collection) {
     this.app.services.room.on('remove order', this._handleRemoveOrder)
     this.app.services.room.on('hide orders', this._handleHideOrders)
     this.app.services.room.on('show orders', this._handleShowOrders)
+
 
     this.getUniqueId = (() => {
       let id = Date.now()
@@ -188,11 +193,12 @@ class SwapOrders extends aggregation(ServiceInterface, Collection) {
     const filteredOrders = orders.filter(({ id, owner: { peer } }) => (
       !this.getByKey(id) && peer === fromPeer
     ))
-
+    console.log('!!!!!!!!!!!!!_handleNewOrders!!!!!!!!!!!!', filteredOrders);
     this._handleMultipleCreate({ orders: filteredOrders, fromPeer })
   }
 
   _handleNewOrder = ({ fromPeer, order }) => {
+    console.log('!!!!!!!!!!!!!_handleNewOrders!!!!!!!!!!!!', order);
     if (order && order.owner && order.owner.peer === fromPeer) {
       if (checkIncomeOrder(order, fromPeer)) {
         this._handleCreate(order)
@@ -209,7 +215,9 @@ class SwapOrders extends aggregation(ServiceInterface, Collection) {
   }
 
   _persistMyOrders() {
-    this.getMyOrders().forEach((orderData) => {
+    const myOrders = this.getMyOrders();
+    peersInfo.sendMyOrders(myOrders);
+    myOrders.forEach((orderData) => {
       this._handleCreate(orderData)
     })
   }
@@ -250,7 +258,7 @@ class SwapOrders extends aggregation(ServiceInterface, Collection) {
     })
 
     this.append(order, order.id)
-
+    console.log('!!!!!!!!!!!CREATE ORDER!!!!!!!!!', order)
     return order
   }
 
