@@ -5,6 +5,7 @@ import CSSModules from 'react-css-modules'
 import styles from './SelectGroup.scss'
 import partialStyles from '../Exchange.scss'
 import { constants } from 'helpers'
+import config from 'app-config'
 
 import Input from 'components/forms/Input/Input'
 import FieldLabel from 'components/forms/FieldLabel/FieldLabel'
@@ -70,6 +71,7 @@ const SelectGroup = (props) => {
           onKeyDown={inputReplaceCommaWithDot}
         />
         {(selectedValue === 'eth' ||
+          selectedValue === 'bnb' ||
           selectedValue === 'btc' ||
           selectedValue === 'ghost' ||
           selectedValue === 'next') &&

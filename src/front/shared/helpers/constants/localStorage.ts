@@ -22,7 +22,7 @@ export default {
   didPinBtcCreated: `${process.env.ENTRY}:pinBtcCreated`,
   didProtectedBtcG2FACreated: 'protectedBtcG2FA',
   walletTitle: 'walletTitle',
-  customERC: 'customERC',
+  customToken: 'customToken',
   balanceActiveCurrency: 'balanceActiveCurrency',
   isSweepReady: 'isSweepReady',
   signedUpWithPush: 'signedUpWithPush',
@@ -34,4 +34,5 @@ export default {
   testnetSkipPKCheck: 'testnetSkipPKCheck',
   prevWPUser: 'wp_widget_prev_userid',
   exchangeSettings: 'exchangeSettings',
+  extensionLastActivity: 'extensionLastActivity',
 }

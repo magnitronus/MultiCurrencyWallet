@@ -95,20 +95,6 @@
     ]
   },
   {
-    "id": "EthChecker19",
-    "message": "Этот Токен работает на сети Ethereum blockchain. Для осуществления операций у Вас должно быть не менее 0.02 ETH на балансе",
-    "files": [
-      "src/front/shared/components/modals/EthChecker/EthChecker.tsx"
-    ]
-  },
-  {
-    "id": "EthChecker23",
-    "message": "Кошелек",
-    "files": [
-      "src/front/shared/components/modals/EthChecker/EthChecker.tsx"
-    ]
-  },
-  {
     "id": "ConfirmOffer69",
     "message": "Назад",
     "files": [
@@ -262,7 +248,7 @@
   },
   {
     "id": "RowHistory91",
-    "message": "Ссылка на обмен",
+    "message": "Ссылка",
     "files": [
       "src/front/shared/pages/History/SwapsHistory/RowHistory/RowHistory.tsx",
       "src/front/shared/pages/Marketmaker/SwapRow.tsx"
@@ -412,7 +398,7 @@
   },
   {
     "id": "HowItWorks10",
-    "message": "Как это работает ",
+    "message": "Как Это Работает",
     "files": [
       "src/front/shared/pages/Exchange/HowItWorks/HowItWorks.tsx"
     ]
@@ -547,14 +533,8 @@
     "id": "Table96",
     "message": "Загрузка... ",
     "files": [
-      "src/front/shared/components/tables/Table/Table.tsx"
-    ]
-  },
-  {
-    "id": "Amount68",
-    "message": "История",
-    "files": [
-      "src/front/shared/pages/History/History.tsx"
+      "src/front/shared/components/tables/Table/Table.tsx",
+      "src/front/shared/containers/App/App.tsx"
     ]
   },
   {
@@ -586,16 +566,10 @@
     ]
   },
   {
-    "id": "recieved65",
-    "message": "Адресс скопирован",
-    "files": [
-      "src/front/shared/components/modals/ReceiveModal/ReceiveModal.tsx"
-    ]
-  },
-  {
     "id": "recieved67",
     "message": "Скопировать",
     "files": [
+      "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx",
       "src/front/shared/components/modals/ReceiveModal/ReceiveModal.tsx"
     ]
   },
@@ -627,62 +601,6 @@
     "message": "Вы получите",
     "files": [
       "src/front/shared/pages/Exchange/Orders/OrderBook/Row/Row.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal133",
-    "message": "Что-то пошло не так{br}Попробуйте позже",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal000",
-    "message": "Спасибо!{br}Вы будете получать уведомления",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal001",
-    "message": "Перейти в кошелек",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal002",
-    "message": "Зарегистрироваться",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal002-1",
-    "message": "Осталось немного",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal003",
-    "message": "Разрешить уведомления",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal004",
-    "message": "Вы будете получать уведомления об обновлениях с вашей учетной записью (ордера, транзакции){br}и ежемесячные обновления о нашем проекте{br}{br}Подписка активирует подарок для теста (вы получите криптовалюту которую сразу можно поменять на биткоин)",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal005",
-    "message": "Похоже, что пуш уведомления не работают.{br}Пожалуйста, оставьте свой email для уведомлений",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
     ]
   },
   {
@@ -747,13 +665,6 @@
     ]
   },
   {
-    "id": "Approve",
-    "message": "Подтвердить токен",
-    "files": [
-      "src/front/shared/components/modals/EthChecker/EthChecker.tsx"
-    ]
-  },
-  {
     "id": "Add52",
     "message": "Создать предложение на обмен",
     "files": [
@@ -779,13 +690,6 @@
     "message": "Пополнение баланса",
     "files": [
       "src/front/shared/components/modals/ReceiveModal/ReceiveModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal55",
-    "message": "Регистрация",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
     ]
   },
   {
@@ -853,10 +757,7 @@
   },
   {
     "id": "question12",
-    "message": "?",
-    "files": [
-      "src/front/shared/components/Header/User/Question/Question.tsx"
-    ]
+    "message": "?"
   },
   {
     "id": "PartialPriceNoOrdersReduce",
@@ -952,20 +853,6 @@
   {
     "id": "down57",
     "message": "Похоже, что Вы пытаетесь сохранить свои приватные ключи. Скопируйте их в надеждное место! Так же вы можете скачать их как документ .txt формата.",
-    "files": [
-      "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx"
-    ]
-  },
-  {
-    "id": "down64",
-    "message": "Скопировано в буфер обмена",
-    "files": [
-      "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx"
-    ]
-  },
-  {
-    "id": "down65",
-    "message": "Скопировать",
     "files": [
       "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx"
     ]
@@ -1107,7 +994,7 @@
     "id": "ExchangeTitleTag1",
     "message": "Самые быстрые кроссчейновые обмены",
     "files": [
-      "src/front/shared/pages/Exchange/Exchange.tsx"
+      "src/front/shared/pages/Exchange/Promo/Promo.tsx"
     ]
   },
   {
@@ -1273,7 +1160,7 @@
     "id": "userTooltip43",
     "message": "Пользователь ({reputation}) предлагает обмен",
     "files": [
-      "src/front/shared/components/Header/User/UserTooltip/UserTooltip.tsx"
+      "src/front/shared/components/Header/UserTooltip/UserTooltip.tsx"
     ]
   },
   {
@@ -1315,6 +1202,7 @@
     "id": "FeeControler49",
     "message": "Скопировать",
     "files": [
+      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx",
       "src/front/shared/pages/Swap/FeeControler/FeeControler.tsx"
     ]
   },
@@ -1615,7 +1503,7 @@
     "id": "userTooltip71",
     "message": "Go to the feed page",
     "files": [
-      "src/front/shared/components/Header/User/UserTooltip/UserTooltip.tsx"
+      "src/front/shared/components/Header/UserTooltip/UserTooltip.tsx"
     ]
   },
   {
@@ -1736,46 +1624,6 @@
     ]
   },
   {
-    "id": "Submenu16",
-    "message": "Fast atomic swap exchanges BTC, ETH, ERC20 online",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Submenu22",
-    "message": "Cryptocurrency storage without loading wallets",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Submenu28",
-    "message": "Turn your website into a cryptocurrency portal (wallet, stock exchange, etc.)",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Swap.WalletSubMeny",
-    "message": "Swap.Wallet",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Swap.WidgetSubMenu",
-    "message": "Swap.Widget",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
     "id": "CustomWalletIsNotCorrect",
     "message": "Wallet address is incorrect",
     "files": [
@@ -1849,12 +1697,13 @@
     "id": "createWalletButton1",
     "message": "Продолжить",
     "files": [
+      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx",
       "src/front/shared/pages/CreateWallet/Steps/FirstStep.tsx"
     ]
   },
   {
     "id": "createWalletCapture1",
-    "message": "На выбор Bitcoin, Ethereum, Swap",
+    "message": "На выбор Bitcoin, Ethereum, Swap, Tokens",
     "files": [
       "src/front/shared/pages/CreateWallet/Steps/texts.tsx"
     ]
@@ -1940,6 +1789,7 @@
     "id": "WithdrawMSUserFinish",
     "message": "Ready",
     "files": [
+      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx",
       "src/front/shared/components/modals/WithdrawBtcMultisig/WithdrawBtcMultisig.tsx",
       "src/front/shared/components/modals/WithdrawModalMultisig/WithdrawModalMultisigUser.tsx"
     ]
@@ -2554,13 +2404,6 @@
     ]
   },
   {
-    "id": "CurrencyAction",
-    "message": "CurrencyAction",
-    "files": [
-      "src/front/shared/components/modals/CurrencyAction/CurrencyAction.tsx"
-    ]
-  },
-  {
     "id": "currencyAction81",
     "message": "Please choose a currency, which you want to {context}",
     "files": [
@@ -2652,13 +2495,6 @@
     ]
   },
   {
-    "id": "PartialHowItWorks10",
-    "message": "Как это работает?",
-    "files": [
-      "src/front/shared/pages/Exchange/Exchange.tsx"
-    ]
-  },
-  {
     "id": "continueDeclined977",
     "message": "Продолжить обмен",
     "files": [
@@ -2715,14 +2551,6 @@
     ]
   },
   {
-    "id": "Submenu",
-    "message": "Swap.Exhange",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
     "id": "InvoiceInfoBlockOpenDesktopApp",
     "message": "Оплатить с внешнего кошелька",
     "files": [
@@ -2758,56 +2586,42 @@
     ]
   },
   {
-    "id": "customERC20_Address",
-    "message": "Адрес контракта",
+    "id": "customTokenAddress",
+    "message": "Адрес токена",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_ConfirmStep",
+    "id": "customTokenConfirm",
     "message": "Добавить этот токен",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_IncorrectAddress",
+    "id": "customTokenIncorrectAddress",
     "message": "Вы ввели не коректный адрес",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_NextStep",
+    "id": "NextId",
     "message": "Далее",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_NotFound",
-    "message": "По указаному адресу не найден токен ERC20",
+    "id": "customTokenNotFound",
+    "message": "По указаному адресу не найден {standard} токен",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_Processing",
-    "message": "Обработка ...",
-    "files": [
-      "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
-    ]
-  },
-  {
-    "id": "customERC20_Ready",
-    "message": "Готово",
-    "files": [
-      "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
-    ]
-  },
-  {
-    "id": "customERC20_ReadyMessage",
+    "id": "customTokenAdded",
     "message": "Токен успешно добавлен",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
@@ -2815,27 +2629,27 @@
   },
   {
     "id": "customERC20_Title",
-    "message": "Добавление токена ERC20",
+    "message": "Добавление токена",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_TokenDecimals",
+    "id": "DecimalsId",
     "message": "Знаков после запятой",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_TokenSymbol",
+    "id": "SymbolId",
     "message": "Символ токена",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_TokenTitle",
+    "id": "TitleId",
     "message": "Название токена",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
@@ -3284,20 +3098,6 @@
     ]
   },
   {
-    "id": "SaveMnemonicModal_Continue",
-    "message": "Продолжить",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
-    "id": "SaveMnemonicModal_CopyMnemonic",
-    "message": "Скопировать",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
     "id": "SaveMnemonicModal_EnterNotice",
     "message": "Нажмите слова, чтобы поместить их рядом друг с другом в правильном порядке",
     "files": [
@@ -3305,22 +3105,8 @@
     ]
   },
   {
-    "id": "SaveMnemonicModal_MnemonicCopied",
-    "message": "Скопировано...",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
     "id": "SaveMnemonicModal_MnemoniceDeleted",
     "message": "Вы уже сохранили секретную фразу. {href}.",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
-    "id": "SaveMnemonicModal_Ready",
-    "message": "Готово",
     "files": [
       "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
     ]
@@ -3342,13 +3128,6 @@
   {
     "id": "SaveMnemonicModal_SaveMnemonicStep2",
     "message": "2. Обязательно подпишите что это ключ от {domain}",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
-    "id": "SaveMnemonicModal_ShareMnemonic",
-    "message": "Share",
     "files": [
       "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
     ]
@@ -3616,7 +3395,7 @@
   },
   {
     "id": "SweepBannerButton",
-    "message": "Done",
+    "message": "Готово",
     "files": [
       "src/front/shared/components/layout/DashboardLayout/DashboardLayout.tsx"
     ]
@@ -3625,7 +3404,8 @@
     "id": "MainFAQHeader",
     "message": "FAQ",
     "files": [
-      "src/front/shared/components/FAQ/FAQ.tsx"
+      "src/front/shared/components/FAQ/FAQ.tsx",
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
     ]
   },
   {
@@ -3658,7 +3438,7 @@
   },
   {
     "id": "MainFAQ2_content1",
-    "message": "Для токенов ERC20 требуется, чтобы на ваших кошельках было не менее 0,001 ETH. Помнить! при отправке токенов ERC20 вы должны удерживать некоторое количество ETH в качестве комиссии майнеров за транзакции. Это также относится ко всем атомным свопам для токенов ETH и ERC20.",
+    "message": "Для токенов {tokenType} требуется, чтобы на ваших кошельках было не менее 0,001 {currency}. Помнить! при отправке токенов {tokenType} вы должны удерживать некоторое количество {currency} в качестве комиссии майнеров за транзакции. Это также относится ко всем атомным свопам для токенов {currency} и {tokenType}.",
     "files": [
       "src/front/shared/components/FAQ/FAQ.tsx"
     ]
@@ -4688,76 +4468,6 @@
     ]
   },
   {
-    "id": "HowToExportModal_ExportERC20Step1",
-    "message": "Для экспорта кошелька {currency} вам нужно сначала импортировать ваш приватный ключ от ETH кошелька (в примеру в кошелек Metamask)",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20Step2",
-    "message": "После экспорта ETH кошелька, вам нужно добавить ERC20 токен с параметрами, указанными ниже",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Contract",
-    "message": "Адресс контракта: {contractAddress}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Decimals",
-    "message": "Количество символов после запятой: {decimals}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Name",
-    "message": "Название токена: {name}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Symbol",
-    "message": "Символ токена: {symbol}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportEthPrivateKey",
-    "message": "Ваш приватный ключ от ETH кошелька",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportSimple",
-    "message": "Для экспорта кошелька {currency} используйте ваш приватный ключ",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportUserPrivateKey",
-    "message": "Ваш приватный ключ",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_Title",
-    "message": "Как экспортировать кошелек {currency}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
     "id": "YourWalletbalance",
     "message": "Баланс",
     "files": [
@@ -5010,6 +4720,13 @@
     ]
   },
   {
+    "id": "AddLiquidity",
+    "message": "Добавить Ликвидность",
+    "files": [
+      "src/front/shared/pages/Exchange/Exchange.tsx"
+    ]
+  },
+  {
     "id": "MainFAQ2_content3",
     "message": "Текущие комиссии майнеров:",
     "files": [
@@ -5025,14 +4742,14 @@
   },
   {
     "id": "MetamaskNetworkAlert_NetworkMainnet",
-    "message": "Основная сеть (Mainnet)",
+    "message": "Ethereum (Mainnet) или Binance Smart Chain (Mainnet)",
     "files": [
       "src/front/shared/containers/App/App.tsx"
     ]
   },
   {
     "id": "MetamaskNetworkAlert_NetworkTestnet",
-    "message": "Тестовая сеть (Ropsten)",
+    "message": "Ethereum (Ropsten) или Binance Smart Chain (Testnet)",
     "files": [
       "src/front/shared/containers/App/App.tsx"
     ]
@@ -5655,8 +5372,8 @@
     ]
   },
   {
-    "id": "WithdrowBalanceNotEnoughtEthereumBalancePrompt",
-    "message": "Недостаточно эфира для комиссии за майнинг",
+    "id": "WithdrowTokenCurrencyBalance",
+    "message": "Недостаточно {tokenCurrency} для комиссии за майнинг",
     "files": [
       "src/front/shared/components/modals/WithdrawModal/WithdrawModal.tsx"
     ]
@@ -5756,13 +5473,6 @@
     ]
   },
   {
-    "id": "FarmDoesNotHaveContracts",
-    "message": "Не найдено параметров для фермы",
-    "files": [
-      "src/front/shared/pages/Farm/index.tsx"
-    ]
-  },
-  {
     "id": "DropDownNoOptionsInTheList",
     "message": "Нет вариантов",
     "files": [
@@ -5771,7 +5481,7 @@
   },
   {
     "id": "menu.marketmaker",
-    "message": "Marketmaker",
+    "message": "Зарабатывать",
     "files": [
       "src/front/shared/components/Header/config.tsx"
     ]
@@ -5866,6 +5576,496 @@
     "message": "60 минут или больше",
     "files": [
       "src/front/shared/components/modals/WithdrawModal/components/FeeInfoBlock/FeeRadios/index.tsx"
+    ]
+  },
+  {
+    "id": "ExchangeTokenWasApproved",
+    "message": "Token was approved.{br}Explorer link: {txLink}",
+    "files": [
+      "src/front/shared/pages/Exchange/Exchange.tsx"
+    ]
+  },
+  {
+    "id": "Orderbook",
+    "message": "Книга заказов",
+    "files": [
+      "src/front/shared/pages/Exchange/Exchange.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_TotalSum",
+    "message": "- В любой момент времени сумма балансов BTC и {token} будет больше, чем раньше.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_Audit",
+    "message": "- Приложение прошло аудит от {link}.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_NotStore",
+    "message": "- Не храните большие суммы или заемные средства.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_FundAccess",
+    "message": "- Ключи к вашим средствам только у вас, у нас нет доступа к ним",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemBody2-5",
+    "message": "Уведомление о риске",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent1",
+    "message": "Маркет-мейкер зарабатывает на разнице валютных курсов при обслуживании сделок купли-продажи (спред)",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_HowMuchEarn",
+    "message": "Мы заявляем от 10% в год (APY). Если количество обменов недостаточно, мы будем мотивировать пользователей совершать обмены с помощью баунти программ.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent4",
+    "message": "(в разработке)",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent5",
+    "message": "Минимального срока нет, вы можете вывести средства в любой момент.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent6",
+    "message": "Расскажите о возможности обмена в сообществах где вы состоите.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle7",
+    "message": "Зачем мне {token}? Меня интересует заработок только BTC.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent7-1",
+    "message": "Вы можете пополнять только биткоином, но неизбежно в какие-то периоды ваш баланс BTC может уменьшиться, а {token} увеличиться и наоборот.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent7-2",
+    "message": "В любой момент времени сумма этих балансов будет больше чем раньше.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent7-3",
+    "message": "Если вы хотите вывести BTC, но часть из них в {token}, то вам прийдется самому менять {token}, например через биржу Binance.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle8",
+    "message": "Почему пользователи сами не поменяют через биржу Binance?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent8",
+    "message": "Наши клиенты любят и поддерживают децентрализацию, наш обменник работает через смарт контракты и мы никак не сможем заморозить средства клиента больше чем на 3 часа.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle1",
+    "message": "Почему это работает?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_Safety",
+    "message": "Это безопасно? Может ли баланс уменьшиться?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle3",
+    "message": "Сколько я буду зарабатывать?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle4",
+    "message": "Какой минимальный баланс нужен для начала?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle5",
+    "message": "Какой минимальный срок маркетмейкинга?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle6",
+    "message": "Как увеличить заработок?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_Choose_Farming_Body1",
+    "message": "Получайте дополнительную награду в SWAP токенах, заморозив LP токены."
+  },
+  {
+    "id": "MM_Choose_Farming_Button",
+    "message": "Начать фарминг"
+  },
+  {
+    "id": "MM_Choose_Farming_Title",
+    "message": "Фарминг"
+  },
+  {
+    "id": "MM_Choose_InBrowser_Body1",
+    "message": "Подходит для того, что бы попробовать."
+  },
+  {
+    "id": "MM_Choose_InBrowser_Body2",
+    "message": "Если вы закроете браузер, вы перестанете зарабатывать."
+  },
+  {
+    "id": "MM_Choose_InBrowser_Button",
+    "message": "Начать в браузере"
+  },
+  {
+    "id": "MM_Choose_InBrowser_Title",
+    "message": "Маркетмейкер в браузере"
+  },
+  {
+    "id": "MM_Choose_Server_Body1",
+    "message": "Подходит для продвинутых пользователей."
+  },
+  {
+    "id": "MM_Choose_Server_Body2",
+    "message": "Требуется сервер для разворачивания образа Docker."
+  },
+  {
+    "id": "MM_Choose_Server_Button",
+    "message": "Читать инструкцию"
+  },
+  {
+    "id": "MM_Choose_Server_Title",
+    "message": "Маркетмейкер-сервер"
+  },
+  {
+    "id": "MM_Choose_Title",
+    "message": "Выберите способ"
+  },
+  {
+    "id": "MM_Choose_Uniswap_Body1",
+    "message": "Подходит для продвинутых пользователей."
+  },
+  {
+    "id": "MM_Choose_Uniswap_Body2",
+    "message": "Зарабатывайте когда другие продают или покупают SWAP токены."
+  },
+  {
+    "id": "MM_Choose_Uniswap_Button",
+    "message": "Создать пул"
+  },
+  {
+    "id": "MM_Choose_Uniswap_Title",
+    "message": "Создайте uniswap-пул SWAP/ETH"
+  },
+  {
+    "id": "MM_Promo_Title",
+    "message": "Как заработать на моем BTC депозите?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx",
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Promo_TitleBody",
+    "message": "Пользователи в нашем обменнике swap.io меняют BTC на {token} (токен который стоит как BTC, но работает на {Ab_Title}), и обратно. Ты получишь мин. 10% годовых в качестве комиссии c обменов с низким impermanent loss {link}.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx",
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MMPercentEarn",
+    "message": "Вы будете зарабатывать 0,5% с каждого свопа",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_BTCBalance",
+    "message": "Баланс BTC:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ConnectMetamask",
+    "message": "Подключить Metamask",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_DepositeWallet",
+    "message": "для пополнения переведите на",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_DisconnectMetamask",
+    "message": "Отключить Metamask",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ETHBalance",
+    "message": "Баланс {AB_Coin}: {balance} (для майнер комиссии)",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_StartHere",
+    "message": "Начните маркетмейкинг здесь",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Wallet_Required",
+    "message": "Для запуска маркетмейкинга необходим горячий кошелёк (BTC, {AB_Coin}, {token}).",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Wallet_Create",
+    "message": "Создать кошелёк",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Wallet_Restore",
+    "message": "Восстановить из 12 слов",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_NotEnoughCoins",
+    "message": "Недостаточно средств. Вам нужно пополнить свой BTC или {token}",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_NotEnoughtEth",
+    "message": "Недостаточно {AB_Coin}, чтобы заплатить комиссию майнерам. У вас должно быть не менее 0,02 {AB_Coin}",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Empty",
+    "message": "У вас нет свапов, включите маркетмейкинг и ждите пока кто-то примет ваши заказы",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_LockTime",
+    "message": "Время блокировки",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Status",
+    "message": "Статус",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Step",
+    "message": "Шаг",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Title",
+    "message": "История свапов",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_YouBuy",
+    "message": "Вы покупаете",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_YouSell",
+    "message": "Вы продаете",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ToggleText",
+    "message": "Маркетмейкер BTC/{token}",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_TokenBalance",
+    "message": "Баланс {token}:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_TotalBalance",
+    "message": "{token}, BTC"
+  },
+  {
+    "id": "MM_ToggleTextEnabled",
+    "message": "Вы должны быть в сети все время, иначе вы не будете зарабатывать",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ToggleTextDisabled",
+    "message": "Включите переключатель, чтобы начать зарабатывать",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_TotalEarned",
+    "message": "Всего заработано:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_MarketmakingSimbols",
+    "message": "{token} + BTC",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_MarketmakingBalanceTitle",
+    "message": "Общая ликвидность:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_whatIsWBTCTooltip1",
+    "message": "{tokenFullName} ({token}) - это токен {tokenStandart}, который представляет Биткойн (BTC) в блокчейне {blockchainName}.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_whatIsWBTCTooltip2",
+    "message": "{token} был создан, чтобы позволить держателям биткойнов участвовать в приложениях децентрализованных финансов («DeFi»), которые популярны на {blockchainName}.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_InstallExtentionTitle",
+    "message": "Установи Расширение Chrome и Начни Зарабатывать",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx"
+    ]
+  },
+  {
+    "id": "MM_InstallExtentionBtn",
+    "message": "Установить Расширение Chrome",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_HighRisk",
+    "message": "- Любая операция с криптовалютой сопряжена с высоким риском.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ImpermanentLoss",
+    "message": "Какие издержки предпологаются?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ImpermanentLossContent",
+    "message": "В любой момент времени сумма этих остатков будет больше, чем раньше. Если вы хотите вывести BTC, но некоторые из них находятся в {token}, то вам придется обменять {token} самостоятельно, например, через биржу Binance.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_InstallDevExtention",
+    "message": "Скачать версию для разработки",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx"
     ]
   }
 ]

@@ -37,7 +37,7 @@ const fetchCoinFee = (params): Promise<CoinFee> => {
 
   return new Promise(async (feeResolved) => {
     const hasFeeInCache = !updateCacheValue && feeCache[action] && feeCache[action][coinName]
-    const coinData = COIN_DATA[coinName]
+    const coinData = COIN_DATA[coinName.toUpperCase()]
     let isBuyingUTXO = action === 'buy' && coinData.model === COIN_MODEL.UTXO
     let isBuyingAB = action === 'buy' && coinData.model === COIN_MODEL.AB
 
@@ -66,6 +66,7 @@ const fetchCoinFee = (params): Promise<CoinFee> => {
     if (coinData) {
       switch (coinData.type) {
         case COIN_TYPE.NATIVE:
+          //@ts-ignore: strictNullChecks
           obtainedResult = await fetchFeeForNativeCoin({
             coinData,
             swapUTXOMethod: isBuyingUTXO ? 'withdraw' : 'deposit',
@@ -74,6 +75,7 @@ const fetchCoinFee = (params): Promise<CoinFee> => {
           doResolve(obtainedResult)
           break
         case COIN_TYPE.ETH_TOKEN:
+          //@ts-ignore: strictNullChecks
           obtainedResult = await fetchFeeForEthToken({
             coinData,
             swapABMethod: isBuyingAB ? 'withdraw' : 'deposit',
@@ -171,7 +173,7 @@ type PairFeesParams = {
 }
 
 export const getPairFees = (params: PairFeesParams): Promise<IPairFees> => {
-  const { sellCurrency, buyCurrency, updateCacheValue = false } = params
+  let { sellCurrency, buyCurrency, updateCacheValue = false } = params
 
   return new Promise(async (feeResolved) => {
     const sell = await fetchCoinFee({

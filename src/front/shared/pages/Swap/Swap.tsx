@@ -30,17 +30,14 @@ const isWidgetBuild = config && config.isWidget
 const isDark = localStorage.getItem(constants.localStorage.isDark)
 
 @connect(({
-  user: { ethData, btcData, ghostData, nextData, tokensData, activeFiat },
+  user: { ethData, bnbData, btcData, ghostData, nextData, tokensData, activeFiat },
   pubsubRoom: { peer },
   rememberedOrders,
 }) => ({
   activeFiat,
-  items: [ethData, btcData, ghostData, nextData],
-  tokenItems: [...Object.keys(tokensData).map(k => (tokensData[k]))],
+  items: [ethData, bnbData, btcData, ghostData, nextData],
   currenciesData: [ethData, btcData, ghostData, nextData],
   tokensData: [...Object.keys(tokensData).map(k => (tokensData[k]))],
-  errors: 'api.errors',
-  checked: 'api.checked',
   savedOrders: rememberedOrders.savedOrders,
   peer,
 }))
@@ -77,7 +74,7 @@ class SwapComponent extends PureComponent<any, any> {
     } = this.state
 
     if (step >= 3) {
-
+      //@ts-ignore: strictNullChecks
       let swapsId = JSON.parse(localStorage.getItem('axiosSwaps'))
 
       if (swapsId === null || swapsId.length === 0) {
@@ -146,7 +143,7 @@ class SwapComponent extends PureComponent<any, any> {
   componentDidMount() {
     console.group('Swap page >%c didMount', 'color: green')
 
-    const { items, tokenItems, currenciesData, tokensData } = this.props
+    const { items, currenciesData, tokensData } = this.props
     let { match: { params: { orderId } }, history, activeFiat } = this.props
 
     if (!!window.performance && window.performance.navigation.type === 2) {
@@ -178,7 +175,7 @@ class SwapComponent extends PureComponent<any, any> {
 
       const SwapComponent = swapComponents[swap.flow._flowName]
       const ethData = items.filter(item => item.currency === 'ETH')
-      const currencyData = items.concat(tokenItems)
+      const currencyData = items.concat(tokensData)
         .filter(item => item.currency === swap.sellCurrency.toUpperCase())[0]
       const currencies = [
         {
@@ -247,6 +244,9 @@ class SwapComponent extends PureComponent<any, any> {
     }
 
     if (swap !== null) {
+      if (this.checkIsFinished() || this.checkStoppedSwap()) {
+        return
+      }
       this.sendDebugInfoTimer = setInterval(() => {
         this.sendSwapDebugInformation(orderId)
       }, 1000)
@@ -292,9 +292,21 @@ class SwapComponent extends PureComponent<any, any> {
   }
 
   checkStoppedSwap = () => {
-    const { swap: { id, flow: { state: { isStoppedSwap } } } } = this.state
+    const {
+      swap: {
+        id,
+        flow: {
+          state: {
+            isStoppedSwap,
+            isFinished,
+            isRefunded,
+            isSwapTimeout,
+          },
+        },
+      },
+    } = this.state
 
-    if (!isStoppedSwap) {
+    if (!isStoppedSwap || isFinished || isRefunded || isSwapTimeout) {
       return false
     }
 
@@ -313,9 +325,21 @@ class SwapComponent extends PureComponent<any, any> {
   }
 
   checkIsFinished = () => {
-    const { swap: { id, flow: { state: { isFinished, step, isRefunded } } } } = this.state
+    const {
+      swap: {
+        id,
+        flow: {
+          state: {
+            isFinished,
+            isSwapTimeout,
+            step,
+            isRefunded,
+          },
+        },
+      },
+    } = this.state
 
-    if (isFinished || step > 7 || isRefunded) {
+    if (isFinished || isSwapTimeout || step > 7 || isRefunded) {
       this.deleteThisSwap(id)
       return true
     }
@@ -503,7 +527,7 @@ class SwapComponent extends PureComponent<any, any> {
   }
 
   render() {
-    const { peer, tokenItems, history, intl: { locale } } = this.props
+    const { peer, tokensData, history, intl: { locale } } = this.props
     const {
       swap,
       SwapComponent,
@@ -530,7 +554,7 @@ class SwapComponent extends PureComponent<any, any> {
         {!isSwapCancelled ?
           <div styleName={`${isMobile ? 'swap swapMobile' : 'swap'} ${isDark ? 'dark' : ''}`}>
             <SwapComponent
-              tokenItems={tokenItems}
+              tokenItems={tokensData}
               depositWindow={depositWindow}
               disabledTimer={isAmountMore === 'enable'}
               history={history}

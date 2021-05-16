@@ -4,6 +4,10 @@ import links from 'helpers/links'
 import externalConfig from 'helpers/externalConfig'
 
 
+const isWidgetBuild = externalConfig && externalConfig.isWidget
+const isChromeExtention = externalConfig && externalConfig.dir === 'chrome-extension/application'
+
+
 export const messages = defineMessages({
   products: {
     id: 'menu.products',
@@ -33,7 +37,7 @@ export const messages = defineMessages({
   marketmaker: {
     id: 'menu.marketmaker',
     description: 'Menu item "Marketmaker"',
-    defaultMessage: 'Marketmaker',
+    defaultMessage: 'Earn',
   },
   farm: {
     id: 'menu.farm',
@@ -52,13 +56,13 @@ export const messages = defineMessages({
   },
 })
 
-export const getMenuItems = (props, isWalletCreate) => {
-  const { intl, reputation, isSigned } = props
+export const getMenuItems = (props) => {
+  const { intl } = props
   const { exchange, wallet, createWallet } = messages
   const { 
     exchange: linksExchange,
     createWallet: create,
-    farm,
+    // farm,
     history,
     home,
   } = links
@@ -68,24 +72,18 @@ export const getMenuItems = (props, isWalletCreate) => {
       title: intl.formatMessage(wallet),
       link: home,
       exact: true,
-      haveSubmenu: true,
-      icon: 'products',
       currentPageFlag: true,
     },
     {
       title: intl.formatMessage(messages.history),
       link: history,
       exact: true,
-      haveSubmenu: true,
-      icon: 'products',
       currentPageFlag: true,
     },
     !externalConfig.opts.exchangeDisabled && {
       title: intl.formatMessage(exchange),
       link: linksExchange,
-      exact: true,
-      haveSubmenu: true,
-      icon: 'products',
+      exact: false,
       currentPageFlag: true,
     },
   ]
@@ -95,75 +93,57 @@ export const getMenuItems = (props, isWalletCreate) => {
       title: intl.formatMessage(createWallet),
       link: create,
       exact: true,
-      haveSubmenu: true,
-      icon: 'products',
       currentPageFlag: true,
     },
     !externalConfig.opts.exchangeDisabled && {
       title: intl.formatMessage(exchange),
       link: linksExchange,
-      exact: true,
-      haveSubmenu: true,
-      icon: 'products',
+      exact: false,
       currentPageFlag: true,
     },
   ]
 
-  // Marketmaker testnet ********
-  if (externalConfig.entry === `testnet`) {
+  // Marketmaker pages ********
+  if (!isWidgetBuild) {
     const marketmakerItem = {
       title: intl.formatMessage(messages.marketmaker),
-      link: links.marketmaker,
+      link: !isChromeExtention ? `${links.marketmaker}/` : (externalConfig.binance) ? `${links.marketmaker}/BTCB` : `${links.marketmaker}/WBTC`,
       exact: true,
-      haveSubmenu: true,
-      icon: 'products',
       currentPageFlag: true,
     }
 
     itemsWithWallet.push(marketmakerItem)
     itemsWithoutWallet.push(marketmakerItem)
   }
-  // Farm plugin ****************************
 
-  let hasFarmInitOptions = false
+  // temporarily hidden
+  // Farm ************************
+  // if (!isWidgetBuild) {
+  //   const farmItem = {
+  //     title: intl.formatMessage(messages.farm),
+  //     link: farm,
+  //     isExternal: true,
+  //     exact: true,
+  //     currentPageFlag: true,
+  //   }
 
-  if (window.farm) {
-    const { farmAddress, rewardsAddress, stakingAddress } = window.farm
+  //   itemsWithWallet.push(farmItem)
+  //   itemsWithoutWallet.push(farmItem)
+  // }
 
-    hasFarmInitOptions = farmAddress && rewardsAddress && stakingAddress && true
-  }
-
-  if (hasFarmInitOptions) {
-    const farmItem = {
-      title: intl.formatMessage(messages.farm),
-      link: farm,
-      exact: true,
-      haveSubmenu: true,
-      icon: 'products',
-      currentPageFlag: true,
-    }
-
-    itemsWithWallet.push(farmItem)
-    itemsWithoutWallet.push(farmItem)
-  }
-
-  // ***************************************
-
-  return (Number.isInteger(reputation) && reputation !== 0)
-    || isSigned
-    || localStorage.getItem('isWalletCreate') === 'true'
-    || (externalConfig && externalConfig.isWidget)
+  return localStorage.getItem('isWalletCreate') === 'true'
+    || externalConfig && externalConfig.isWidget
       ? itemsWithWallet
       : itemsWithoutWallet
 }
 
 
 export const getMenuItemsMobile = (props, isWalletCreate, dinamicPath) => {
-  const { intl, reputation, isSigned } = props
+  const { intl } = props
   const { exchange, wallet, createWallet } = messages
   const { 
     exchange: linksExchange,
-    farm,
+    // farm,
     history,
   } = links
 
@@ -172,21 +152,18 @@ export const getMenuItemsMobile = (props, isWalletCreate, dinamicPath) => {
       title: intl.formatMessage(isWalletCreate ? wallet : createWallet),
       link: dinamicPath,
       exact: true,
-      haveSubmenu: true,
       icon: <i className="fa fa-home" aria-hidden="true" />,
     },
     {
       title: props.intl.formatMessage(messages.history),
       link: history,
-      haveSubmenu: false,
       displayNone: !isWalletCreate,
       icon: <i className="fas fa-exchange-alt" aria-hidden="true" />,
     },
     !externalConfig.opts.exchangeDisabled && {
       title: intl.formatMessage(exchange),
       link: linksExchange,
-      exact: true,
-      haveSubmenu: true,
+      exact: false,
       icon: <i className="fas fa-sync-alt" aria-hidden="true" />,
     },
   ]
@@ -196,45 +173,32 @@ export const getMenuItemsMobile = (props, isWalletCreate, dinamicPath) => {
       title: intl.formatMessage(createWallet),
       link: dinamicPath,
       exact: true,
-      haveSubmenu: true,
       icon: <i className="fa fa-home" aria-hidden="true" />,
     },
     !externalConfig.opts.exchangeDisabled && {
       title: intl.formatMessage(exchange),
       link: linksExchange,
-      exact: true,
-      haveSubmenu: true,
+      exact: false,
       icon: <i className="fas fa-sync-alt" aria-hidden="true" />,
     },
   ]
 
-  // Farm plugin ****************************
+  // temporarily hidden
+  // Farm ************************
+  // if (externalConfig.entry === 'testnet' && !isWidgetBuild) {
+  //   const farmItem = {
+  //     title: props.intl.formatMessage(messages.farm),
+  //     link: farm,
+  //     isExternal: true,
+  //     exact: true,
+  //     icon: <i className="fas fa-coins" aria-hidden="true" />,
+  //   }
 
-  let hasFarmInitOptions = false
+  //   mobileItemsWithWallet.push(farmItem)
+  //   mobileItemsWithoutWallet.push(farmItem)
+  // }
 
-  if (window.farm) {
-    const { farmAddress, rewardsAddress, stakingAddress } = window.farm
-
-    hasFarmInitOptions = farmAddress && rewardsAddress && stakingAddress && true
-  }
-
-  if (hasFarmInitOptions) {
-    const farmItem = {
-      title: props.intl.formatMessage(messages.farm),
-      link: farm,
-      exact: true,
-      haveSubmenu: true,
-      icon: <i className="fas fa-coins" aria-hidden="true" />,
-    }
-
-    mobileItemsWithWallet.push(farmItem)
-    mobileItemsWithoutWallet.push(farmItem)
-  }
-
-  // *****************************************
-
-  return (Number.isInteger(reputation) && reputation !== 0) || isSigned
-    || localStorage.getItem('isWalletCreate') === 'true'
+  return localStorage.getItem('isWalletCreate') === 'true'
       ? mobileItemsWithWallet
       : mobileItemsWithoutWallet
 }

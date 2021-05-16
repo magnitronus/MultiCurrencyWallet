@@ -7,6 +7,7 @@ import Row from '../Row/Row'
 import Value from '../Value/Value'
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import config from 'app-config'
 
 
 const title = defineMessages({

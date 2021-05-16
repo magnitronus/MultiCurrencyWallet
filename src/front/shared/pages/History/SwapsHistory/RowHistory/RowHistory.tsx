@@ -71,6 +71,20 @@ class RowHistory extends Component<any, any> {
     }
   }
 
+  getSwapStatusText = (isFinished: boolean, isRefunded: boolean, isStoppedSwap: boolean) => {
+    if (isFinished) {
+      return <FormattedMessage id="RowHistory94" defaultMessage="Finished" />
+    }
+    if (isRefunded) {
+      return <FormattedMessage id="RowHistory77" defaultMessage="Refunded" />
+    }
+    if (isStoppedSwap) {
+      return <FormattedMessage id="RowHistory139" defaultMessage="Stopped" />
+    }
+
+    return ''
+  }
+
   closeIncompleted = () => {
     actions.modals.close('IncompletedSwaps')
   }
@@ -159,12 +173,10 @@ class RowHistory extends Component<any, any> {
             className={cx({
               [styles.statusFinished]: isFinished,
               [styles.statusRefunded]: isRefunded,
-              [styles.statusStopped]: isStoppedSwap,
+              [styles.statusStopped]: isStoppedSwap && (isFinished || isRefunded) ? false : true,
             })}
           >
-            {isFinished && <FormattedMessage id="RowHistory94" defaultMessage="Finished" />}
-            {isRefunded && <FormattedMessage id="RowHistory77" defaultMessage="Refunded" />}
-            {isStoppedSwap && <FormattedMessage id="RowHistory139" defaultMessage="Stopped" />}
+            {this.getSwapStatusText(isFinished, isRefunded, isStoppedSwap)}
             {!isDeletedSwap &&
               (canBeRefunded ? (
                 <Timer lockTime={values.lockTime * 1000} enabledButton={this.tryRefund} />
@@ -175,7 +187,7 @@ class RowHistory extends Component<any, any> {
         </td>
         <td>
           <Link to={swapUri} onClick={this.closeIncompleted}>
-            <FormattedMessage id="RowHistory91" defaultMessage="Link to the swap" />
+            <FormattedMessage id="RowHistory91" defaultMessage="Link" />
           </Link>
         </td>
       </tr>

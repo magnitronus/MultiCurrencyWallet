@@ -2,11 +2,10 @@ import React, { Component, Fragment } from 'react'
 
 import { connect } from 'redaction'
 import actions from 'redux/actions'
-import Slider from 'pages/Wallet/components/WallerSlider'
 import { withRouter } from 'react-router-dom'
-
-import helpers, { links, constants, ethToken } from 'helpers'
-import { getTokenWallet, getBitcoinWallet, getEtherWallet, getGhostWallet, getNextWallet } from 'helpers/links'
+import erc20Like from 'common/erc20Like'
+import { links, constants } from 'helpers'
+import { getWalletUrl, getTokenWallet } from 'helpers/links'
 
 import CSSModules from 'react-css-modules'
 import styles from './CurrencyWallet.scss'
@@ -34,44 +33,22 @@ import lsDataCache from 'helpers/lsDataCache'
 const isWidgetBuild = config && config.isWidget
 const isDark = localStorage.getItem(constants.localStorage.isDark)
 
-@connect(({ signUp: { isSigned } }) => ({
-  isSigned,
-}))
 @connect(
   ({
     core,
     user,
     history: { transactions, swapHistory },
-    history,
     user: {
-      ethData,
-      btcData,
-      ghostData,
-      nextData,
       activeFiat,
       activeCurrency,
-      btcMultisigSMSData,
-      btcMultisigUserData,
       isFetching,
       isBalanceFetching,
-      tokensData,
       multisigStatus,
       multisigPendingCount,
     },
   }) => ({
-    items: [
-      ethData,
-      btcData,
-      ghostData,
-      nextData,
-      btcMultisigSMSData,
-      btcMultisigUserData,
-      ...Object.keys(tokensData).map((k) => tokensData[k]),
-    ],
-    tokens: [...Object.keys(tokensData).map((k) => tokensData[k])],
     user,
     activeFiat,
-    historyTx: history,
     hiddenCoinsList: core.hiddenCoinsList,
     txHistory: transactions,
     swapHistory,
@@ -92,74 +69,18 @@ class CurrencyWallet extends Component<any, any> {
 
     const {
       match: {
-        params: { fullName = null, ticker = null, address = null, action = null },
+        params: { fullName = null, ticker = null, address = null },
       },
-      intl: { locale },
-      //items,
-      txHistory,
       hiddenCoinsList,
     } = props
 
     const items = actions.core.getWallets({})
 
-    if (!address && !ticker) {
-      if (fullName) {
-        // Если это токен - перенаправляем на адрес /token/name/address
-        if (ethToken.isEthToken({ name: fullName })) {
-          this.state = {
-            ...this.state,
-            ...{
-              isRedirecting: true,
-              redirectUrl: getTokenWallet(fullName),
-            },
-          }
-          return
-        }
-
-        if (fullName.toLowerCase() === `bitcoin`) {
-          this.state = {
-            ...this.state,
-            ...{
-              isRedirecting: true,
-              redirectUrl: getBitcoinWallet(),
-            },
-          }
-          return
-        }
-        if (fullName.toLowerCase() === `ghost`) {
-          this.state = {
-            ...this.state,
-            ...{
-              isRedirecting: true,
-              redirectUrl: getGhostWallet(),
-            },
-          }
-          return
-        }
-        if (fullName.toLowerCase() === `next`) {
-          this.state = {
-            ...this.state,
-            ...{
-              isRedirecting: true,
-              redirectUrl: getNextWallet(),
-            },
-          }
-          return
-        }
-
-        if (fullName.toLowerCase() === `ethereum`) {
-          this.state = {
-            ...this.state,
-            ...{
-              isRedirecting: true,
-              redirectUrl: getEtherWallet(),
-            },
-          }
-          return
-        }
-      }
-      // @ToDO throw error
-    }
+    this.updateRedirectUrls({
+      address,
+      ticker,
+      fullName,
+    })
 
     const walletAddress = address
 
@@ -169,21 +90,12 @@ class CurrencyWallet extends Component<any, any> {
       ticker = fullName
     }
 
-    // MultiWallet - after Sweep - названию валюты доверять нельзя - нужно проверяться также адрес - и выбирать по адресу
-    let itemCurrency = items.filter((item) => {
-      if (ethToken.isEthToken({ name: ticker })) {
-        if (
-          item.currency.toLowerCase() === ticker.toLowerCase() &&
-          item.address.toLowerCase() === walletAddress.toLowerCase()
-        ) {
-          return true
-        }
-      } else {
-        if (!ethToken.isEthToken({ name: ticker }) && item.address.toLowerCase() === walletAddress.toLowerCase()) {
-          return true
-        }
-      }
+    let itemCurrency = this.filterCurrencies({
+      items,
+      ticker,
+      walletAddress,
     })
+
     if (!itemCurrency.length) {
       itemCurrency = items.filter((item) => {
         if (item.balance > 0 && item.currency.toLowerCase() === ticker.toLowerCase()) return true
@@ -199,8 +111,9 @@ class CurrencyWallet extends Component<any, any> {
       itemCurrency = itemCurrency[0]
       //@ts-ignore
       const { currency, address, contractAddress, decimals, balance, infoAboutCurrency } = itemCurrency
-
       const hasCachedData = lsDataCache.get(`TxHistory_${getCurrencyKey(currency, true).toLowerCase()}_${address}`)
+      const isErc20Token = erc20Like.erc20.isToken({ name: currency })
+      const isBep20Token = erc20Like.bep20.isToken({ name: currency })
 
       this.state = {
         itemCurrency,
@@ -215,18 +128,22 @@ class CurrencyWallet extends Component<any, any> {
         isLoading: false,
         infoAboutCurrency,
         filterValue: walletAddress || address || '',
-        token: ethToken.isEthToken({ name: ticker }),
+        isErc20Token,
+        isBep20Token,
+        token: erc20Like.isToken({ name: ticker }),
       }
     }
   }
 
   componentDidMount() {
     this._mounted = true
-    console.log('CurrencyWallet mounted')
+    
     const {
       currency,
       itemCurrency,
       token,
+      isErc20Token,
+      isBep20Token,
       isRedirecting,
       redirectUrl,
       balance,
@@ -256,20 +173,23 @@ class CurrencyWallet extends Component<any, any> {
       activeFiat
     } = this.props
 
-    if (currency) {
-      // actions.analytics.dataEvent(`open-page-${currency.toLowerCase()}-wallet`)
-    }
     if (token) {
-      actions.token.getBalance(currency.toLowerCase())
+      if (isErc20Token) {
+        actions.erc20.getBalance(currency.toLowerCase())
+      }
+
+      if (isBep20Token) {
+        actions.bep20.getBalance(currency.toLowerCase())
+      }
     }
 
-    // set balance for the address
-    address &&
-      actions[getCurrencyKey(currency.toLowerCase(), false)]
-        .fetchBalance(address)
-        .then((balance) => this.setState({ balance }))
+    const actionName = isErc20Token
+      ? 'erc20' : isBep20Token
+      ? 'bep20' : currency.toLowerCase()
 
-    this.setLocalStorageItems()
+    address && actions[getCurrencyKey(actionName, false)]
+      .fetchBalance(address)
+      .then((balance) => this.setState({ balance }))
 
     // if address is null, take transactions from current user
     address
@@ -283,7 +203,7 @@ class CurrencyWallet extends Component<any, any> {
     const { Withdraw, WithdrawMultisigSMS, WithdrawMultisigUser } = constants.modals
 
     const targetCurrency = getCurrencyKey(currency.toLowerCase(), true)
-    const isToken = helpers.ethToken.isEthToken({ name: currency })
+    const isToken = erc20Like.isToken({ name: currency })
 
     const withdrawUrl = (isToken ? '/token' : '') + `/${targetCurrency}/${address}/send`
     const receiveUrl = (isToken ? '/token' : '') + `/${targetCurrency}/${address}/receive`
@@ -293,6 +213,7 @@ class CurrencyWallet extends Component<any, any> {
       // if (itemCurrency.isSmsProtected) modalType = WithdrawMultisigSMS
       // if (itemCurrency.isUserProtected) modalType = WithdrawMultisigUser
 
+      //@ts-ignore: strictNullChecks
       actions.modals.open(modalType, {
         currency,
         address,
@@ -306,6 +227,7 @@ class CurrencyWallet extends Component<any, any> {
       }
     }
     if (this.props.history.location.pathname.toLowerCase() === receiveUrl.toLowerCase()) {
+      //@ts-ignore: strictNullChecks
       actions.modals.open(constants.modals.ReceiveModal, {
         currency,
         address,
@@ -344,66 +266,11 @@ class CurrencyWallet extends Component<any, any> {
     ) {
       const items = actions.core.getWallets({})
 
-      if (!address && !ticker) {
-        if (fullName) {
-          // Если это токен - перенаправляем на адрес /token/name/address
-          if (ethToken.isEthToken({ name: fullName })) {
-            this.state = {
-              ...this.state,
-              ...{
-                isRedirecting: true,
-                redirectUrl: getTokenWallet(fullName),
-              },
-            }
-            return
-          }
-
-          if (fullName.toLowerCase() === `bitcoin`) {
-            this.state = {
-              ...this.state,
-              ...{
-                isRedirecting: true,
-                redirectUrl: getBitcoinWallet(),
-              },
-            }
-            return
-          }
-
-          if (fullName.toLowerCase() === `ghost`) {
-            this.state = {
-              ...this.state,
-              ...{
-                isRedirecting: true,
-                redirectUrl: getGhostWallet(),
-              },
-            }
-            return
-          }
-
-          if (fullName.toLowerCase() === `next`) {
-            this.state = {
-              ...this.state,
-              ...{
-                isRedirecting: true,
-                redirectUrl: getNextWallet(),
-              },
-            }
-            return
-          }
-
-          if (fullName.toLowerCase() === `ethereum`) {
-            this.state = {
-              ...this.state,
-              ...{
-                isRedirecting: true,
-                redirectUrl: getEtherWallet(),
-              },
-            }
-            return
-          }
-        }
-        // @ToDO throw error
-      }
+      this.updateRedirectUrls({
+        address,
+        ticker,
+        fullName,
+      })
 
       const walletAddress = address
 
@@ -411,20 +278,11 @@ class CurrencyWallet extends Component<any, any> {
       if (fullName) {
         ticker = fullName
       }
-      // MultiWallet - after Sweep - названию валюты доверять нельзя - нужно проверяться также адрес - и выбирать по адресу
-      let itemCurrency = items.filter((item) => {
-        if (ethToken.isEthToken({ name: ticker })) {
-          if (
-            item.currency.toLowerCase() === ticker.toLowerCase() &&
-            item.address.toLowerCase() === walletAddress.toLowerCase()
-          ) {
-            return true
-          }
-        } else {
-          if (!ethToken.isEthToken({ name: ticker }) && item.address.toLowerCase() === walletAddress.toLowerCase()) {
-            return true
-          }
-        }
+      
+      let itemCurrency = this.filterCurrencies({
+        items,
+        ticker,
+        walletAddress,
       })
 
       if (itemCurrency.length) {
@@ -456,7 +314,7 @@ class CurrencyWallet extends Component<any, any> {
             isLoading: false,
             infoAboutCurrency,
             filterValue: address || '',
-            token: ethToken.isEthToken({ name: ticker }),
+            token: erc20Like.isToken({ name: currency }),
           },
           () => {
             if (prevProps.location.pathname !== this.props.location.pathname) {
@@ -465,13 +323,14 @@ class CurrencyWallet extends Component<any, any> {
               }
             }
             const targetCurrency = getCurrencyKey(currency.toLowerCase(), true)
-            const isToken = helpers.ethToken.isEthToken({ name: currency })
+            const isToken = erc20Like.isToken({ name: currency })
 
             const withdrawUrl = (isToken ? '/token' : '') + `/${targetCurrency}/${address}/send`
             const receiveUrl = (isToken ? '/token' : '') + `/${targetCurrency}/${address}/receive`
             const currentUrl = this.props.location.pathname.toLowerCase()
 
             if (currentUrl === withdrawUrl.toLowerCase()) {
+              //@ts-ignore: strictNullChecks
               actions.modals.open(modalWithdraw, {
                 currency,
                 address,
@@ -484,6 +343,7 @@ class CurrencyWallet extends Component<any, any> {
               })
             }
             if (currentUrl === receiveUrl.toLowerCase()) {
+              //@ts-ignore: strictNullChecks
               actions.modals.open(constants.modals.ReceiveModal, {
                 currency,
                 address,
@@ -497,7 +357,77 @@ class CurrencyWallet extends Component<any, any> {
 
   componentWillUnmount() {
     this._mounted = false
-    console.log('CurrencyWallet unmounted')
+  }
+
+  filterCurrencies = (params) => {
+    const { items, ticker, walletAddress } = params
+    // MultiWallet - after Sweep - названию валюты доверять нельзя - нужно проверяться также адрес - и выбирать по адресу
+    return items.filter((item) => {
+      if (erc20Like.isToken({ name: ticker })) {
+        if (
+          item.currency.toLowerCase() === ticker.toLowerCase() &&
+          item.address.toLowerCase() === walletAddress.toLowerCase()
+        ) {
+          return true
+        }
+      } else {
+        if (item.address.toLowerCase() === walletAddress.toLowerCase() && item.currency === ticker) {
+          return true
+        }
+      }
+    })
+  }
+
+  updateRedirectUrls = (params) => {
+    const { address, ticker, fullName, isErc20Token, isBep20Token } = params
+
+    const setRedirectUrl = (url) => {
+      this.setState(() => ({
+        isRedirecting: true,
+        redirectUrl: url,
+      }))
+    }
+
+    if (!address && !ticker) {
+      if (fullName) {
+        if (erc20Like.isToken({ name: fullName })) {
+          const tokenCurrency = isErc20Token ? 'eth' : isBep20Token ? 'bnb' : ''
+          const tokenWallet = getTokenWallet({
+            tokenName: fullName,
+            currency: tokenCurrency,
+          })
+          setRedirectUrl(tokenWallet)
+          return
+        }
+
+        if (fullName.toLowerCase() === `bitcoin`) {
+          setRedirectUrl(getWalletUrl({ name: 'btc' }))
+          return
+        }
+
+        if (fullName.toLowerCase() === `ghost`) {
+          setRedirectUrl(getWalletUrl({ name: 'ghost' }))
+          return
+        }
+
+        if (fullName.toLowerCase() === `next`) {
+          setRedirectUrl(getWalletUrl({ name: 'next' }))
+          return
+        }
+
+        if (fullName.toLowerCase() === `ethereum`) {
+          setRedirectUrl(getWalletUrl({ name: 'eth' }))
+          return
+        }
+
+        if (fullName.toLowerCase() === `binance coin`) {
+          setRedirectUrl(getWalletUrl({ name: 'bnb' }))
+          return
+        }
+      }
+
+      throw new Error('Currency wallet: wrong url parameters')
+    }
   }
 
   getRows = (txHistory) => {
@@ -506,6 +436,7 @@ class CurrencyWallet extends Component<any, any> {
 
   pullTransactions = (transactions) => {
     if (!this._mounted) return
+    //@ts-ignore: strictNullChecks
     let data = [].concat([], ...transactions).sort((a, b) => b.date - a.date)
     this.setState({
       txItems: data,
@@ -523,25 +454,10 @@ class CurrencyWallet extends Component<any, any> {
     })
   }
 
-  setLocalStorageItems = () => {
-    //@ts-ignore
-    const isClosedNotifyBlockBanner = localStorage.getItem(constants.localStorage.isClosedNotifyBlockBanner)
-    //@ts-ignore
-    const isClosedNotifyBlockSignUp = localStorage.getItem(constants.localStorage.isClosedNotifyBlockSignUp)
-    const isPrivateKeysSaved = localStorage.getItem(constants.localStorage.privateKeysSaved)
-    const walletTitle = localStorage.getItem(constants.localStorage.walletTitle)
-
-    this.setState({
-      isClosedNotifyBlockBanner,
-      isClosedNotifyBlockSignUp,
-      walletTitle,
-      isPrivateKeysSaved,
-    })
-  }
-
   handleReceive = () => {
     const { currency, address } = this.state
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.ReceiveModal, {
       currency,
       address,
@@ -551,6 +467,7 @@ class CurrencyWallet extends Component<any, any> {
   handleInvoice = () => {
     const { currency, address } = this.state
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.InvoiceModal, {
       currency: currency.toUpperCase(),
       toAddress: address,
@@ -560,30 +477,19 @@ class CurrencyWallet extends Component<any, any> {
   handleWithdraw = () => {
     const {
       history,
-      hiddenCoinsList,
       intl: { locale },
     } = this.props
-    const { itemCurrency, currency, address, contractAddress, decimals, balance, isBalanceEmpty } = this.state
+    const { itemCurrency, currency, address } = this.state
 
-    // actions.analytics.dataEvent(`balances-withdraw-${currency.toLowerCase()}`)
     let withdrawModal = constants.modals.Withdraw
     if (itemCurrency.isSmsProtected) withdrawModal = withdrawModal = constants.modals.WithdrawMultisigSMS
     if (itemCurrency.isUserProtected) withdrawModal = constants.modals.WithdrawMultisigUser
 
     let targetCurrency = getCurrencyKey(currency.toLowerCase(), true).toLowerCase()
 
-    const isToken = helpers.ethToken.isEthToken({ name: currency })
+    const isToken = erc20Like.isToken({ name: currency })
 
     history.push(localisedUrl(locale, (isToken ? '/token' : '') + `/${targetCurrency}/${address}/send`))
-  }
-
-  handleGoWalletHome = () => {
-    const {
-      history,
-      intl: { locale },
-    } = this.props
-
-    history.push(localisedUrl(locale, links.wallet))
   }
 
   handleGoTrade = () => {
@@ -648,7 +554,6 @@ class CurrencyWallet extends Component<any, any> {
       },
       intl,
       hiddenCoinsList,
-      isSigned,
       isBalanceFetching,
       activeFiat,
       multisigStatus,
@@ -668,7 +573,7 @@ class CurrencyWallet extends Component<any, any> {
       isLoading,
     } = this.state
 
-    const currencyKey = getCurrencyKey(currency, true)
+    let currencyKey = getCurrencyKey(currency, true)
 
     if (isRedirecting) return null
 
@@ -728,16 +633,6 @@ class CurrencyWallet extends Component<any, any> {
       changePercent = infoAboutCurrency.percent_change_1h
     } else {
       currencyFiatBalance = 0
-    }
-
-    let settings = {
-      infinite: true,
-      speed: 500,
-      autoplay: true,
-      autoplaySpeed: 6000,
-      fade: true,
-      slidesToShow: 1,
-      slidesToScroll: 1,
     }
 
     return (

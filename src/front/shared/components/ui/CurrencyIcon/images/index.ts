@@ -1,5 +1,7 @@
 import btc from './btc.svg'
 import eth from './eth.svg'
+import bnb from './bnb.svg'
+import wbtc from './wbtc.svg'
 import icx from './icx.svg'
 import waves from './waves.svg'
 import xrp from './xrp.svg'
@@ -25,6 +27,7 @@ export default {
   'btc (multisig)': btc,
   'btc (sms-protected)': btc,
   'btc (pin-protected)': btc,
+  wbtc,
   dcn,
   bxb,
   kn,
@@ -33,6 +36,7 @@ export default {
   arn,
   omg,
   eth,
+  bnb,
   syc2,
   icx,
   usdt,

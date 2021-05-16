@@ -98,20 +98,6 @@
     ]
   },
   {
-    "id": "EthChecker19",
-    "message": "This token works on Ethereum blockchain. To swap this token you must have at least 0.02 ETH on your balance",
-    "files": [
-      "src/front/shared/components/modals/EthChecker/EthChecker.tsx"
-    ]
-  },
-  {
-    "id": "EthChecker23",
-    "message": "Go wallet",
-    "files": [
-      "src/front/shared/components/modals/EthChecker/EthChecker.tsx"
-    ]
-  },
-  {
     "id": "ConfirmOffer69",
     "message": "Terug",
     "files": [
@@ -255,7 +241,7 @@
   },
   {
     "id": "RowHistory91",
-    "message": "Link naar de ruil",
+    "message": "Link",
     "files": [
       "src/front/shared/pages/History/SwapsHistory/RowHistory/RowHistory.tsx",
       "src/front/shared/pages/Marketmaker/SwapRow.tsx"
@@ -405,7 +391,7 @@
   },
   {
     "id": "HowItWorks10",
-    "message": "How it works",
+    "message": "Hoe Werkt Het",
     "files": [
       "src/front/shared/pages/Exchange/HowItWorks/HowItWorks.tsx"
     ]
@@ -498,14 +484,8 @@
     "id": "Table96",
     "message": "Lading... ",
     "files": [
-      "src/front/shared/components/tables/Table/Table.tsx"
-    ]
-  },
-  {
-    "id": "Amount68",
-    "message": "Transacties",
-    "files": [
-      "src/front/shared/pages/History/History.tsx"
+      "src/front/shared/components/tables/Table/Table.tsx",
+      "src/front/shared/containers/App/App.tsx"
     ]
   },
   {
@@ -530,16 +510,10 @@
     ]
   },
   {
-    "id": "recieved65",
-    "message": "Address copied to clipboard",
-    "files": [
-      "src/front/shared/components/modals/ReceiveModal/ReceiveModal.tsx"
-    ]
-  },
-  {
     "id": "recieved67",
     "message": "Copy to clipboard",
     "files": [
+      "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx",
       "src/front/shared/components/modals/ReceiveModal/ReceiveModal.tsx"
     ]
   },
@@ -571,62 +545,6 @@
     "message": "Jij ontvangt",
     "files": [
       "src/front/shared/pages/Exchange/Orders/OrderBook/Row/Row.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal133",
-    "message": "Something went wrong.{br}Try it later",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal000",
-    "message": "Thanks!{br}You will receive a notification",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal001",
-    "message": "Go to my wallet",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal002",
-    "message": "Sign up",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal002-1",
-    "message": "One more step",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal003",
-    "message": "Allow notifications",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal004",
-    "message": "You will receive notifications regarding updates with your account (orders, transactions){br}and monthly updates about our project{br}{br}Sign up and get your free cryptocurrency for test. Exchange it on real Bitcoin from very begining!",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal005",
-    "message": "It seems like push notification is not working{br}Please, leave your email for notifications,{br}or try later",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
     ]
   },
   {
@@ -684,13 +602,6 @@
     ]
   },
   {
-    "id": "Approve",
-    "message": "Approve token",
-    "files": [
-      "src/front/shared/components/modals/EthChecker/EthChecker.tsx"
-    ]
-  },
-  {
     "id": "Add52",
     "message": "Plaats een aanbod",
     "files": [
@@ -709,13 +620,6 @@
     "message": "CAUTION!",
     "files": [
       "src/front/shared/components/modals/PrivateKeysModal/PrivateKeysModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal55",
-    "message": "Sign up",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
     ]
   },
   {
@@ -783,10 +687,7 @@
   },
   {
     "id": "question12",
-    "message": "?",
-    "files": [
-      "src/front/shared/components/Header/User/Question/Question.tsx"
-    ]
+    "message": "?"
   },
   {
     "id": "PartialPriceNoOrdersReduce",
@@ -889,20 +790,6 @@
   {
     "id": "down57",
     "message": "To save your private keys just copy these keys and paste them into notepad textarea. You can also download your keys as a .txt file",
-    "files": [
-      "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx"
-    ]
-  },
-  {
-    "id": "down64",
-    "message": "Address copied to clipboard",
-    "files": [
-      "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx"
-    ]
-  },
-  {
-    "id": "down65",
-    "message": "Copy to clipboard",
     "files": [
       "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx"
     ]
@@ -1044,7 +931,7 @@
     "id": "ExchangeTitleTag1",
     "message": "Fastest cross-chain swaps",
     "files": [
-      "src/front/shared/pages/Exchange/Exchange.tsx"
+      "src/front/shared/pages/Exchange/Promo/Promo.tsx"
     ]
   },
   {
@@ -1203,7 +1090,7 @@
     "id": "userTooltip43",
     "message": "User ({reputation}) wants to swap",
     "files": [
-      "src/front/shared/components/Header/User/UserTooltip/UserTooltip.tsx"
+      "src/front/shared/components/Header/UserTooltip/UserTooltip.tsx"
     ]
   },
   {
@@ -1231,6 +1118,7 @@
     "id": "FeeControler49",
     "message": "Copy",
     "files": [
+      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx",
       "src/front/shared/pages/Swap/FeeControler/FeeControler.tsx"
     ]
   },
@@ -1517,7 +1405,7 @@
     "id": "userTooltip71",
     "message": "Go to the feed page",
     "files": [
-      "src/front/shared/components/Header/User/UserTooltip/UserTooltip.tsx"
+      "src/front/shared/components/Header/UserTooltip/UserTooltip.tsx"
     ]
   },
   {
@@ -1638,46 +1526,6 @@
     ]
   },
   {
-    "id": "Submenu16",
-    "message": "Fast atomic swap exchanges BTC, ETH, ERC20 online",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Submenu22",
-    "message": "Cryptocurrency storage without loading wallets",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Submenu28",
-    "message": "Turn your website into a cryptocurrency portal (wallet, stock exchange, etc.)",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Swap.WalletSubMeny",
-    "message": "Swap.Wallet",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Swap.WidgetSubMenu",
-    "message": "Swap.Widget",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
     "id": "CustomWalletIsNotCorrect",
     "message": "Wallet address is incorrect",
     "files": [
@@ -1758,12 +1606,13 @@
     "id": "createWalletButton1",
     "message": "Volgende",
     "files": [
+      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx",
       "src/front/shared/pages/CreateWallet/Steps/FirstStep.tsx"
     ]
   },
   {
     "id": "createWalletCapture1",
-    "message": "Kies uit Bitcoin, Ethereum, Swap of andere valuta's",
+    "message": "Kies uit Bitcoin, Ethereum, Swap, Tokens",
     "files": [
       "src/front/shared/pages/CreateWallet/Steps/texts.tsx"
     ]
@@ -1905,6 +1754,7 @@
     "id": "WithdrawMSUserFinish",
     "message": "Gereed",
     "files": [
+      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx",
       "src/front/shared/components/modals/WithdrawBtcMultisig/WithdrawBtcMultisig.tsx",
       "src/front/shared/components/modals/WithdrawModalMultisig/WithdrawModalMultisigUser.tsx"
     ]
@@ -2575,13 +2425,6 @@
     ]
   },
   {
-    "id": "CurrencyAction",
-    "message": "CurrencyAction",
-    "files": [
-      "src/front/shared/components/modals/CurrencyAction/CurrencyAction.tsx"
-    ]
-  },
-  {
     "id": "currencyAction81",
     "message": "Kies de valuta die u wilt {context}",
     "files": [
@@ -2666,13 +2509,6 @@
     ]
   },
   {
-    "id": "PartialHowItWorks10",
-    "message": "How it works?",
-    "files": [
-      "src/front/shared/pages/Exchange/Exchange.tsx"
-    ]
-  },
-  {
     "id": "continueDeclined977",
     "message": "Continue your swaps",
     "files": [
@@ -2736,14 +2572,6 @@
     ]
   },
   {
-    "id": "Submenu",
-    "message": "Swap.Exhange",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
     "id": "InvoiceInfoBlockOpenDesktopApp",
     "message": "Betal fra en ekstern tegnebog",
     "files": [
@@ -2779,56 +2607,42 @@
     ]
   },
   {
-    "id": "customERC20_Address",
-    "message": "erc20 address",
+    "id": "customTokenAddress",
+    "message": "Token address",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_ConfirmStep",
+    "id": "customTokenConfirm",
     "message": "Add token",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_IncorrectAddress",
-    "message": "Invalid erc20 address",
+    "id": "customTokenIncorrectAddress",
+    "message": "Invalid address",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_NextStep",
+    "id": "NextId",
     "message": "Volgende",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_NotFound",
-    "message": "This is not ERC20 address",
+    "id": "customTokenNotFound",
+    "message": "This is not {standard} address",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_Processing",
-    "message": "Processing ...",
-    "files": [
-      "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
-    ]
-  },
-  {
-    "id": "customERC20_Ready",
-    "message": "Done",
-    "files": [
-      "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
-    ]
-  },
-  {
-    "id": "customERC20_ReadyMessage",
+    "id": "customTokenAdded",
     "message": "Token ble lagt til",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
@@ -2836,27 +2650,27 @@
   },
   {
     "id": "customERC20_Title",
-    "message": "Add new ERC20",
+    "message": "Een nieuw token toevoegen",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_TokenDecimals",
+    "id": "DecimalsId",
     "message": "Decimals",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_TokenSymbol",
+    "id": "SymbolId",
     "message": "Symbol",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_TokenTitle",
+    "id": "TitleId",
     "message": "Title",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
@@ -3280,20 +3094,6 @@
     ]
   },
   {
-    "id": "SaveMnemonicModal_Continue",
-    "message": "Volgende",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
-    "id": "SaveMnemonicModal_CopyMnemonic",
-    "message": "Copy",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
     "id": "SaveMnemonicModal_EnterNotice",
     "message": "Klik de woorden aan en plaats ze in de juiste volgorde",
     "files": [
@@ -3301,22 +3101,8 @@
     ]
   },
   {
-    "id": "SaveMnemonicModal_MnemonicCopied",
-    "message": "Copied...",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
     "id": "SaveMnemonicModal_MnemoniceDeleted",
     "message": "You have already saved your 12-words seed. {href}",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
-    "id": "SaveMnemonicModal_Ready",
-    "message": "Gereed",
     "files": [
       "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
     ]
@@ -3338,13 +3124,6 @@
   {
     "id": "SaveMnemonicModal_SaveMnemonicStep2",
     "message": "2. Wees zeker dat dit de sleutel is naar {domain}",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
-    "id": "SaveMnemonicModal_ShareMnemonic",
-    "message": "Delen",
     "files": [
       "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
     ]
@@ -3591,7 +3370,7 @@
   },
   {
     "id": "SweepBannerButton",
-    "message": "Done",
+    "message": "Gemaakt",
     "files": [
       "src/front/shared/components/layout/DashboardLayout/DashboardLayout.tsx"
     ]
@@ -3600,7 +3379,8 @@
     "id": "MainFAQHeader",
     "message": "FAQ",
     "files": [
-      "src/front/shared/components/FAQ/FAQ.tsx"
+      "src/front/shared/components/FAQ/FAQ.tsx",
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
     ]
   },
   {
@@ -3633,7 +3413,7 @@
   },
   {
     "id": "MainFAQ2_content1",
-    "message": "Voor ERC20 tokens is het nodig dat u tenminste 0.001 ETH in uw wallet heeft. Onthoud! Bij het zenden van ERC20 tokens, is het nodig om ETH the hebben voor de miner fee^ Dit is geldt ook voor alle atomic swaps voor ETH & ERC20. Opmerkiing: U kunt de benodigde 'miner fee' voor elke valuto vinden via google.",
+    "message": "Voor {tokenType} tokens is het nodig dat u tenminste 0.001 {currency} in uw wallet heeft. Onthoud! Bij het zenden van {tokenType} tokens, is het nodig om {currency} the hebben voor de miner fee^ Dit is geldt ook voor alle atomic swaps voor {currency} & {tokenType}. Opmerkiing: U kunt de benodigde 'miner fee' voor elke valuto vinden via google.",
     "files": [
       "src/front/shared/components/FAQ/FAQ.tsx"
     ]
@@ -4656,76 +4436,6 @@
     ]
   },
   {
-    "id": "HowToExportModal_ExportERC20Step1",
-    "message": "To export the {currency} wallet, you first need to import your private key from the ETH wallet (for example, into the Metamask wallet)",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20Step2",
-    "message": "After exporting the ETH wallet, you need to add the ERC20 token with the parameters listed below",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Contract",
-    "message": "Contract address: {contractAddress}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Decimals",
-    "message": "Count of decimal after dot: {decimals}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Name",
-    "message": "Token name: {name}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Symbol",
-    "message": "Symbol: {symbol}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportEthPrivateKey",
-    "message": "Your private key for ETH wallet",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportSimple",
-    "message": "To export {currency} wallet use your private key",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportUserPrivateKey",
-    "message": "Your private key",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_Title",
-    "message": "How to export a {currency} wallet",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
     "id": "YourWalletbalance",
     "message": "Balance",
     "files": [
@@ -4999,6 +4709,13 @@
     ]
   },
   {
+    "id": "AddLiquidity",
+    "message": "Liquiditeit toevoegen",
+    "files": [
+      "src/front/shared/pages/Exchange/Exchange.tsx"
+    ]
+  },
+  {
     "id": "MainFAQ2_content3",
     "message": "Huidige mijnvergoedingen:",
     "files": [
@@ -5014,14 +4731,14 @@
   },
   {
     "id": "MetamaskNetworkAlert_NetworkMainnet",
-    "message": "Hoofdnetwerk (Mainnet)",
+    "message": "Ethereum (Mainnet) of Binance Smart Chain (Mainnet)",
     "files": [
       "src/front/shared/containers/App/App.tsx"
     ]
   },
   {
     "id": "MetamaskNetworkAlert_NetworkTestnet",
-    "message": "Test netwerk (Ropsten)",
+    "message": "Ethereum (Ropsten) of Binance Smart Chain (Testnet)",
     "files": [
       "src/front/shared/containers/App/App.tsx"
     ]
@@ -5644,8 +5361,8 @@
     ]
   },
   {
-    "id": "WithdrowBalanceNotEnoughtEthereumBalancePrompt",
-    "message": "Niet genoeg ethereum-saldo voor mijnwerkersvergoeding",
+    "id": "WithdrowTokenCurrencyBalance",
+    "message": "Niet genoeg {tokenCurrency} voor mijnwerkersvergoeding",
     "files": [
       "src/front/shared/components/modals/WithdrawModal/WithdrawModal.tsx"
     ]
@@ -5752,13 +5469,6 @@
     ]
   },
   {
-    "id": "FarmDoesNotHaveContracts",
-    "message": "Geen opties voor de boerderij gevonden",
-    "files": [
-      "src/front/shared/pages/Farm/index.tsx"
-    ]
-  },
-  {
     "id": "DropDownNoOptionsInTheList",
     "message": "Geen opties",
     "files": [
@@ -5767,7 +5477,7 @@
   },
   {
     "id": "menu.marketmaker",
-    "message": "Marketmaker",
+    "message": "Verdienen",
     "files": [
       "src/front/shared/components/Header/config.tsx"
     ]
@@ -5862,6 +5572,496 @@
     "message": "~60 flere minutter",
     "files": [
       "src/front/shared/components/modals/WithdrawModal/components/FeeInfoBlock/FeeRadios/index.tsx"
+    ]
+  },
+  {
+    "id": "ExchangeTokenWasApproved",
+    "message": "Token was approved.{br}Explorer link: {txLink}",
+    "files": [
+      "src/front/shared/pages/Exchange/Exchange.tsx"
+    ]
+  },
+  {
+    "id": "Orderbook",
+    "message": "Orderboek",
+    "files": [
+      "src/front/shared/pages/Exchange/Exchange.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_TotalSum",
+    "message": "- Op een gegeven moment zal de som van BTC en {token} saldi groter zijn dan voorheen.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_Audit",
+    "message": "- De app geslaagd audit van {link}.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_NotStore",
+    "message": "- Sla geen grote bedragen of opgenomen middelen op.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_FundAccess",
+    "message": "- De sleutels van uw geld zijn alleen bij u, we hebben geen toegang tot uw geld",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemBody2-5",
+    "message": "Risico-Kennisgeving",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent1",
+    "message": "De market maker verdient op het verschil in wisselkoersen bij het onderhoud van de aankoop en verkoop (spread)",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_HowMuchEarn",
+    "message": "Wij verklaren van 10% per jaar (APY), als het aantal uitwisselingen is niet genoeg zullen we gebruikers motiveren om uitwisselingen te doen met behulp van premies.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent4",
+    "message": "(in ontwikkeling)",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent5",
+    "message": "Er is geen minimumtermijn, u kunt geld opnemen op elk gewenst moment.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent6",
+    "message": "Vertel over de mogelijkheid van swap in de gemeenschappen waar je lid bent.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle7",
+    "message": "Waarom heb ik {token} nodig? Ik ben alleen geïnteresseerd in het verdienen van BTC.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent7-1",
+    "message": "U kunt alleen aanvullen met Bitcoin, maar het is onvermijdelijk dat in sommige periodes uw BTC-saldo kan afnemen en {token} kan toenemen, en vice versa.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent7-2",
+    "message": "De som van deze saldi zal op elk moment groter zijn dan voorheen.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent7-3",
+    "message": "Als u BTC wilt opnemen, maar sommige zijn in {token}, dan moet u {token} zelf wijzigen, bijvoorbeeld via de Binance-uitwisseling.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle8",
+    "message": "Waarom wisselen gebruikers zichzelf niet uit via de Binance-uitwisseling?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent8",
+    "message": "Onze klanten houden van en ondersteunen decentralisatie, onze wisselaar werkt via slimme contracten en we zullen het geld van de klant niet langer dan 3 uur kunnen bevriezen.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle1",
+    "message": "Waarom het werkt?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_Safety",
+    "message": "Is het veilig? Kan de balans dalen?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle3",
+    "message": "Hoeveel ga ik verdienen?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle4",
+    "message": "Wat is de minimale balans die nodig is om aan de slag te gaan?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle5",
+    "message": "Wat is de minimale periode van market making?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle6",
+    "message": "Hoe de winst te verhogen?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_Choose_Farming_Body1",
+    "message": "Получайте дополнительную награду в SWAP токенах, заморозив LP токены."
+  },
+  {
+    "id": "MM_Choose_Farming_Button",
+    "message": "Начать фарминг"
+  },
+  {
+    "id": "MM_Choose_Farming_Title",
+    "message": "Фарминг"
+  },
+  {
+    "id": "MM_Choose_InBrowser_Body1",
+    "message": "Подходит для того, что бы попробовать."
+  },
+  {
+    "id": "MM_Choose_InBrowser_Body2",
+    "message": "Если вы закроете браузер, вы перестанете зарабатывать."
+  },
+  {
+    "id": "MM_Choose_InBrowser_Button",
+    "message": "Начать в браузере"
+  },
+  {
+    "id": "MM_Choose_InBrowser_Title",
+    "message": "Маркетмейкер в браузере"
+  },
+  {
+    "id": "MM_Choose_Server_Body1",
+    "message": "Подходит для продвинутых пользователей."
+  },
+  {
+    "id": "MM_Choose_Server_Body2",
+    "message": "Требуется сервер для разворачивания образа Docker."
+  },
+  {
+    "id": "MM_Choose_Server_Button",
+    "message": "Читать инструкцию"
+  },
+  {
+    "id": "MM_Choose_Server_Title",
+    "message": "Маркетмейкер-сервер"
+  },
+  {
+    "id": "MM_Choose_Title",
+    "message": "Выберите способ"
+  },
+  {
+    "id": "MM_Choose_Uniswap_Body1",
+    "message": "Подходит для продвинутых пользователей."
+  },
+  {
+    "id": "MM_Choose_Uniswap_Body2",
+    "message": "Зарабатывайте когда другие продают или покупают SWAP токены."
+  },
+  {
+    "id": "MM_Choose_Uniswap_Button",
+    "message": "Создать пул"
+  },
+  {
+    "id": "MM_Choose_Uniswap_Title",
+    "message": "Создайте uniswap-пул SWAP/ETH"
+  },
+  {
+    "id": "MM_Promo_Title",
+    "message": "Hoe kan ik geld verdienen met mijn BTC-storting?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx",
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Promo_TitleBody",
+    "message": "Gebruikers in onze swap.io wisselaar wisselen BTC uit voor {token} (een token dat net als BTC kost, maar werkt op {Ab_Title}) en vice versa. Jij krijgt min. 10% APY (jaarlijks per jaar) als provisie op beurzen met een gering impermanent loss {link}.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx",
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MMPercentEarn",
+    "message": "U verdient 0,5% van elke swap",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_BTCBalance",
+    "message": "Balans BTC:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ConnectMetamask",
+    "message": "Verbinding Metamask",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_DepositeWallet",
+    "message": "om op te laden, overzetten naar",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_DisconnectMetamask",
+    "message": "Koppelen Metamask",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ETHBalance",
+    "message": "Balans {AB_Coin}: {balance} (voor mijnwerkers vergoeding)",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_StartHere",
+    "message": "Start hier met marketmaking",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Wallet_Required",
+    "message": "Een hot wallet is vereist om marketmaking te lanceren (BTC, {AB_Coin}, {token}).",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Wallet_Create",
+    "message": "Creëer wallet",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Wallet_Restore",
+    "message": "Herstel van seed van 12 woorden",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_NotEnoughCoins",
+    "message": "Onvoldoende middelen. U moet uw BTC bijvullen of {token}",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_NotEnoughtEth",
+    "message": "Niet genoeg om de mijnwerkerscommissie te betalen. Je moet minstens 0,02 {AB_Coin} hebben",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Empty",
+    "message": "U hebt geen swaps, zet MM aan en wacht wanneer iemand uw bestellingen accepteert",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_LockTime",
+    "message": "Tijd vergrendelen",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Status",
+    "message": "Status",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Step",
+    "message": "Stap",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Title",
+    "message": "Geschiedenis wisselen",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_YouBuy",
+    "message": "U koopt",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_YouSell",
+    "message": "U verkoopt",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ToggleText",
+    "message": "Marketmaking BTC/{token}",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_TokenBalance",
+    "message": "Balans {token}:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_TotalBalance",
+    "message": "{token}, BTC"
+  },
+  {
+    "id": "MM_ToggleTextEnabled",
+    "message": "Je moet altijd online zijn, anders verdien je niets",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ToggleTextDisabled",
+    "message": "Schakel de schakelaar in om te beginnen met verdienen",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_TotalEarned",
+    "message": "Totaal verdiend:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_MarketmakingSimbols",
+    "message": "{token} + BTC",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_MarketmakingBalanceTitle",
+    "message": "Totale liquiditeit:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_whatIsWBTCTooltip1",
+    "message": "{tokenFullName} ({token}) is een {tokenStandart}-token dat Bitcoin (BTC) vertegenwoordigt op de {blockchainName}-blockchain.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_whatIsWBTCTooltip2",
+    "message": "{token} is gemaakt om Bitcoin-houders in staat te stellen deel te nemen aan apps voor gedecentraliseerde financiën (\"DeFi\") die populair zijn op {blockchainName}.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_InstallExtentionTitle",
+    "message": "Installeer de Chrome-extensie en begin met verdienen",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx"
+    ]
+  },
+  {
+    "id": "MM_InstallExtentionBtn",
+    "message": "Install Chrome ExtensionInstalleer de Chrome-extensie",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_HighRisk",
+    "message": "- Elke cryptogeld operatie is een hoog risico.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ImpermanentLoss",
+    "message": "Welk tijdelijk verlies verwacht?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ImpermanentLossContent",
+    "message": "Op elk moment zal de som van deze saldi groter zijn dan voorheen. Als u BTC wilt intrekken, maar sommige daarvan zijn in {token}, dan moet u {token} zelf wijzigen, bijvoorbeeld via de Binance exchange.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_InstallDevExtention",
+    "message": "Download ontwikkelversie",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx"
     ]
   }
 ]

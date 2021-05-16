@@ -1,13 +1,14 @@
+import erc20Like from 'common/erc20Like';
 import config from 'app-config'
 import moment from 'moment/moment'
-import { constants, ethToken } from 'helpers'
+import { constants } from 'helpers'
 import request from 'common/utils/request'
-
+import * as mnemonicUtils from 'common/utils/mnemonic'
+import TOKEN_STANDARDS from 'common/helpers/constants/TOKEN_STANDARDS'
 import actions from 'redux/actions'
 import { getState } from 'redux/core'
 
 import reducers from 'redux/core/reducers'
-import * as bip39 from 'bip39'
 
 import { getActivatedCurrencies } from 'helpers/user'
 import getCurrencyKey from 'helpers/getCurrencyKey'
@@ -34,6 +35,7 @@ const initReducerState = () => {
 
 const sign_btc_multisig = async (btcPrivateKey) => {
   let btcMultisigOwnerKey = localStorage.getItem(constants.privateKeyNames.btcMultisigOtherOwnerKey)
+  //@ts-ignore: strictNullChecks
   try { btcMultisigOwnerKey = JSON.parse(btcMultisigOwnerKey) } catch (e) { }
   //@ts-ignore
   const _btcMultisigPrivateKey = actions.btcmultisig.login_USER(btcPrivateKey, btcMultisigOwnerKey)
@@ -44,9 +46,11 @@ const sign_btc_multisig = async (btcPrivateKey) => {
 const sign_btc_2fa = async (btcPrivateKey) => {
   const btcSMSServerKey = config.swapContract.protectedBtcKey
   let btcSmsPublicKeys = [btcSMSServerKey]
+  //@ts-ignore: strictNullChecks
   let btcSmsMnemonicKey: MnemonicKey = localStorage.getItem(constants.privateKeyNames.btcSmsMnemonicKey)
   
   try { 
+    //@ts-ignore: strictNullChecks
     btcSmsMnemonicKey = JSON.parse(btcSmsMnemonicKey) 
   } catch (e) {
     console.error(e)
@@ -61,9 +65,11 @@ const sign_btc_2fa = async (btcPrivateKey) => {
 const sign_btc_pin = async (btcPrivateKey) => {
   const btcPinServerKey = config.swapContract.btcPinKey
   let btcPinPublicKeys = [btcPinServerKey]
+  //@ts-ignore: strictNullChecks
   let btcPinMnemonicKey: MnemonicKey = localStorage.getItem(constants.privateKeyNames.btcPinMnemonicKey)
   
   try { 
+    //@ts-ignore: strictNullChecks
     btcPinMnemonicKey = JSON.parse(btcPinMnemonicKey) 
   } catch (e) {
     console.error(e)
@@ -84,7 +90,7 @@ const sign = async () => {
     let mnemonic = localStorage.getItem(constants.privateKeyNames.twentywords)
 
     if (!mnemonic) {
-      mnemonic = bip39.generateMnemonic()
+      mnemonic = mnemonicUtils.getRandomMnemonicWords()
       localStorage.setItem(constants.privateKeyNames.twentywords, mnemonic)
     }
 
@@ -92,28 +98,34 @@ const sign = async () => {
       btc: localStorage.getItem(constants.privateKeyNames.btcMnemonic),
       btcSms: localStorage.getItem(constants.privateKeyNames.btcSmsMnemonicKeyGenerated),
       eth: localStorage.getItem(constants.privateKeyNames.ethMnemonic),
+      bnb: localStorage.getItem(constants.privateKeyNames.bnbMnemonic),
       ghost: localStorage.getItem(constants.privateKeyNames.ghostMnemonic),
       next: localStorage.getItem(constants.privateKeyNames.nextMnemonic),
     }
     console.log('actions user - sign', mnemonicKeys, mnemonic)
+
     if (mnemonic !== `-`) {
       //@ts-ignore
       if (!mnemonicKeys.btc) mnemonicKeys.btc = actions.btc.sweepToMnemonic(mnemonic)
-      //@ts-ignore
       if (!mnemonicKeys.eth) mnemonicKeys.eth = actions.eth.sweepToMnemonic(mnemonic)
+      if (!mnemonicKeys.bnb) mnemonicKeys.bnb = actions.bnb.sweepToMnemonic(mnemonic)
       //@ts-ignore
       if (!mnemonicKeys.ghost) mnemonicKeys.ghost = actions.ghost.sweepToMnemonic(mnemonic)
         //@ts-ignore
       if (!mnemonicKeys.next) mnemonicKeys.next = actions.next.sweepToMnemonic(mnemonic)
       if (!mnemonicKeys.btcSms) {
+        //@ts-ignore: strictNullChecks
         mnemonicKeys.btcSms = actions.btcmultisig.getSmsKeyFromMnemonic(mnemonic)
+        //@ts-ignore: strictNullChecks
         localStorage.setItem(constants.privateKeyNames.btcSmsMnemonicKeyGenerated, mnemonicKeys.btcSms)
       }
     }
     // Sweep-Switch
+    //@ts-ignore: strictNullChecks
     let btcNewSmsMnemonicKey: MnemonicKey = localStorage.getItem(constants.privateKeyNames.btcSmsMnemonicKeyMnemonic)
     
     try { 
+      //@ts-ignore: strictNullChecks
       btcNewSmsMnemonicKey = JSON.parse(btcNewSmsMnemonicKey) 
     } catch (e) {
       console.error(e)
@@ -123,9 +135,11 @@ const sign = async () => {
       localStorage.setItem(constants.privateKeyNames.btcSmsMnemonicKeyMnemonic, JSON.stringify([]))
     }
 
+    //@ts-ignore: strictNullChecks
     let btcNewMultisigOwnerKey: MnemonicKey = localStorage.getItem(constants.privateKeyNames.btcMultisigOtherOwnerKeyMnemonic)
     
     try { 
+      //@ts-ignore: strictNullChecks
       btcNewMultisigOwnerKey = JSON.parse(btcNewMultisigOwnerKey) 
     } catch (e) {
       console.error(e)
@@ -137,14 +151,18 @@ const sign = async () => {
 
     const btcPrivateKey = localStorage.getItem(constants.privateKeyNames.btc)
     const btcMultisigPrivateKey = localStorage.getItem(constants.privateKeyNames.btcMultisig)
-    const ethPrivateKey = localStorage.getItem(constants.privateKeyNames.eth)
     const ghostPrivateKey = localStorage.getItem(constants.privateKeyNames.ghost)
     const nextPrivateKey = localStorage.getItem(constants.privateKeyNames.next)
+    // using ETH wallet info for BNB. They're compatible
+    const ABTypePrivateKey = localStorage.getItem(constants.privateKeyNames.eth)
 
-
-    const _ethPrivateKey = actions.eth.login(ethPrivateKey, mnemonic, mnemonicKeys)
+    actions.eth.login(ABTypePrivateKey, mnemonic, mnemonicKeys)
+    actions.bnb.login(ABTypePrivateKey, mnemonic, mnemonicKeys)
+    //@ts-ignore: strictNullChecks
     const _btcPrivateKey = actions.btc.login(btcPrivateKey, mnemonic, mnemonicKeys)
+    //@ts-ignore: strictNullChecks
     const _ghostPrivateKey = actions.ghost.login(ghostPrivateKey, mnemonic, mnemonicKeys)
+    //@ts-ignore: strictNullChecks
     const _nextPrivateKey = actions.next.login(nextPrivateKey, mnemonic, mnemonicKeys)
 
     // btc multisig with 2fa (2of3)
@@ -156,28 +174,30 @@ const sign = async () => {
     // btc multisig with pin protect (2of3)
     await sign_btc_pin(_btcPrivateKey)
 
-    // if inside actions.token.login to call web3.eth.accounts.privateKeyToAccount passing public key instead of private key
-    // there will not be an error, but the address returned will be wrong
-    // if (!isEthKeychainActivated) {
-    Object.keys(config.erc20)
-      .forEach(name => {
-        actions.token.login(_ethPrivateKey, config.erc20[name].address, name, config.erc20[name].decimals, config.erc20[name].fullName)
-      })
-    // }
-    reducers.user.setTokenSigned(true)
-
-    // const getReputation = actions.user.getReputation()
+    loginWithTokens()
 
     await getReputation()
   })
 }
 
-const sign_to_tokens = () => {
-  const ethPrivateKey = localStorage.getItem(constants.privateKeyNames.eth)
-  Object.keys(config.erc20)
-    .forEach(name => {
-      actions.token.login(ethPrivateKey, config.erc20[name].address, name, config.erc20[name].decimals, config.erc20[name].fullName)
+const loginWithTokens = () => {
+  Object.keys(TOKEN_STANDARDS).forEach((key) => {
+    const standardObj = TOKEN_STANDARDS[key]
+    const privateKey = localStorage.getItem(constants.privateKeyNames[standardObj.currency])
+    const standardName = standardObj.standard
+
+    Object.keys(config[standardName]).forEach(tokenName => {
+      actions[standardName].login(
+        privateKey,
+        config[standardName][tokenName].address,
+        tokenName,
+        config[standardName][tokenName].decimals,
+        config[standardName][tokenName].fullName
+      )
     })
+  })
+
+  reducers.user.setTokenSigned(true)
 }
 
 const getReputation = async () => {
@@ -222,8 +242,9 @@ const getBalances = () => {
       ...(metamask.isEnabled() && metamask.isConnected())
         ? [ { func: metamask.getBalance, name: 'metamask' } ]
         : [],
-      { func: actions.eth.getBalance, name: 'eth' },
       { func: actions.btc.getBalance, name: 'btc' },
+      { func: actions.eth.getBalance, name: 'eth' },
+      { func: actions.bnb.getBalance, name: 'bnb' },
       { func: actions.ghost.getBalance, name: 'ghost' },
       { func: actions.next.getBalance, name: 'next' },
       { func: actions.btcmultisig.getBalance, name: 'btc-sms' },
@@ -241,23 +262,31 @@ const getBalances = () => {
     })
 
     if (isTokenSigned) {
-      // wait until all token data is loaded and will be in the store
-      setTimeout(() => {
-        // local storage data
-        Object.keys(config.erc20)
-          .forEach(async (name) => {
-            try {
-              await actions.token.getBalance(name)
-              
-            } catch (e) {
-              console.error('Fail fetch balance for token', name, e)
-            }
-          })
-      })
+      await getTokensBalances()
     }
 
     reducers.user.setIsBalanceFetching({ isBalanceFetching: false })
     resolve(true)
+  })
+}
+
+const getTokensBalances = async () => {
+  Object.keys(TOKEN_STANDARDS).forEach((key) => {
+    const standardObj = TOKEN_STANDARDS[key]
+    const standardName = standardObj.standard
+
+    // TODO: need to consider about the identical token names in the different blockchains
+    // TODO: get balance not only with name
+
+    Object.keys(config[standardName]).forEach(async (tokenName) => {
+      try {
+        await actions[standardName].getBalance(tokenName)
+      } catch (error) {
+        console.group('Actions >%c user > getTokensBalances', 'color: red;')
+        console.error(`Fail fetch balance for ${tokenName.toUpperCase()} token`, error)
+        console.groupEnd()
+      }
+    })
   })
 }
 
@@ -295,7 +324,6 @@ const getExchangeRate = (sellCurrency, buyCurrency): Promise<number> => {
       case 'btc (pin-protected)':
         dataKey = 'btc'
         break
-      default:
     }
 
     if ((user[`${dataKey}Data`]
@@ -318,25 +346,8 @@ const getExchangeRate = (sellCurrency, buyCurrency): Promise<number> => {
   })
 }
 
-const getDemoMoney = process.env.MAINNET ? () => { } : () => {
-  // googe bitcoin (or ropsten) faucet
-  request.get('https://swap.wpmix.net/demokeys.php', {})
-    .then((r) => {
-      window.localStorage.clear()
-      localStorage.setItem(constants.privateKeyNames.btc, r[0])
-      localStorage.setItem(constants.privateKeyNames.eth, r[1])
-      localStorage.setItem(constants.privateKeyNames.ghost, r[2])
-      localStorage.setItem(constants.privateKeyNames.next, r[3])
-      localStorage.setItem(constants.localStorage.demoMoneyReceived, 'true')
-      window.location.reload()
-    })
-}
-
-
-const getInfoAboutCurrency = (currencyNames) =>
-
-  new Promise((resolve, reject) => {
-
+const getInfoAboutCurrency = (currencyNames) => {
+  return new Promise((resolve, reject) => {
     const hasCustomRate = (cur) => {
       const dataobj = Object.keys(config.erc20).find(el => el.toLowerCase() === cur.toLowerCase())
       return dataobj ? (config.erc20[dataobj] || { customEcxchangeRate: false }).customEcxchangeRate : false
@@ -379,7 +390,7 @@ const getInfoAboutCurrency = (currencyNames) =>
             }
 
             switch (currencyInfoItem.symbol) {
-              case 'BTC': {
+              case 'BTC':
                 reducers.user.setInfoAboutCurrency({ name: 'btcData', infoAboutCurrency: currencyInfo })
                 reducers.user.setInfoAboutCurrency({ name: 'btcMnemonicData', infoAboutCurrency: currencyInfo }) // Sweep (for future)
                 reducers.user.setInfoAboutCurrency({ name: 'btcMultisigSMSData', infoAboutCurrency: currencyInfo })
@@ -387,30 +398,33 @@ const getInfoAboutCurrency = (currencyNames) =>
                 reducers.user.setInfoAboutCurrency({ name: 'btcMultisigG2FAData', infoAboutCurrency: currencyInfo })
                 reducers.user.setInfoAboutCurrency({ name: 'btcMultisigPinData', infoAboutCurrency: currencyInfo })
                 break
-              }
-              case 'ETH': {
+
+              case 'ETH':
                 reducers.user.setInfoAboutCurrency({ name: 'ethData', infoAboutCurrency: currencyInfo })
                 reducers.user.setInfoAboutCurrency({ name: 'ethMnemonicData', infoAboutCurrency: currencyInfo }) // Sweep (for future)
                 break
-              }
-              case 'GHOST': {
+              
+              case 'BNB':
+                reducers.user.setInfoAboutCurrency({ name: 'bnbData', infoAboutCurrency: currencyInfo })
+                reducers.user.setInfoAboutCurrency({ name: 'bnbMnemonicData', infoAboutCurrency: currencyInfo }) // Sweep (for future)
+                break
+
+              case 'GHOST':
                 reducers.user.setInfoAboutCurrency({ name: 'ghostData', infoAboutCurrency: currencyInfo })
                 reducers.user.setInfoAboutCurrency({ name: 'ghostMnemonicData', infoAboutCurrency: currencyInfo }) // Sweep (for future)
                 break
-              }
-              case 'NEXT': {
+
+              case 'NEXT':
                 reducers.user.setInfoAboutCurrency({ name: 'nextData', infoAboutCurrency: currencyInfo })
                 reducers.user.setInfoAboutCurrency({ name: 'nextMnemonicData', infoAboutCurrency: currencyInfo }) // Sweep (for future)
                 break
-              }
-              default: {
-                if (ethToken.isEthToken({ name: currencyInfoItem.symbol })) {
+
+              default:
+                if (erc20Like.isToken({ name: currencyInfoItem.symbol })) {
                   reducers.user.setInfoAboutToken({ name: currencyInfoItem.symbol.toLowerCase(), infoAboutCurrency: currencyInfo })
                 } else {
                   reducers.user.setInfoAboutCurrency({ name: `${currencyInfoItem.symbol.toLowerCase()}Data`, infoAboutCurrency: currencyInfo })
                 }
-                break
-              }
             }
           }
         }
@@ -420,6 +434,7 @@ const getInfoAboutCurrency = (currencyNames) =>
       reject(error)
     }).finally(() => reducers.user.setIsFetching({ isFetching: false }))
   })
+}
 
 
 const clearTransactions = () => {
@@ -432,6 +447,7 @@ const mergeTransactions = (mergeTxs: any[]) => {
       transactions,
     },
   } = getState()
+  //@ts-ignore: strictNullChecks
   let data = [].concat(transactions, ...mergeTxs).sort((a, b) => b.date - a.date).filter((item) => item)
   reducers.history.setTransactions(data)
 }
@@ -467,18 +483,11 @@ type ObjCurrencyType = {
   }
 }
 
+//@ts-ignore: strictNullChecks
 const setTransactions = async (objCurrency: ObjCurrencyType | {} = null) => {
   const isBtcSweeped = actions.btc.isSweeped()
   const isEthSweeped = actions.eth.isSweeped()
-
-  const {
-    core: { hiddenCoinsList },
-  } = getState()
-  const enabledCurrencies = getActivatedCurrencies()
-
-  /*
-    fetching penging btc-ms txs
-  */
+  const isBnbSweeped = actions.bnb.isSweeped()
 
   try {
     clearTransactions()
@@ -490,34 +499,66 @@ const setTransactions = async (objCurrency: ObjCurrencyType | {} = null) => {
       actions.btcmultisig.getTransactionPIN(),
       actions.btcmultisig.getTransactionUser(),
       actions.eth.getTransaction(),
+      actions.bnb.getTransaction(),
+      //@ts-ignore: strictNullChecks
       ...(metamask.isEnabled() && metamask.isConnected()) ? [actions.eth.getTransaction(metamask.getAddress())] : [],
+      //@ts-ignore: strictNullChecks
+      ...(metamask.isEnabled() && metamask.isConnected()) ? [actions.bnb.getTransaction(metamask.getAddress())] : [],
       ...(isEthSweeped) ? [] : [actions.eth.getTransaction(actions.eth.getSweepAddress())],
+      ...(isBnbSweeped) ? [] : [actions.bnb.getTransaction(actions.bnb.getSweepAddress())],
       ...objCurrency && objCurrency['GHOST'] ? [actions.ghost.getTransaction()] : [],
       ...objCurrency && objCurrency['NEXT'] ? [actions.next.getTransaction()] : [],
     ]
-    
-    const erc20 = Object.keys(config.erc20)
-      .filter((key) => !hiddenCoinsList.includes(key.toUpperCase()) && enabledCurrencies.includes(key.toUpperCase()))
 
     fetchTxsPromises.forEach((txPromise: Promise<any[]>) => {
       txPromise.then((txList: any[]) => {
         mergeTransactions(txList)
       })
     })
-    erc20.map((name, index) => {
-      delay(650 * index).then(() => {
-        actions.token.getTransaction(null, name).then((ercTxs: any[]) => {
-          mergeTransactions(ercTxs)
-        })
-      })
-    })
+
+    await setTokensTransaction()
   } catch (error) {
-    console.error('getTransError: ', error)
+    console.group('Actions >%c user > setTransactions', 'color: red;')
+    console.error('error: ', error)
+    console.groupEnd()
   }
 }
 
+const setTokensTransaction = async () => {
+  const { core: { hiddenCoinsList } } = getState()
+  const enabledCurrencies = getActivatedCurrencies()
+  const tokens: { [key: string]: string[] } = {}
+
+  // TODO: need to consider about the identical token names in the different blockchains
+  // TODO: get Transaction not only with name
+
+  Object.keys(TOKEN_STANDARDS).forEach((key) => {
+    const standard = TOKEN_STANDARDS[key].standard
+    const standardTokens = Object.keys(config[standard]).filter((name) => {
+      return (
+        !hiddenCoinsList.includes(name.toUpperCase()) &&
+        enabledCurrencies.includes(name.toUpperCase())
+      )
+    })
+
+    tokens[standard] = standardTokens
+  })
+
+  Object.keys(tokens).forEach((standard) => {
+    tokens[standard].forEach((tokenName, index) => {
+      const customMs = 650
+
+      delay(customMs * index).then(() => {
+        actions[standard].getTransaction(null, tokenName).then((tokenTxs) => {
+          mergeTransactions(tokenTxs)
+        })
+      })
+    })
+  })
+}
+
 const getText = () => {
-  const { user: { ethData, btcData, ghostData, nextData } } = getState()
+  const { user: { ethData, bnbData, btcData, ghostData, nextData } } = getState()
 
 
   let text = `
@@ -531,13 +572,18 @@ ${window.location.hostname} emergency only instruction
 \r\n
 #ETHEREUM
 \r\n
-Ethereum address: ${ethData.address}  \r\n
+Ethereum address: ${ethData.address}\r\n
 Private key: ${ethData.privateKey}\r\n
 \r\n
 How to access tokens and ethers: \r\n
 1. Go here https://www.myetherwallet.com/#send-transaction \r\n
 2. Select 'Private key'\r\n
 3. paste private key to input and click "unlock"\r\n
+\r\n
+#BINANCE SMART CHAIN
+\r\n
+BSC address: ${bnbData.address}\r\n
+Private key: ${bnbData.privateKey}\r\n
 \r\n
 # BITCOIN\r\n
 \r\n
@@ -579,23 +625,34 @@ export const getWithdrawWallet = (currency, addr) => {
 }
 
 export const isOwner = (addr, currency) => {
-  if (ethToken.isEthToken({ name: currency })) {
-    if (actions.eth.getAllMyAddresses().indexOf(addr.toLowerCase()) !== -1) return true
-    const {
-      user: {
-        ethData: {
-          address,
-        },
-      },
-    } = getState()
+  const lowerAddr = addr.toLowerCase()
 
-    return addr.toLowerCase() === address.toLowerCase()
+  if (erc20Like.isToken({ name: currency })) {
+    const isErc20 = erc20Like.erc20.isToken({ name: currency })
+    const isBep20 = erc20Like.bep20.isToken({ name: currency })
+    const actionName = isErc20 ? 'eth' : isBep20 ? 'bnb' : 'eth'
+    const allAddresses = actions[actionName].getAllMyAddresses()
+
+    if (allAddresses.includes(lowerAddr)) return true
+
+    const { user } = getState()
+    const storeOwnerAddress = user[`${actionName}Data`].address.toLowerCase()
+
+    return lowerAddr === storeOwnerAddress
   }
 
-  if (actions.btc.getAllMyAddresses().indexOf(addr.toLowerCase()) !== -1) return true
-  if (actions.ghost.getAllMyAddresses().indexOf(addr.toLowerCase()) !== -1) return true
-  if (actions.next.getAllMyAddresses().indexOf(addr.toLowerCase()) !== -1) return true
-  if (actions.eth.getAllMyAddresses().indexOf(addr.toLowerCase()) !== -1) return true
+  if (
+    //@ts-ignore: strictNullChecks
+    actions.btc.getAllMyAddresses().includes(lowerAddr) ||
+    //@ts-ignore: strictNullChecks
+    actions.ghost.getAllMyAddresses().includes(lowerAddr) ||
+    //@ts-ignore: strictNullChecks
+    actions.next.getAllMyAddresses().includes(lowerAddr) ||
+    actions.eth.getAllMyAddresses().includes(lowerAddr) ||
+    actions.bnb.getAllMyAddresses().includes(lowerAddr)
+  ) {
+    return true
+  }
 
   const name = `${currency.toLowerCase()}Data`
   const { user } = getState()
@@ -604,13 +661,13 @@ export const isOwner = (addr, currency) => {
     return false
   }
 
-  const { address } = user[name]
+  const { addrFromStore } = user[name]
 
-  if (!address) {
+  if (!addrFromStore) {
     return false
   }
 
-  return addr.toLowerCase() === address.toLowerCase()
+  return lowerAddr === addrFromStore.toLowerCase()
 }
 
 
@@ -646,9 +703,8 @@ export default {
   sign_btc_2fa,
   sign_btc_pin,
   sign_btc_multisig,
-  sign_to_tokens,
+  loginWithTokens,
   getBalances,
-  getDemoMoney,
   setTransactions,
   downloadPrivateKeys,
   getText,

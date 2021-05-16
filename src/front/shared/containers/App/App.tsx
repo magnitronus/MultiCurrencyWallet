@@ -41,15 +41,13 @@ moment.locale(userLanguage)
 const metamaskNetworks = defineMessages({
   mainnet: {
     id: `MetamaskNetworkAlert_NetworkMainnet`,
-    defaultMessage: `Основная сеть (Mainnet)`,
+    defaultMessage: `Ethereum (Mainnet) or Binance Smart Chain (Mainnet)`,
   },
   testnet: {
     id: `MetamaskNetworkAlert_NetworkTestnet`,
-    defaultMessage: `Тестовая сеть (Ropsten)`,
+    defaultMessage: `Ethereum (Ropsten) or Binance Smart Chain (Testnet)`,
   },
 })
-
-
 
 @withRouter
 @connect(({ currencies: { items: currencies }, modals, ui: { dashboardModalsAllowed } }) => ({
@@ -137,6 +135,17 @@ class App extends React.Component<RouteComponentProps<any>, any> {
         const { appID } = this.state;
 
         if (appID !== switchId) {
+          //@ts-ignore
+          if (chrome && chrome.extension) {
+            //@ts-ignore
+            const extViews = chrome.extension.getViews()
+            //@ts-ignore
+            const extBgWindow = chrome.extension.getBackgroundPage()
+            if (extBgWindow !== window && extViews.length > 2) {
+              window.close()
+              return
+            }
+          }
           this.setState({
             multiTabs: true
           });
@@ -159,6 +168,7 @@ class App extends React.Component<RouteComponentProps<any>, any> {
     //@ts-ignore
     const { intl } = this.props
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.AlertModal, {
       title: (
         <FormattedMessage 
@@ -230,7 +240,7 @@ class App extends React.Component<RouteComponentProps<any>, any> {
               redirectTo(links.home)
               window.location.reload()
             } else {
-              redirectTo(links.createWallet)
+              redirectTo(window.location.host === 'bsc.swap.io' ? links.exchange : links.createWallet)
               if (wpLoader) wpLoader.style.display = 'none'
             }
           }
@@ -242,11 +252,12 @@ class App extends React.Component<RouteComponentProps<any>, any> {
         ) {
           console.log('Do backup user')
           backupUserData.backupUser().then(() => {
-            if (!localStorage.getItem(constants.localStorage.isWalletCreate)) {
-              redirectTo(links.createWallet)
-            }
             if (wpLoader) wpLoader.style.display = 'none'
           })
+
+          if (window.location.host === 'bsc.swap.io') {
+            redirectTo('#/exchange/btc-to-btcb')
+          }
         } else {
           if (wpLoader) wpLoader.style.display = 'none'
         }
@@ -260,15 +271,6 @@ class App extends React.Component<RouteComponentProps<any>, any> {
     const { currencies } = this.props
 
     this.preventMultiTabs(false)
-
-    // Default Farm init options
-    if (config.entry === 'testnet') {
-      window.farm = {
-        farmAddress: '0xa21FC7e1E31269b3AA0E17fF1F1a23C035cE207c',
-        stakingAddress: '0xF6fF95D53E08c9660dC7820fD5A775484f77183A', // Yeenus
-        rewardsAddress: '0x101848D5C5bBca18E6b4431eEdF6B95E9ADF82FA', // Weenus
-      }
-    }
 
     const isWalletCreate = localStorage.getItem(constants.localStorage.isWalletCreate)
 
@@ -311,7 +313,7 @@ class App extends React.Component<RouteComponentProps<any>, any> {
     }
     window.addEventListener('appinstalled', appInstalled)
 
-    this.checkCompletionOfAppCeation()
+    this.checkCompletionOfAppCreation()
   }
 
   componentDidUpdate() {
@@ -345,10 +347,17 @@ class App extends React.Component<RouteComponentProps<any>, any> {
     console.groupEnd()
   }
 
-  checkCompletionOfAppCeation = () => {
-    const { location } = this.props
+  checkCompletionOfAppCreation = () => {
+    const startPage = document.getElementById('starter-modal')
+    const isWalletCreated = localStorage.getItem('isWalletCreate')
 
-    if (utils.getCookie('swapDisalbeStarter') || location.pathname !== '/') {
+    if (
+      !startPage ||
+      config.isWidget ||
+      utils.getCookie('startedSplashScreenIsDisabled') ||
+      isWalletCreated ||
+      window.location.hash !== '#/'
+    ) {
       this.setState(() => ({
         initialFetching: true,
         completeCreation: true,
@@ -367,16 +376,25 @@ class App extends React.Component<RouteComponentProps<any>, any> {
 
   addStartPageListeners = () => {
     // id from index.html start page
-    document.getElementById('preloaderCreateBtn').addEventListener('click', this.setCompleteCreation)
-    document.getElementById('preloaderConnectBtn').addEventListener('click', this.setCompleteCreation)
-    document.getElementById('preloaderRestoreBtn').addEventListener('click', this.setCompleteCreation)
-    document.getElementById('preloaderSkipBtn').addEventListener('click', this.setCompleteCreation)
+    const createBtn = document.getElementById('preloaderCreateBtn')
+    const connectBtn = document.getElementById('preloaderConnectBtn')
+    const restoreBtn = document.getElementById('preloaderRestoreBtn')
+    const skipBtn = document.getElementById('preloaderSkipBtn')
+  
+    if (createBtn) createBtn.addEventListener('click', this.setCompleteCreation)
+    if (connectBtn) connectBtn.addEventListener('click', this.setCompleteCreation)
+    if (restoreBtn) restoreBtn.addEventListener('click', this.setCompleteCreation)
+    if (skipBtn) skipBtn.addEventListener('click', this.setCompleteCreation)
   }
 
   removeStartPageListeners = () => {
+    //@ts-ignore: strictNullChecks
     document.getElementById('preloaderCreateBtn').removeEventListener('click', this.setCompleteCreation)
+    //@ts-ignore: strictNullChecks
     document.getElementById('preloaderConnectBtn').removeEventListener('click', this.setCompleteCreation)
+    //@ts-ignore: strictNullChecks
     document.getElementById('preloaderRestoreBtn').removeEventListener('click', this.setCompleteCreation)
+    //@ts-ignore: strictNullChecks
     document.getElementById('preloaderSkipBtn').removeEventListener('click', this.setCompleteCreation)
   }
 

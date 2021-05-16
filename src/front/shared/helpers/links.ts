@@ -4,19 +4,21 @@ import actions from '../redux/actions'
 const linksManager = {
   home: '/',
   hashHome: '#/',
+
   exchange: '/exchange',
+
+  // Market maker page - for run parallel swaps in background
+  marketmaker: '/marketmaker',
+  marketmaker_short: '/mm',
+
   history: '/history',
   createWallet: '/createWallet',
   restoreWallet: '/restoreWallet',
   connectWallet: '/connectWallet',
   invoices: '/invoices',
   invoice: '/invoice',
-  farm: '/farm',
+  farm: 'https://farm.wpmix.net/',
   localStorage: '/localStorage',
-
-  // Market maker page - for run parallel swaps in background
-  marketmaker: '/marketmaker',
-  marketmaker_short: '/mm',
 
   creditCardDeposit: '/creditCardDeposit',
   wallets: '/wallets',
@@ -49,6 +51,10 @@ const linksManager = {
   discord: '#',
   reddit: '#',
   youtube: '#',
+
+  transactionRate: 'https://en.bitcoin.it/wiki/Maximum_transaction_rate#:~:text=Each%20transaction%20input%20requires%20at,the%20minimum-sized%20Bitcoin%20transaction',
+  impermanentLoss: 'https://academy.binance.com/en/articles/impermanent-loss-explained',
+  swapAudit: 'https://medium.com/swaponline/technical-audit-of-swap-core-is-finished-successfully-65a67bc5f58a',
 
   // footer links
   etherdelta: 'https://etherdelta.com/#0x14a52cf6b4f68431bd5d9524e4fcd6f41ce4ade9-ETH',
@@ -163,29 +169,19 @@ const linksManager = {
   },
 }
 
-export const getBitcoinWallet = () => {
-  const { address } = actions.user.getAuthData('btc')
-  return `/btc/${address}`
+export const getWalletUrl = (params) => {
+  let { name } = params
+  name = name.toLowerCase()
+  const { address } = actions.user.getAuthData(name)
+
+  return `/${name}/${address}`
 }
 
-export const getEtherWallet = () => {
-  const { address } = actions.user.getAuthData('eth')
-  return `/eth/${address}`
-}
+export const getTokenWallet = (params) => {
+  const { tokenName, currency } = params
+  const { address } = actions.user.getAuthData(currency)
 
-export const getGhostWallet = () => {
-  const { address } = actions.user.getAuthData('ghost')
-  return `/ghost/${address}`
-}
-
-export const getNextWallet = () => {
-  const { address } = actions.user.getAuthData('next')
-  return `/next/${address}`
-}
-
-export const getTokenWallet = (token) => {
-  const { address } = actions.user.getAuthData('eth')
-  return `/token/${token.toUpperCase()}/${address}`
+  return `/token/${tokenName.toUpperCase()}/${address}`
 }
 
 window.getTokenWallet = getTokenWallet

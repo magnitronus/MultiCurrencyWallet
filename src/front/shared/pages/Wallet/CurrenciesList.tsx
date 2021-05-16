@@ -4,7 +4,7 @@ import config from 'app-config'
 import styles from './Wallet.scss'
 import Button from 'components/controls/Button/Button'
 import Row from './Row/Row'
-import Slider from './components/WallerSlider'
+import Slider from './WallerSlider'
 import Table from 'components/tables/Table/Table'
 
 import { FormattedMessage } from 'react-intl'
@@ -24,7 +24,6 @@ const CurrenciesList = (props: CurrenciesListProps) => {
   const {
     isDark,
     tableRows,
-    hiddenCoinsList,
     goToСreateWallet,
     multisigPendingCount,
   } = props
@@ -60,7 +59,7 @@ const CurrenciesList = (props: CurrenciesListProps) => {
         )}
       />
       <div styleName='addCurrencyBtnWrapper'>
-        <Button onClick={goToСreateWallet} blue transparent fullWidth>
+        <Button id="addAssetBtn" onClick={goToСreateWallet} blue transparent fullWidth>
           <FormattedMessage id="addAsset" defaultMessage="Add currency" />
         </Button>
       </div>

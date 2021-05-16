@@ -21,8 +21,8 @@ const isWidgetBuild = config && config.isWidget
 
 
 function FirstStep(props) {
-  const { onClick, error, curState, startPack, handleClick, etcClick } = props
-  const coloredIcons = ['btc', 'eth', 'ghost', 'next', 'swap', 'usdt', 'eurs']
+  const { onClick, error, curState, startPack, handleClick } = props
+  const coloredIcons = ['btc', 'eth', 'bnb', 'ghost', 'next', 'swap', 'usdt', 'eurs']
 
   return (
     <div>
@@ -30,7 +30,7 @@ function FirstStep(props) {
         <div>
           <Explanation step={1} subHeaderText={subHeaderText1()}>
             {!isWidgetBuild && (
-              <Cupture click={etcClick} step={1} />
+              <Cupture />
             )}
           </Explanation>
           <div styleName={`currencyChooserWrapper ${startPack.length < 4 ? "smallArr" : ""}`}>
@@ -38,9 +38,15 @@ function FirstStep(props) {
               const { name, capture } = el
 
               return (
-                <div key={name} styleName={`card ${curState[name] ? 'purpleBorder' : ''}`} onClick={() => handleClick(name)}>
+                <div id={`${name.toLowerCase()}Wallet`} key={name} styleName={`card ${curState[name] ? 'purpleBorder' : ''}`} onClick={() => handleClick(name)}>
                   <div styleName="logo">
-                    <Coin styleName={`assetsTableIcon ${coloredIcons.includes(name.toLowerCase()) ? name.toLowerCase() : "coinColor"}`} name={name} />
+                    <Coin
+                      name={name}
+                      styleName={`assetsTableIcon ${coloredIcons.includes(name.toLowerCase())
+                        ? name.toLowerCase()
+                        : "coinColor"}`
+                      }
+                    />
                   </div>
                   <div styleName="listGroup">
                     <li><b>{name}</b></li>
@@ -51,7 +57,7 @@ function FirstStep(props) {
             })}
           </div>
         </div>
-        <button styleName="continue" onClick={onClick} disabled={error}>
+        <button id='continueBtn' styleName="continue" onClick={onClick} disabled={error}>
           <FormattedMessage id="createWalletButton1" defaultMessage="Продолжить" />
         </button>
       </div>

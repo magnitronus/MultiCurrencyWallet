@@ -16,6 +16,7 @@ type CreateInvoiceProps = {
   user: {
     btcData,
     ethData,
+    bnbData,
     ghostData,
     nextData,
   },
@@ -24,6 +25,7 @@ type CreateInvoiceProps = {
     data: {
       btc: btcData,
       eth: ethData,
+      bnb: bnbData,
       ghost: ghostData,
       next: nextData,
     }
@@ -54,6 +56,7 @@ class CreateInvoice extends PureComponent<CreateInvoiceProps> {
     if (type && wallet && data[type]) {
       const address = data[type].address
 
+      //@ts-ignore: strictNullChecks
       actions.modals.open(constants.modals.InvoiceModal, {
         currency: type.toUpperCase(),
         toAddress: wallet,

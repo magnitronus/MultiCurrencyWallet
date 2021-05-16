@@ -6,7 +6,7 @@ import Link from 'local_modules/sw-valuelink'
 import { constants } from 'helpers'
 import { FormattedMessage } from 'react-intl'
 import Input from 'components/forms/Input/Input'
-import OutsideClick from './OutsideClick'
+import OutsideClick from 'components/OutsideClick'
 
 const isDark = localStorage.getItem(constants.localStorage.isDark)
 
@@ -150,9 +150,11 @@ export default class DropDown extends Component<DropDownProps, DropDownState> {
     const moreThenOneOption = itemsFiltered.length > 1
 
     return (
+      //@ts-ignore: strictNullChecks
       <OutsideClick outsideAction={this.handleClickOutside}>
         <div styleName={`${dropDownStyleName} ${isDark ? 'dark' : ''}`} className={className}>
           <div
+            className='itemsSelector'
             styleName={`
               selectedItem
               ${arrowSide === 'left' ? 'left' : ''}
@@ -189,6 +191,7 @@ export default class DropDown extends Component<DropDownProps, DropDownState> {
                     if (!item.hidden) {
                       return (
                         <div
+                          id={item.value}
                           key={index}
                           styleName="dropDownItem"
                           onClick={() => {

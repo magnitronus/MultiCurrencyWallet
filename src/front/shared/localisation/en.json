@@ -95,20 +95,6 @@
     ]
   },
   {
-    "id": "EthChecker19",
-    "message": "This token works on Ethereum blockchain. To swap this token you must have at least 0.02 ETH on your balance",
-    "files": [
-      "src/front/shared/components/modals/EthChecker/EthChecker.tsx"
-    ]
-  },
-  {
-    "id": "EthChecker23",
-    "message": "Go wallet",
-    "files": [
-      "src/front/shared/components/modals/EthChecker/EthChecker.tsx"
-    ]
-  },
-  {
     "id": "ConfirmOffer69",
     "message": "Back",
     "files": [
@@ -252,7 +238,7 @@
   },
   {
     "id": "RowHistory91",
-    "message": "Link to the swap",
+    "message": "Link",
     "files": [
       "src/front/shared/pages/History/SwapsHistory/RowHistory/RowHistory.tsx",
       "src/front/shared/pages/Marketmaker/SwapRow.tsx"
@@ -402,7 +388,7 @@
   },
   {
     "id": "HowItWorks10",
-    "message": "How it works",
+    "message": "How Does It Work",
     "files": [
       "src/front/shared/pages/Exchange/HowItWorks/HowItWorks.tsx"
     ]
@@ -495,14 +481,8 @@
     "id": "Table96",
     "message": "Loading... ",
     "files": [
-      "src/front/shared/components/tables/Table/Table.tsx"
-    ]
-  },
-  {
-    "id": "Amount68",
-    "message": "Transactions",
-    "files": [
-      "src/front/shared/pages/History/History.tsx"
+      "src/front/shared/components/tables/Table/Table.tsx",
+      "src/front/shared/containers/App/App.tsx"
     ]
   },
   {
@@ -534,16 +514,10 @@
     ]
   },
   {
-    "id": "recieved65",
-    "message": "Address copied to clipboard",
-    "files": [
-      "src/front/shared/components/modals/ReceiveModal/ReceiveModal.tsx"
-    ]
-  },
-  {
     "id": "recieved67",
     "message": "Copy to clipboard",
     "files": [
+      "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx",
       "src/front/shared/components/modals/ReceiveModal/ReceiveModal.tsx"
     ]
   },
@@ -575,62 +549,6 @@
     "message": "You get",
     "files": [
       "src/front/shared/pages/Exchange/Orders/OrderBook/Row/Row.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal133",
-    "message": "Something went wrong.{br}Try it later",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal000",
-    "message": "Thanks!{br}You will receive a notification",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal001",
-    "message": "Go to my wallet",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal002",
-    "message": "Sign up",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal002-1",
-    "message": "One more step",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal003",
-    "message": "Allow notifications",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal004",
-    "message": "You will receive notifications regarding updates with your account (orders, transactions){br}and monthly updates about our project{br}{br}Sign up and get your free cryptocurrency for test. Exchange it on real Bitcoin from very begining!",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal005",
-    "message": "It seems like push notification is not working{br}Please, leave your email for notifications,{br}or try later",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
     ]
   },
   {
@@ -695,13 +613,6 @@
     ]
   },
   {
-    "id": "Approve",
-    "message": "Approve token",
-    "files": [
-      "src/front/shared/components/modals/EthChecker/EthChecker.tsx"
-    ]
-  },
-  {
     "id": "Add52",
     "message": "Place an offer",
     "files": [
@@ -727,13 +638,6 @@
     "message": "Receive",
     "files": [
       "src/front/shared/components/modals/ReceiveModal/ReceiveModal.tsx"
-    ]
-  },
-  {
-    "id": "SignUpModal55",
-    "message": "Sign up",
-    "files": [
-      "src/front/shared/components/modals/SignUpModal/SignUpModal.tsx"
     ]
   },
   {
@@ -801,10 +705,7 @@
   },
   {
     "id": "question12",
-    "message": "?",
-    "files": [
-      "src/front/shared/components/Header/User/Question/Question.tsx"
-    ]
+    "message": "?"
   },
   {
     "id": "PartialPriceNoOrdersReduce",
@@ -907,20 +808,6 @@
   {
     "id": "down57",
     "message": "To save your private keys just copy these keys and paste them into notepad textarea. You can also download your keys as a .txt file",
-    "files": [
-      "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx"
-    ]
-  },
-  {
-    "id": "down64",
-    "message": "Address copied to clipboard",
-    "files": [
-      "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx"
-    ]
-  },
-  {
-    "id": "down65",
-    "message": "Copy to clipboard",
     "files": [
       "src/front/shared/components/modals/DownloadModal/DownloadModal.tsx"
     ]
@@ -1062,7 +949,7 @@
     "id": "ExchangeTitleTag1",
     "message": "Fastest cross-chain swaps",
     "files": [
-      "src/front/shared/pages/Exchange/Exchange.tsx"
+      "src/front/shared/pages/Exchange/Promo/Promo.tsx"
     ]
   },
   {
@@ -1221,7 +1108,7 @@
     "id": "userTooltip43",
     "message": "User ({reputation}) wants to swap",
     "files": [
-      "src/front/shared/components/Header/User/UserTooltip/UserTooltip.tsx"
+      "src/front/shared/components/Header/UserTooltip/UserTooltip.tsx"
     ]
   },
   {
@@ -1249,6 +1136,7 @@
     "id": "FeeControler49",
     "message": "Copy",
     "files": [
+      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx",
       "src/front/shared/pages/Swap/FeeControler/FeeControler.tsx"
     ]
   },
@@ -1535,7 +1423,7 @@
     "id": "userTooltip71",
     "message": "Go to the feed page",
     "files": [
-      "src/front/shared/components/Header/User/UserTooltip/UserTooltip.tsx"
+      "src/front/shared/components/Header/UserTooltip/UserTooltip.tsx"
     ]
   },
   {
@@ -1656,46 +1544,6 @@
     ]
   },
   {
-    "id": "Submenu16",
-    "message": "Fast atomic swap exchanges BTC, ETH, ERC20 online",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Submenu22",
-    "message": "Cryptocurrency storage without loading wallets",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Submenu28",
-    "message": "Turn your website into a cryptocurrency portal (wallet, stock exchange, etc.)",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Swap.WalletSubMeny",
-    "message": "Swap.Wallet",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
-    "id": "Swap.WidgetSubMenu",
-    "message": "Swap.Widget",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
     "id": "CustomWalletIsNotCorrect",
     "message": "Wallet address is incorrect",
     "files": [
@@ -1776,12 +1624,13 @@
     "id": "createWalletButton1",
     "message": "Continue",
     "files": [
+      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx",
       "src/front/shared/pages/CreateWallet/Steps/FirstStep.tsx"
     ]
   },
   {
     "id": "createWalletCapture1",
-    "message": "Choose among Bitcoin, Ethereum, Swap",
+    "message": "Choose among Bitcoin, Ethereum, Swap, Tokens",
     "files": [
       "src/front/shared/pages/CreateWallet/Steps/texts.tsx"
     ]
@@ -1923,6 +1772,7 @@
     "id": "WithdrawMSUserFinish",
     "message": "Ready",
     "files": [
+      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx",
       "src/front/shared/components/modals/WithdrawBtcMultisig/WithdrawBtcMultisig.tsx",
       "src/front/shared/components/modals/WithdrawModalMultisig/WithdrawModalMultisigUser.tsx"
     ]
@@ -2593,13 +2443,6 @@
     ]
   },
   {
-    "id": "CurrencyAction",
-    "message": "CurrencyAction",
-    "files": [
-      "src/front/shared/components/modals/CurrencyAction/CurrencyAction.tsx"
-    ]
-  },
-  {
     "id": "currencyAction81",
     "message": "Please choose a currency you want to {context}",
     "files": [
@@ -2691,13 +2534,6 @@
     ]
   },
   {
-    "id": "PartialHowItWorks10",
-    "message": "How it works?",
-    "files": [
-      "src/front/shared/pages/Exchange/Exchange.tsx"
-    ]
-  },
-  {
     "id": "continueDeclined977",
     "message": "Continue your swaps",
     "files": [
@@ -2761,14 +2597,6 @@
     ]
   },
   {
-    "id": "Submenu",
-    "message": "Swap.Exhange",
-    "files": [
-      "src/front/shared/components/Header/SubMenu/SubMenu.tsx",
-      "src/front/shared/components/modals/MobMenu/MobMenu.tsx"
-    ]
-  },
-  {
     "id": "InvoiceInfoBlockOpenDesktopApp",
     "message": "Pay from an external wallet",
     "files": [
@@ -2804,56 +2632,42 @@
     ]
   },
   {
-    "id": "customERC20_Address",
-    "message": "erc20 address",
+    "id": "customTokenAddress",
+    "message": "Token address",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_ConfirmStep",
-    "message": "Add token",
+    "id": "customTokenConfirm",
+    "message": "Add this token",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_IncorrectAddress",
-    "message": "Invalid erc20 address",
+    "id": "customTokenIncorrectAddress",
+    "message": "Invalid address",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_NextStep",
+    "id": "NextId",
     "message": "Nеxt",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_NotFound",
-    "message": "This is not ERC20 address",
+    "id": "customTokenNotFound",
+    "message": "This is not {standard} address",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_Processing",
-    "message": "Processing ...",
-    "files": [
-      "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
-    ]
-  },
-  {
-    "id": "customERC20_Ready",
-    "message": "Done",
-    "files": [
-      "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
-    ]
-  },
-  {
-    "id": "customERC20_ReadyMessage",
+    "id": "customTokenAdded",
     "message": "Token added successfully",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
@@ -2861,27 +2675,27 @@
   },
   {
     "id": "customERC20_Title",
-    "message": "Add new ERC20",
+    "message": "Add a new token",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_TokenDecimals",
+    "id": "DecimalsId",
     "message": "Decimals",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_TokenSymbol",
+    "id": "SymbolId",
     "message": "Symbol",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
     ]
   },
   {
-    "id": "customERC20_TokenTitle",
+    "id": "TitleId",
     "message": "Title",
     "files": [
       "src/front/shared/components/modals/AddCustomERC20/AddCustomERC20.tsx"
@@ -3305,20 +3119,6 @@
     ]
   },
   {
-    "id": "SaveMnemonicModal_Continue",
-    "message": "Continue",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
-    "id": "SaveMnemonicModal_CopyMnemonic",
-    "message": "Copy",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
     "id": "SaveMnemonicModal_EnterNotice",
     "message": "Сlick on words to place them in the correct order",
     "files": [
@@ -3326,22 +3126,8 @@
     ]
   },
   {
-    "id": "SaveMnemonicModal_MnemonicCopied",
-    "message": "Copied...",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
     "id": "SaveMnemonicModal_MnemoniceDeleted",
     "message": "You have already saved your 12-words seed. {href}",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
-    "id": "SaveMnemonicModal_Ready",
-    "message": "Ready",
     "files": [
       "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
     ]
@@ -3363,13 +3149,6 @@
   {
     "id": "SaveMnemonicModal_SaveMnemonicStep2",
     "message": "2. Be sure to sign that this is the key to {domain}",
-    "files": [
-      "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
-    ]
-  },
-  {
-    "id": "SaveMnemonicModal_ShareMnemonic",
-    "message": "Share",
     "files": [
       "src/front/shared/components/modals/SaveMnemonicModal/SaveMnemonicModal.tsx"
     ]
@@ -3625,7 +3404,8 @@
     "id": "MainFAQHeader",
     "message": "FAQ",
     "files": [
-      "src/front/shared/components/FAQ/FAQ.tsx"
+      "src/front/shared/components/FAQ/FAQ.tsx",
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
     ]
   },
   {
@@ -3658,7 +3438,7 @@
   },
   {
     "id": "MainFAQ2_content1",
-    "message": "For ERC20 tokens, it is required that you have at least 0.001 ETH on your wallets. Remember! when sending ERC20 tokens, you are required to hold some ETH as miners fees for transactions. This is also the case for all atomic swaps for ETH & ERC20 tokens.",
+    "message": "For {tokenType} tokens, it is required that you have at least 0.001 {currency} on your wallets. Remember! when sending {tokenType} tokens, you are required to hold some {currency} as miners fees for transactions. This is also the case for all atomic swaps for {currency} & {tokenType} tokens.",
     "files": [
       "src/front/shared/components/FAQ/FAQ.tsx"
     ]
@@ -4681,76 +4461,6 @@
     ]
   },
   {
-    "id": "HowToExportModal_ExportERC20Step1",
-    "message": "To export the {currency} wallet, you first need to import your private key from the ETH wallet (for example, into the Metamask wallet)",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20Step2",
-    "message": "After exporting the ETH wallet, you need to add the ERC20 token with the parameters listed below",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Contract",
-    "message": "Contract address: {contractAddress}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Decimals",
-    "message": "Count of decimal after dot: {decimals}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Name",
-    "message": "Token name: {name}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportERC20_Symbol",
-    "message": "Symbol: {symbol}",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportEthPrivateKey",
-    "message": "Your private key for ETH wallet",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportSimple",
-    "message": "To export {currency} wallet use your private key",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_ExportUserPrivateKey",
-    "message": "Your private key",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
-    "id": "HowToExportModal_Title",
-    "message": "How to export a {currency} wallet",
-    "files": [
-      "src/front/shared/components/modals/HowToExportModal/HowToExportModal.tsx"
-    ]
-  },
-  {
     "id": "YourWalletbalance",
     "message": "Balance",
     "files": [
@@ -5003,6 +4713,13 @@
     ]
   },
   {
+    "id": "AddLiquidity",
+    "message": "Add Liquidity",
+    "files": [
+      "src/front/shared/pages/Exchange/Exchange.tsx"
+    ]
+  },
+  {
     "id": "MainFAQ2_content3",
     "message": "Current mining fees:",
     "files": [
@@ -5011,21 +4728,21 @@
   },
   {
     "id": "MetamaskNetworkAlert_Message",
-    "message": "Wrong network, please select \"{network}\" in Metamask (or wallet connect)",
+    "message": "Wrong network, please select \"{network}\" in {walletTitle} (or disconnect wallet)",
     "files": [
       "src/front/shared/containers/App/App.tsx"
     ]
   },
   {
     "id": "MetamaskNetworkAlert_NetworkMainnet",
-    "message": "Main network (Mainnet)",
+    "message": "Ethereum (Mainnet) or Binance Smart Chain (Mainnet)",
     "files": [
       "src/front/shared/containers/App/App.tsx"
     ]
   },
   {
     "id": "MetamaskNetworkAlert_NetworkTestnet",
-    "message": "Test network (Ropsten)",
+    "message": "Ethereum (Ropsten) or Binance Smart Chain (Testnet)",
     "files": [
       "src/front/shared/containers/App/App.tsx"
     ]
@@ -5655,8 +5372,8 @@
     ]
   },
   {
-    "id": "WithdrowBalanceNotEnoughtEthereumBalancePrompt",
-    "message": "Not enough ethereum balance for miner fee",
+    "id": "WithdrowTokenCurrencyBalance",
+    "message": "Not enough {tokenCurrency} balance for miner fee",
     "files": [
       "src/front/shared/components/modals/WithdrawModal/WithdrawModal.tsx"
     ]
@@ -5756,13 +5473,6 @@
     ]
   },
   {
-    "id": "FarmDoesNotHaveContracts",
-    "message": "Didn't find any options for the farm",
-    "files": [
-      "src/front/shared/pages/Farm/index.tsx"
-    ]
-  },
-  {
     "id": "DropDownNoOptionsInTheList",
     "message": "No options",
     "files": [
@@ -5771,7 +5481,7 @@
   },
   {
     "id": "menu.marketmaker",
-    "message": "Marketmaker",
+    "message": "Earn",
     "files": [
       "src/front/shared/components/Header/config.tsx"
     ]
@@ -5866,6 +5576,496 @@
     "message": "~60 more minutes",
     "files": [
       "src/front/shared/components/modals/WithdrawModal/components/FeeInfoBlock/FeeRadios/index.tsx"
+    ]
+  },
+  {
+    "id": "ExchangeTokenWasApproved",
+    "message": "Token was approved.{br}Explorer link: {txLink}",
+    "files": [
+      "src/front/shared/pages/Exchange/Exchange.tsx"
+    ]
+  },
+  {
+    "id": "Orderbook",
+    "message": "Orderbook",
+    "files": [
+      "src/front/shared/pages/Exchange/Exchange.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_TotalSum",
+    "message": "- At any given time, the sum of BTC and {token} balances will be greater than before.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_Audit",
+    "message": "- The app passed audit from {link}.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_NotStore",
+    "message": "- Do not store large amounts or borrowed funds.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_FundAccess",
+    "message": "- The keys to your funds are only with you, we do not have access to your funds",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemBody2-5",
+    "message": "Risk Notification",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent1",
+    "message": "The market maker earns on the difference in exchange rates when servicing the purchase and sale (spread)",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_HowMuchEarn",
+    "message": "We declare from 10% per year (APY), if the number of exchanges is not enough we will motivate users to do exchanges using bounties.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent4",
+    "message": "(in development)",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent5",
+    "message": "There is no minimum term, you can withdraw funds at any time.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent6",
+    "message": "Tell about the possibility of swap in the communities where you are a member.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle7",
+    "message": "Why do I need {token}? I am only interested in earning BTC.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent7-1",
+    "message": "You can replenish only with Bitcoin, but inevitably, at some periods, your BTC balance may decrease, and {token} may increase, and vice versa.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent7-2",
+    "message": "At any given time, the sum of these balances will be greater than before.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent7-3",
+    "message": "If you want to withdraw BTC, but some of them are in {token}, then you will have to change {token} yourself, for example, through the Binance exchange.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle8",
+    "message": "Why don't users exchange themselves through the Binance exchange?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemContent8",
+    "message": "Our clients love and support decentralization, exchange works through smart contracts and we will not be able to freeze the client's funds for more than 3 hours.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle1",
+    "message": "Why it works?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_Safety",
+    "message": "Is it safe? Could the balance decrease?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle3",
+    "message": "How much will I earn?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle4",
+    "message": "What is the minimum balance needed to get started?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle5",
+    "message": "What is the minimum period of marketmaking?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ItemTitle6",
+    "message": "How to increase earnings?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_Choose_Farming_Body1",
+    "message": "Получайте дополнительную награду в SWAP токенах, заморозив LP токены."
+  },
+  {
+    "id": "MM_Choose_Farming_Button",
+    "message": "Начать фарминг"
+  },
+  {
+    "id": "MM_Choose_Farming_Title",
+    "message": "Фарминг"
+  },
+  {
+    "id": "MM_Choose_InBrowser_Body1",
+    "message": "Подходит для того, что бы попробовать."
+  },
+  {
+    "id": "MM_Choose_InBrowser_Body2",
+    "message": "Если вы закроете браузер, вы перестанете зарабатывать."
+  },
+  {
+    "id": "MM_Choose_InBrowser_Button",
+    "message": "Начать в браузере"
+  },
+  {
+    "id": "MM_Choose_InBrowser_Title",
+    "message": "Маркетмейкер в браузере"
+  },
+  {
+    "id": "MM_Choose_Server_Body1",
+    "message": "Подходит для продвинутых пользователей."
+  },
+  {
+    "id": "MM_Choose_Server_Body2",
+    "message": "Требуется сервер для разворачивания образа Docker."
+  },
+  {
+    "id": "MM_Choose_Server_Button",
+    "message": "Читать инструкцию"
+  },
+  {
+    "id": "MM_Choose_Server_Title",
+    "message": "Маркетмейкер-сервер"
+  },
+  {
+    "id": "MM_Choose_Title",
+    "message": "Выберите способ"
+  },
+  {
+    "id": "MM_Choose_Uniswap_Body1",
+    "message": "Подходит для продвинутых пользователей."
+  },
+  {
+    "id": "MM_Choose_Uniswap_Body2",
+    "message": "Зарабатывайте когда другие продают или покупают SWAP токены."
+  },
+  {
+    "id": "MM_Choose_Uniswap_Button",
+    "message": "Создать пул"
+  },
+  {
+    "id": "MM_Choose_Uniswap_Title",
+    "message": "Создайте uniswap-пул SWAP/ETH"
+  },
+  {
+    "id": "MM_Promo_Title",
+    "message": "How to Earn Interest on Bitcoin",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx",
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Promo_TitleBody",
+    "message": "On swap.io users exchange BTC for {token} (a token that costs like BTC, but works on {Ab_Title}), and vice versa. You get min. 10% APY (annual per year) as a commission from exchanges with low impermanent loss {link}.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx",
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MMPercentEarn",
+    "message": "You will earn 0.5% from each swap",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_BTCBalance",
+    "message": "Balance BTC:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ConnectMetamask",
+    "message": "Connect Metamask",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_DepositeWallet",
+    "message": "to top up, transfer to",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_DisconnectMetamask",
+    "message": "Disconnect Metamask",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ETHBalance",
+    "message": "Balance {AB_Coin}: {balance} (for miner fees)",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_StartHere",
+    "message": "Start marketmaking here",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Wallet_Required",
+    "message": "A hot wallet is required to launch marketmaking (BTC, {AB_Coin}, {token}).",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Wallet_Create",
+    "message": "Create wallet",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_Wallet_Restore",
+    "message": "Restore from 12-word seed",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_NotEnoughCoins",
+    "message": "Insufficient funds. You need to top up your BTC or {token}",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_NotEnoughtEth",
+    "message": "Not enough {AB_Coin} to pay the miners commission. You need to have at least 0.02 {AB_Coin}",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Empty",
+    "message": "You have not any swaps, turn on MM and wait when someone accept your orders",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_LockTime",
+    "message": "Lock time",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Status",
+    "message": "Status",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Step",
+    "message": "Step",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_Title",
+    "message": "Swap history",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_YouBuy",
+    "message": "You buy",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_SwapHistory_YouSell",
+    "message": "You sell",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ToggleText",
+    "message": "Marketmaking BTC/{token}",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_TokenBalance",
+    "message": "Balance {token}:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_TotalBalance",
+    "message": "{token}, BTC"
+  },
+  {
+    "id": "MM_ToggleTextEnabled",
+    "message": "You must be online all the time, otherwise your will not earn",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_ToggleTextDisabled",
+    "message": "Turn on this toggle to start earn",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_TotalEarned",
+    "message": "Total earned:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_MarketmakingSimbols",
+    "message": "{token} + BTC",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_MarketmakingBalanceTitle",
+    "message": "Total liquidity:",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_whatIsWBTCTooltip1",
+    "message": "{tokenFullName} ({token}) is an {tokenStandart} token that represents Bitcoin (BTC) on the {blockchainName} blockchain.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_whatIsWBTCTooltip2",
+    "message": "{token} was created to allow Bitcoin holders to participate in decentralized finance (“DeFi”) apps that are popular on {blockchainName}.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerSettings.tsx"
+    ]
+  },
+  {
+    "id": "MM_InstallExtentionTitle",
+    "message": "Install Chrome Extension and Start Earn",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx"
+    ]
+  },
+  {
+    "id": "MM_InstallExtentionBtn",
+    "message": "Install Chrome Extension",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_HighRisk",
+    "message": "- Any cryptocurrency operation is high risk.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ImpermanentLoss",
+    "message": "What Impermanent Loss expected?",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_FAQ_ImpermanentLossContent",
+    "message": "At any given time, the sum of these balances will be greater than before. If you want to withdraw BTC, but some of them are in {token}, then you will have to change {token} yourself, for example, through the Binance exchange.",
+    "files": [
+      "src/front/shared/pages/Marketmaker/FAQ.tsx"
+    ]
+  },
+  {
+    "id": "MM_InstallDevExtention",
+    "message": "Download development version",
+    "files": [
+      "src/front/shared/pages/Marketmaker/MarketmakerPromo.tsx"
     ]
   }
 ]

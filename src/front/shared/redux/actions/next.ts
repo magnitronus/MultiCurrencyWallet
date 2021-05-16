@@ -29,10 +29,6 @@ const hasAdminFee = (config
   && config.opts.fee.next.min
 ) ? config.opts.fee.next : false
 
-const getRandomMnemonicWords = () => bip39.generateMnemonic()
-const validateMnemonicWords = (mnemonic) => bip39.validateMnemonic(mnemonicUtils.convertMnemonicToValid(mnemonic))
-
-
 const sweepToMnemonic = (mnemonic, path) => {
   const wallet = getWalletByWords(mnemonic, path)
   localStorage.setItem(constants.privateKeyNames.nextMnemonic, wallet.WIF)
@@ -130,6 +126,7 @@ const login = (privateKey, mnemonic = null, mnemonicKeys = null) => {
   if (privateKey
     && mnemonic
     && mnemonicKeys
+    //@ts-ignore: strictNullChecks
     && mnemonicKeys.next === privateKey
   ) sweepToMnemonicReady = true
 
@@ -145,8 +142,10 @@ const login = (privateKey, mnemonic = null, mnemonicKeys = null) => {
     // keyPair     = bitcoin.ECPair.makeRandom({ network: next.network })
     // privateKey  = keyPair.toWIF()
     // use random 12 words
+    //@ts-ignore: strictNullChecks
     if (!mnemonic) mnemonic = bip39.generateMnemonic()
     
+    //@ts-ignore: strictNullChecks
     const accData = getWalletByWords(mnemonic)
     console.log('Next. Generated wallet from random 12 words')
     console.log(accData)
@@ -178,12 +177,14 @@ const login = (privateKey, mnemonic = null, mnemonicKeys = null) => {
       return
     }
 
+    //@ts-ignore: strictNullChecks
     if (!mnemonicKeys || !mnemonicKeys.next) {
       console.error('Sweep. Cant auth. Login key undefined')
       return
     }
 
     const mnemonicData = {
+      //@ts-ignore: strictNullChecks
       ...auth(mnemonicKeys.next),
       isMnemonic: true,
     }
@@ -348,21 +349,27 @@ const getAllMyAddresses = () => {
     && nextData.address
     && nextMnemonicData.address !== nextData.address
   ) {
+    //@ts-ignore: strictNullChecks
     retData.push(nextMnemonicData.address.toLowerCase())
   }
 
+  //@ts-ignore: strictNullChecks
   retData.push(nextData.address.toLowerCase())
 
+  //@ts-ignore: strictNullChecks
   if (nextMultisigSMSData && nextMultisigSMSData.address) retData.push(nextMultisigSMSData.address.toLowerCase())
   // @ToDo - SMS MultiWallet
 
+  //@ts-ignore: strictNullChecks
   if (nextMultisigUserData && nextMultisigUserData.address) retData.push(nextMultisigUserData.address.toLowerCase())
   if (nextMultisigUserData && nextMultisigUserData.wallets && nextMultisigUserData.wallets.length) {
     nextMultisigUserData.wallets.map((wallet) => {
+      //@ts-ignore: strictNullChecks
       retData.push(wallet.address.toLowerCase())
     })
   }
 
+  //@ts-ignore: strictNullChecks
   if (nextMultisigPinData && nextMultisigPinData.address) retData.push(nextMultisigPinData.address.toLowerCase())
 
   return retData
@@ -430,6 +437,7 @@ const getTransaction = (address: string = ``, ownType: string = ``) =>
         return ({
           type,
           hash: item.txid,
+          //@ts-ignore: strictNullChecks
           canEdit: (myAllWallets.indexOf(address) !== -1),
           confirmations: item.confirmations,
           value: isSelf
@@ -505,6 +513,7 @@ const broadcastTx = (txRaw) => nextUtils.broadcastTx({
 const signMessage = (message, encodedPrivateKey) => {
   //@ts-ignore
   const keyPair = bitcoin.ECPair.fromWIF(encodedPrivateKey, [next.networks.mainnet])
+  //@ts-ignore: strictNullChecks
   const privateKeyBuff = Buffer.from(keyPair.privateKey)
 
   const signature = bitcoinMessage.sign(message, privateKeyBuff, keyPair.compressed)
@@ -536,8 +545,6 @@ export default {
   getLinkToInfo,
   getInvoices,
   getWalletByWords,
-  getRandomMnemonicWords,
-  validateMnemonicWords,
   sweepToMnemonic,
   isSweeped,
   getSweepAddress,

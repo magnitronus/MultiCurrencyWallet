@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { FormattedMessage, injectIntl, IntlShape } from 'react-intl'
+import config from 'app-config'
 
 import CSSModules from 'react-css-modules'
 import styles from './SelectGroup.scss'

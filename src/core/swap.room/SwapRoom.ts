@@ -33,6 +33,7 @@ class SwapRoom extends ServiceInterface {
     this._events        = new Events()
     this.peer           = null
     this.connection     = null
+    //@ts-ignore: strictNullChecks
     this.roomName       = null
   }
 
@@ -75,8 +76,8 @@ class SwapRoom extends ServiceInterface {
     this.peer = peer.id
 
     const defaultRoomName = this.app.isMainNet()
-      ? 'swap.online'
-      : 'testnet.swap.online'
+      ? (this.app.env.isBinance) ? 'bsc.swap.online' : 'swap.online'
+      : (this.app.env.isBinance) ? 'bsc-testnet.swap.online' : 'testnet.swap.online'
 
     this.roomName = this._config.roomName || defaultRoomName
 
@@ -249,6 +250,7 @@ class SwapRoom extends ServiceInterface {
       }
 
       if (typeof callback === 'function') {
+        //@ts-ignore: strictNullChecks
         callback(delivered)
       }
     })
@@ -296,6 +298,13 @@ class SwapRoom extends ServiceInterface {
   }
 
   sendMessageRoom(message) {
+    if (!this.connection) {
+      setTimeout(() => {
+        this.sendMessageRoom(message)
+      }, 1000)
+      return
+    }
+
     const { data, event } = message
     const sign = this._signMessage(data)
 

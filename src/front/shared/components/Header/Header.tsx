@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { isMobile } from 'react-device-detect'
 import { connect } from 'redaction'
 
@@ -24,7 +24,7 @@ import WalletTour from './WalletTour/WalletTour'
 import { WidgetWalletTour } from './WidgetTours'
 
 import Loader from 'components/loaders/Loader/Loader'
-import { localisedUrl, unlocalisedUrl } from '../../helpers/locale'
+import { localisedUrl } from '../../helpers/locale'
 import { messages, getMenuItems, getMenuItemsMobile } from './config'
 import { getActivatedCurrencies } from 'helpers/user'
 import { ThemeSwitcher } from './ThemeSwitcher'
@@ -48,7 +48,6 @@ const isDark = localStorage.getItem(constants.localStorage.isDark)
 @connect({
   feeds: 'feeds.items',
   peer: 'pubsubRoom.peer',
-  isSigned: 'signUp.isSigned',
   isInputActive: 'inputActive.isInputActive',
   reputation: 'pubsubRoom.reputation',
   modals: 'modals',
@@ -77,19 +76,14 @@ class Header extends Component<any, any> {
     super(props)
 
     const {
-      match: {
-        params: { page = null },
-      },
       location: { pathname },
       intl,
     } = props
-    const { exchange, home, wallet, history: historyLink } = links
-    const { products, invest, history } = messages
+    const { exchange, home, wallet } = links
     const { isWalletCreate } = constants.localStorage
 
-    const dinamicPath = pathname.includes(exchange)
-      ? `${unlocalisedUrl(intl.locale, pathname)}`
-      : `${home}`
+    const dynamicPath = pathname.includes(exchange) ? `${pathname}` : `${home}`
+    //@ts-ignore: strictNullChecks
     let lsWalletCreated: string | boolean = localStorage.getItem(isWalletCreate)
     if (config && config.isWidget) {
       lsWalletCreated = true
@@ -102,31 +96,8 @@ class Header extends Component<any, any> {
       path: false,
       isTourOpen: false,
       isWallet: false,
-      menuItemsFill: [
-        {
-          title: intl.formatMessage(products),
-          link: 'openMySesamPlease',
-          exact: true,
-          haveSubmenu: true,
-          icon: 'products',
-          currentPageFlag: true,
-        },
-        !config.opts.exchangeDisabled && {
-          title: intl.formatMessage(invest),
-          link: 'exchange/btc-to-eth',
-          icon: 'invest',
-          haveSubmenu: false,
-        },
-        {
-          title: intl.formatMessage(history),
-          link: historyLink,
-          icon: 'history',
-          haveSubmenu: false,
-        },
-      ],
-      //@ts-ignore
-      menuItems: getMenuItems(props, lsWalletCreated, dinamicPath),
-      menuItemsMobile: getMenuItemsMobile(props, lsWalletCreated, dinamicPath),
+      menuItems: getMenuItems(props),
+      menuItemsMobile: getMenuItemsMobile(props, lsWalletCreated, dynamicPath),
       createdWalletLoader: isWalletPage && !lsWalletCreated,
     }
     this.lastScrollTop = 0
@@ -173,7 +144,7 @@ class Header extends Component<any, any> {
 
         this.setState(
           () => ({
-            menuItems: getMenuItems(this.props, isWalletCreate),
+            menuItems: getMenuItems(this.props),
             //@ts-ignore
             menuItemsMobile: getMenuItemsMobile(this.props, isWalletCreate),
             createdWalletLoader: true,
@@ -201,7 +172,7 @@ class Header extends Component<any, any> {
       //@ts-ignore
       location: { hash, pathname },
     } = finishProps
-    const { wallet, exchange } = links
+    const { wallet, exchange, marketmaker, marketmaker_short } = links
     const isGuestLink = !(!hash || hash.slice(1) !== 'guest')
 
     if (isGuestLink) {
@@ -212,7 +183,7 @@ class Header extends Component<any, any> {
     }
 
     this.setState(() => ({
-      menuItems: getMenuItems(this.props, true),
+      menuItems: getMenuItems(this.props),
       //@ts-ignore
       menuItemsMobile: getMenuItemsMobile(this.props, true),
     }))
@@ -221,6 +192,7 @@ class Header extends Component<any, any> {
     const isWalletPage = path.includes(wallet) || path === `/` || path === '/ru'
     const isPartialPage = path.includes(exchange) || path === `/ru${exchange}`
 
+    const isMarketPage = path.includes(marketmaker) || path.includes(marketmaker_short)
     const didOpenWalletCreate = localStorage.getItem(isWalletCreate)
 
     const wasOnWalletLs = localStorage.getItem(wasOnWallet)
@@ -268,6 +240,7 @@ class Header extends Component<any, any> {
     }
 
     userCurrencies = userCurrencies.filter(({ currency }) =>
+      //@ts-ignore: strictNullChecks
       getActivatedCurrencies().includes(currency)
     )
 
@@ -380,7 +353,10 @@ class Header extends Component<any, any> {
       toggle()
     }
 
-    if ((pathname === links.marketmaker) || (pathname === links.marketmaker_short)) {
+
+    if ((pathname.substr(0, links.marketmaker.length) === links.marketmaker)
+      || (pathname.substr(0, links.marketmaker_short) === links.marketmaker_short)
+    ) {
       const swap = new Swap(orderId, SwapApp.shared())
       actions.core.rememberSwap(swap)
       window.active_swap = swap
@@ -398,7 +374,6 @@ class Header extends Component<any, any> {
   render() {
     const {
       isTourOpen,
-      path,
       isPartialTourOpen,
       menuItems,
       menuItemsMobile,
@@ -407,13 +382,12 @@ class Header extends Component<any, any> {
       themeSwapAnimation,
     } = this.state
     const {
-      intl: { formatMessage, locale },
+      intl: { formatMessage },
       history: {
         location: { pathname },
       },
       feeds,
       peer,
-      isSigned,
       isInputActive,
     } = this.props
 

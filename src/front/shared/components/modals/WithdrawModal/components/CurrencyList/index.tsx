@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import cssModules from 'react-css-modules'
 import styles from './index.scss'
 import cx from 'classnames'
-import Coin from 'components/Coin/Coin'
-import PartOfAddress from 'pages/Wallet/components/PartOfAddress'
+import PartOfAddress from 'pages/Wallet/PartOfAddress'
 import { isMobile } from 'react-device-detect'
-import helpers, { constants } from 'helpers'
 import actions from 'redux/actions'
+import erc20Like from 'common/erc20Like'
+import { constants } from 'helpers'
 import { localisedUrl } from 'helpers/locale'
 import getCurrencyKey from 'helpers/getCurrencyKey'
+import Coin from 'components/Coin/Coin'
+import OutsideClick from 'components/OutsideClick'
 
 
 const isDark = localStorage.getItem(constants.localStorage.isDark)
@@ -31,7 +33,13 @@ export default class CurrencyList extends Component<any, any> {
         intl: { locale },
       } = this.props
 
-      const currentAsset = actions.core.getWallets({}).filter((item) => currency === item.currency && address.toLowerCase() === item.address.toLowerCase())
+      const currentAsset = actions.core.getWallets({})
+        .filter((item) => {
+          return (
+            currency === item.currency
+            && address.toLowerCase() === item.address.toLowerCase()
+          )
+        })
 
       let targetCurrency = currentAsset[0].currency
 
@@ -43,12 +51,24 @@ export default class CurrencyList extends Component<any, any> {
           break
       }
 
-      const isToken = helpers.ethToken.isEthToken({ name: currency })
+      const isToken = erc20Like.isToken({ name: currency })
 
       history.push(
         localisedUrl(locale, (isToken ? '/token' : '') + `/${targetCurrency}/${currentAsset[0].address}/send`)
       )
     })
+  }
+
+  closeList = () => {
+    this.setState(() => ({
+      isAssetsOpen: false,
+    }))
+  }
+
+  toggleListDisplay = () => {
+    this.setState((state) => ({
+      isAssetsOpen: !state.isAssetsOpen,
+    }))
   }
 
   render() {
@@ -66,14 +86,17 @@ export default class CurrencyList extends Component<any, any> {
     } = this.state
 
     return (
-      <>
+      //@ts-ignore: strictNullChecks
+      <OutsideClick outsideAction={this.closeList}>
         <div
+          id='currencyList'
           styleName={`customSelectValue ${isDark ? 'dark' : ''}`}
-          onClick={() => this.setState(({ isAssetsOpen }) => ({ isAssetsOpen: !isAssetsOpen }))}
+          onClick={this.toggleListDisplay}
         >
           <div styleName="coin">
             <Coin name={currentActiveAsset.currency} />
           </div>
+
           <div>
             <a>{currentActiveAsset.currency}</a>
             <span styleName="address">{currentAddress}</span>
@@ -81,6 +104,7 @@ export default class CurrencyList extends Component<any, any> {
               {isMobile ? <PartOfAddress address={currentAddress} withoutLink /> : ''}
             </span>
           </div>
+
           <div styleName="amount">
             <span styleName="currency">
               {currentBalance} {getCurrencyKey(currency, true).toUpperCase()}
@@ -94,10 +118,11 @@ export default class CurrencyList extends Component<any, any> {
           </div>
           <div styleName={cx('customSelectArrow', { active: isAssetsOpen })}></div>
         </div>
+
         {isAssetsOpen && (
           <div styleName={`customSelectList ${isDark ? 'darkList' : ''}`}>
             {tableRows.map((item, index) => (
-              <div key={index}
+              <div id={`${item.currency.toLowerCase()}Send`} key={index}
                 styleName={cx('customSelectListItem customSelectValue', {
                   disabled: item.balance === 0,
                 })}
@@ -106,13 +131,20 @@ export default class CurrencyList extends Component<any, any> {
                 }}
               >
                 <Coin name={item.currency} />
+
                 <div>
-                  <a>{item.fullName}</a>
+                  <a>
+                    {item.fullName}
+                    {item.standard ? (
+                      <span styleName="tokenStandard">{item.standard.toUpperCase()}</span>
+                    ) : ''}
+                  </a>
                   <span styleName="address">{item.address}</span>
                   <span styleName="mobileAddress">
                     {isMobile ? <PartOfAddress address={item.address} withoutLink /> : ''}
                   </span>
                 </div>
+ 
                 <div styleName="amount">
                   <span styleName="currency">
                     {item.balance} {getCurrencyKey(item.currency, true).toUpperCase()}
@@ -128,7 +160,7 @@ export default class CurrencyList extends Component<any, any> {
             ))}
           </div>
         )}
-      </>
+      </OutsideClick>
     )
   }
 }

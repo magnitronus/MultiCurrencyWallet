@@ -2,6 +2,7 @@ import btc from './btc'
 import ghost from './ghost'
 import next from './next'
 import eth from './eth'
+import bnb from './bnb'
 import ethToken from './ethToken'
 import * as user from './user'
 import web3 from './web3'
@@ -37,6 +38,8 @@ import redirectTo from './redirectTo'
 
 import adminFee from './adminFee'
 
+import swaps from './swaps'
+
 import stats from './stats.swaponline'
 
 import { getPairFees } from './getPairFees'
@@ -45,6 +48,7 @@ import { getPairFees } from './getPairFees'
 export default {
   btc,
   eth,
+  bnb,
   ghost,
   next,
   ethToken,
@@ -56,6 +60,7 @@ export default {
 export {
   btc,
   eth,
+  bnb,
   ghost,
   next,
   ethToken,
@@ -89,6 +94,8 @@ export {
   redirectTo,
 
   adminFee,
+
+  swaps,
 
   stats,
 

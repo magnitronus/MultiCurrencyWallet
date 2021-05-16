@@ -195,11 +195,6 @@
 │   │       ├── encoding.ts
 │   │       ├── index.ts
 │   │       └── protocol.ts
-│   ├── tests
-│   │   ├── test-accountFromMnemonic.ts
-│   │   ├── test-getBalance.ts
-│   │   ├── tests.js
-│   │   └── tests.ts
 │   ├── utils
 │   │   ├── apiLooper.ts
 │   │   ├── coin
@@ -231,7 +226,6 @@
 │   │   │   ├── bot.ts
 │   │   │   ├── listFinished.ts
 │   │   │   ├── listNotRefunded.ts
-│   │   │   ├── package.json
 │   │   │   ├── recover.ts
 │   │   │   ├── refund.ts
 │   │   │   ├── repl.ts
@@ -364,15 +358,11 @@
 │   │       ├── index.js
 │   │       └── server.js
 │   ├── chrome-extension
-│   │   ├── extension
-│   │   │   ├── images
-│   │   │   │   └── icons
-│   │   │   │       ├── icon-16.png
-│   │   │   │       ├── icon-196.png
-│   │   │   │       └── icon-32.png
-│   │   │   └── js
-│   │   │       └── background.js
-│   │   └── manifest.json
+│   │   ├── icons
+│   │   │   ├── icon-16.png
+│   │   │   ├── icon-196.png
+│   │   │   └── icon-32.png
+│   │   └── manifest_.json
 │   ├── client
 │   │   ├── favicon.png
 │   │   ├── fonts
@@ -625,9 +615,6 @@
 │   │   │   │   ├── NavMobile
 │   │   │   │   │   ├── NavMobile.scss
 │   │   │   │   │   └── NavMobile.tsx
-│   │   │   │   ├── SubMenu
-│   │   │   │   │   ├── SubMenu.scss
-│   │   │   │   │   └── SubMenu.tsx
 │   │   │   │   ├── ThemeSwitcher.tsx
 │   │   │   │   ├── TourPartial
 │   │   │   │   │   └── TourPartial.tsx
@@ -742,12 +729,6 @@
 │   │   │   │   ├── DownloadModal
 │   │   │   │   │   ├── DownloadModal.scss
 │   │   │   │   │   └── DownloadModal.tsx
-│   │   │   │   ├── EthChecker
-│   │   │   │   │   ├── EthChecker.scss
-│   │   │   │   │   └── EthChecker.tsx
-│   │   │   │   ├── HowToExportModal
-│   │   │   │   │   ├── HowToExportModal.scss
-│   │   │   │   │   └── HowToExportModal.tsx
 │   │   │   │   ├── HowToWithdrawModal
 │   │   │   │   │   ├── HowToWithdrawModal.scss
 │   │   │   │   │   └── HowToWithdrawModal.tsx
@@ -771,9 +752,6 @@
 │   │   │   │   ├── InvoiceModal
 │   │   │   │   │   ├── InvoiceModal.scss
 │   │   │   │   │   └── InvoiceModal.tsx
-│   │   │   │   ├── MobMenu
-│   │   │   │   │   ├── MobMenu.scss
-│   │   │   │   │   └── MobMenu.tsx
 │   │   │   │   ├── MultisignJoinLink
 │   │   │   │   │   ├── MultisignJoinLink.scss
 │   │   │   │   │   └── MultisignJoinLink.tsx
@@ -836,9 +814,6 @@
 │   │   │   │   ├── Share
 │   │   │   │   │   ├── Share.scss
 │   │   │   │   │   └── Share.tsx
-│   │   │   │   ├── SignUpModal
-│   │   │   │   │   ├── SignUpModal.scss
-│   │   │   │   │   └── SignUpModal.tsx
 │   │   │   │   ├── Styles
 │   │   │   │   │   └── default.scss
 │   │   │   │   ├── SweepToMnemonicKeys
@@ -976,6 +951,7 @@
 │   │   │       │       ├── syc2.svg
 │   │   │       │       ├── usdt.svg
 │   │   │       │       ├── waves.svg
+│   │   │       │       ├── wbtc.svg
 │   │   │       │       ├── xlm.svg
 │   │   │       │       ├── xrp.svg
 │   │   │       │       └── yup.svg
@@ -995,6 +971,9 @@
 │   │   │       │   └── images
 │   │   │       │       ├── dots.svg
 │   │   │       │       └── greyDots.svg
+│   │   │       ├── Expandable
+│   │   │       │   ├── Expandable.scss
+│   │   │       │   └── Expandable.tsx
 │   │   │       ├── MenuIcon
 │   │   │       │   ├── images
 │   │   │       │   │   └── menu.svg
@@ -1067,6 +1046,7 @@
 │   │   │   │   └── alert.mp4
 │   │   │   ├── stats.swaponline.ts
 │   │   │   ├── swapsExplorer.ts
+│   │   │   ├── swaps.ts
 │   │   │   ├── transactions.ts
 │   │   │   ├── user.ts
 │   │   │   ├── utils.ts
@@ -1181,12 +1161,6 @@
 │   │   │   │   └── VideoAndFeatures
 │   │   │   │       ├── VideoAndFeatures.scss
 │   │   │   │       └── VideoAndFeatures.tsx
-│   │   │   ├── Farm
-│   │   │   │   ├── index.scss
-│   │   │   │   ├── index.tsx
-│   │   │   │   └── lib
-│   │   │   │       ├── farmfactory.css
-│   │   │   │       └── farmfactory.js
 │   │   │   ├── History
 │   │   │   │   ├── Filter
 │   │   │   │   │   ├── FilterLink
@@ -1218,8 +1192,15 @@
 │   │   │   │   ├── LocalStorage.scss
 │   │   │   │   └── LocalStorage.tsx
 │   │   │   ├── Marketmaker
-│   │   │   │   ├── Marketmaker.scss
-│   │   │   │   ├── Marketmaker.tsx
+│   │   │   │   ├── FAQ.scss
+│   │   │   │   ├── FAQ.tsx
+│   │   │   │   ├── images
+│   │   │   │   │   ├── btcIcon.svg
+│   │   │   │   │   └── wbtcIcon.svg
+│   │   │   │   ├── MarketmakerPromo.scss
+│   │   │   │   ├── MarketmakerPromo.tsx
+│   │   │   │   ├── MarketmakerSettings.scss
+│   │   │   │   ├── MarketmakerSettings.tsx
 │   │   │   │   ├── SwapRow.scss
 │   │   │   │   └── SwapRow.tsx
 │   │   │   ├── Multisign
@@ -1362,7 +1343,6 @@
 │   │   │   │   ├── noxon.ts
 │   │   │   │   ├── pairs.ts
 │   │   │   │   ├── pubsubRoom.ts
-│   │   │   │   ├── referral.ts
 │   │   │   │   ├── token.ts
 │   │   │   │   ├── types.ts
 │   │   │   │   ├── ui.ts
@@ -1389,7 +1369,6 @@
 │   │   │   │   ├── notifications.ts
 │   │   │   │   ├── pubsubRoom.ts
 │   │   │   │   ├── rememberedOrders.ts
-│   │   │   │   ├── signUp.ts
 │   │   │   │   ├── ui.ts
 │   │   │   │   └── user.ts
 │   │   │   └── store
@@ -1403,4 +1382,4 @@
 │       └── run.js
 └── README.md
 
-359 directories, 1044 files
+350 directories, 1032 files

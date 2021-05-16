@@ -4,7 +4,6 @@ import { isMobile } from 'react-device-detect'
 import { Switch, Route } from 'react-router-dom'
 
 import { links } from 'helpers'
-import Farm from 'pages/Farm'
 import LocalStorage from 'pages/LocalStorage/LocalStorage'
 import SwapComponent from 'pages/Swap/Swap'
 import TurboSwap from 'pages/TurboSwap/TurboSwap'
@@ -19,7 +18,8 @@ import CurrencyWallet from 'pages/CurrencyWallet/CurrencyWallet'
 import Transaction from 'pages/Transaction/Transaction'
 import BtcMultisignProcessor from 'pages/Multisign/Btc/Btc'
 
-import Marketmaker from 'pages/Marketmaker/Marketmaker'
+import MarketmakerPromo from 'pages/Marketmaker/MarketmakerPromo'
+import MarketmakerSettings from 'pages/Marketmaker/MarketmakerSettings'
 
 import CreateInvoice from 'pages/Invoices/CreateInvoice'
 import InvoicesList from 'pages/Invoices/InvoicesList'
@@ -40,10 +40,10 @@ const routes = (
       <Route path={`${links.atomicSwap}/:orderId`} component={SwapComponent} />
       <Route path={`${links.turboSwap}/:orderId`} component={TurboSwap} />
 
-      <Route path={`/:ticker(btc|eth|ghost|next)/tx/:tx?`} component={Transaction} />
+      <Route path={`/:ticker(btc|eth|bnb|ghost|next)/tx/:tx?`} component={Transaction} />
       <Route path={`/:token(token)/:ticker/tx/:tx?`} component={Transaction} />
 
-      <Route path={`/:ticker(btc|eth|ghost|next)/:address/:action(receive|send)?`} component={CurrencyWallet} />
+      <Route path={`/:ticker(btc|eth|bnb|ghost|next)/:address/:action(receive|send)?`} component={CurrencyWallet} />
       <Route path={`/:token(token)/:ticker/:address`} component={CurrencyWallet} />
       <Route path={`/:token(token)/:ticker/:address/withdraw`} component={CurrencyWallet} />
       <Route path={`/:fullName-wallet/:address?`} component={CurrencyWallet} />
@@ -52,7 +52,6 @@ const routes = (
       <Route path={`${links.exchange}/:sell-to-:buy`} component={Exchange} />
       <Route path={`${links.exchange}`} component={Exchange} />
 
-      <Route path={`${links.farm}`} component={Farm} />
       <Route path={`${links.localStorage}`} component={LocalStorage} />
       <Route path={`${links.aboutUs}`} component={About} />
 
@@ -77,8 +76,10 @@ const routes = (
       <Route exact path={`/`} component={Wallet} />
       <Route exact path={`${links.connectWallet}`} component={Wallet} />
 
-      <Route exact path={`${links.marketmaker}`} component={Marketmaker} />
-      <Route exact path={`${links.marketmaker_short}`} component={Marketmaker} />
+      <Route exact path={`${links.marketmaker}`} component={MarketmakerPromo} />
+      <Route exact path={`${links.marketmaker_short}`} component={MarketmakerPromo} />
+      <Route path={`${links.marketmaker}/:token`} component={MarketmakerSettings} />
+      <Route path={`${links.marketmaker_short}/:token`} component={MarketmakerSettings} />
 
       {/* In desktop mode - the history is shown in the wallet design */}
       {!isMobile && (

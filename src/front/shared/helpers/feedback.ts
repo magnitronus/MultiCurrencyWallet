@@ -12,7 +12,7 @@ const sendMessage = ({ appPart, eventName, details }) => {
 
   const host = getTopLocation().host || window.location.hostname || document.location.host
 
-  const prefixMark = eventName === 'failed' ? '🛑 ' : ''
+  const prefixMark = eventName === 'failed' ? '🛑' : ''
   const textToSend = `${prefixMark} [${host}] ${appPart} - ${eventName}${details ? ` {${details}}` : ``} |`
 
   if (host && host.includes('localhost')) {
@@ -92,15 +92,26 @@ const events = {
     stopped: 'stopped',
     finished: 'finished',
   },
-  farm: {
-    started: 'started',
-    failed: 'failed',
+  marketmaking: {
+    enteredPromo: 'enteredPromo',
+    selected: 'selected',
+    enteredSettings: 'enteredSettings',
+    faqOpened: 'faqOpened',
+    prevented: 'prevented',
+    enabled: 'enabled',
+    disabled: 'disabled',
   },
   theme: {
     switched: 'switched',
   },
   i18n: {
     switched: 'switched',
+  },
+  actions: {
+    failed: 'failed'
+  },
+  helpers: {
+    failed: 'failed'
   },
 }
 
@@ -118,7 +129,7 @@ Object.keys(events).forEach(appPart => {
   }
   const appPartEvents = events[appPart]
   Object.keys(appPartEvents).forEach(eventName => {
-    feedback[appPart][eventName] = function (details) {
+    feedback[appPart][eventName] = function(details) {
       sendMessage({ appPart, eventName, details })
     }
   })

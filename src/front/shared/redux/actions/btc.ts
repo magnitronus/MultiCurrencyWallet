@@ -1,8 +1,6 @@
 import BigInteger from 'bigi'
 
-import { BigNumber } from 'bignumber.js'
 import * as bitcoin from 'bitcoinjs-lib'
-import * as bip32 from 'bip32'
 import * as bip39 from 'bip39'
 
 import bitcoinMessage from 'bitcoinjs-message'
@@ -15,7 +13,7 @@ import config from 'app-config'
 
 import * as mnemonicUtils from '../../../../common/utils/mnemonic'
 
-import { default as bitcoinUtils } from '../../../../common/utils/coin/btc'
+import { default as bitcoinUtils } from 'common/utils/coin/btc'
 
 
 const NETWORK = (process.env.MAINNET) ? `MAINNET` : `TESTNET`
@@ -29,10 +27,6 @@ const hasAdminFee = (config
   && config.opts.fee.btc.address
   && config.opts.fee.btc.min
 ) ? config.opts.fee.btc : false
-
-const getRandomMnemonicWords = () => bip39.generateMnemonic()
-const validateMnemonicWords = (mnemonic) => bip39.validateMnemonic(convertMnemonicToValid(mnemonic))
-
 
 const sweepToMnemonic = (mnemonic, path) => {
   const wallet = getWalletByWords(mnemonic, path)
@@ -78,8 +72,6 @@ const getSweepAddress = () => {
   if (btcMnemonicData && btcMnemonicData.address) return btcMnemonicData.address
   return false
 }
-
-const convertMnemonicToValid = (mnemonic) => mnemonicUtils.convertMnemonicToValid(mnemonic)
 
 const getWalletByWords = (mnemonic: string, walletNumber: number = 0, path: string = '') => {
   return mnemonicUtils.getBtcWallet(btc.network, mnemonic, walletNumber, path)
@@ -133,6 +125,7 @@ const login = (privateKey, mnemonic = null, mnemonicKeys = null) => {
   if (privateKey
     && mnemonic
     && mnemonicKeys
+    //@ts-ignore: strictNullChecks
     && mnemonicKeys.btc === privateKey
   ) sweepToMnemonicReady = true
 
@@ -149,8 +142,10 @@ const login = (privateKey, mnemonic = null, mnemonicKeys = null) => {
     // keyPair     = bitcoin.ECPair.makeRandom({ network: btc.network })
     // privateKey  = keyPair.toWIF()
     // use random 12 words
+    //@ts-ignore: strictNullChecks
     if (!mnemonic) mnemonic = bip39.generateMnemonic()
 
+    //@ts-ignore: strictNullChecks
     const accData = getWalletByWords(mnemonic)
     console.log('Btc. Generated wallet from random 12 words')
     console.log(accData)
@@ -179,6 +174,7 @@ const login = (privateKey, mnemonic = null, mnemonicKeys = null) => {
     }
 
     if (!mnemonicKeys
+      //@ts-ignore: strictNullChecks
       || !mnemonicKeys.btc
     ) {
       console.error('Sweep. Cant auth. Login key undefined')
@@ -186,6 +182,7 @@ const login = (privateKey, mnemonic = null, mnemonicKeys = null) => {
     }
 
     const mnemonicData = {
+      //@ts-ignore: strictNullChecks
       ...auth(mnemonicKeys.btc),
       isMnemonic: true,
     }
@@ -357,21 +354,27 @@ const getAllMyAddresses = () => {
     && btcData.address
     && btcMnemonicData.address !== btcData.address
   ) {
+    //@ts-ignore: strictNullChecks
     retData.push(btcMnemonicData.address.toLowerCase())
   }
 
+  //@ts-ignore: strictNullChecks
   retData.push(btcData.address.toLowerCase())
 
+  //@ts-ignore: strictNullChecks
   if (btcMultisigSMSData && btcMultisigSMSData.address) retData.push(btcMultisigSMSData.address.toLowerCase())
   // @ToDo - SMS MultiWallet
 
+  //@ts-ignore: strictNullChecks
   if (btcMultisigUserData && btcMultisigUserData.address) retData.push(btcMultisigUserData.address.toLowerCase())
   if (btcMultisigUserData && btcMultisigUserData.wallets && btcMultisigUserData.wallets.length) {
     btcMultisigUserData.wallets.map((wallet) => {
+      //@ts-ignore: strictNullChecks
       retData.push(wallet.address.toLowerCase())
     })
   }
 
+  //@ts-ignore: strictNullChecks
   if (btcMultisigPinData && btcMultisigPinData.address) retData.push(btcMultisigPinData.address.toLowerCase())
 
   return retData
@@ -435,11 +438,8 @@ const addressIsCorrect = (address) => {
 }
 
 
-const send = ({ from, to, amount, feeValue = null, speed,  serviceFee = null }) => {
+const send = ({ from, to, amount, feeValue = null, speed,  serviceFee = hasAdminFee }) => {
   console.log('>>> send', from, to, amount, feeValue, speed)
-  if(feeValue) {
-    feeValue = feeValue.multipliedBy(1e8).toNumber()
-  }
   return new Promise(async (ready, reject) => {
     try {
       let privateKey = null
@@ -447,102 +447,47 @@ const send = ({ from, to, amount, feeValue = null, speed,  serviceFee = null }) 
         privateKey = getPrivateKeyByAddress(from)
       } catch (ePrivateKey) {
         reject({ message: `Fail get data for send address` + ePrivateKey.message })
-        return
       }
 
-      const keyPair = bitcoin.ECPair.fromWIF(privateKey, btc.network)
-
-      // fee - from amount - percent
-      let feeFromAmount: number | BigNumber = new BigNumber(0)
-
-      serviceFee = serviceFee || hasAdminFee
-
-      if (serviceFee) {
-        const {
-          fee: adminFee,
-          min: adminFeeMinValue,
-        } = serviceFee
-
-        const adminFeeMin = new BigNumber(adminFeeMinValue)
-
-        feeFromAmount = new BigNumber(adminFee).dividedBy(100).multipliedBy(amount)
-        if (adminFeeMin.isGreaterThan(feeFromAmount)) feeFromAmount = adminFeeMin
-
-        feeFromAmount = feeFromAmount.multipliedBy(1e8).integerValue() // Admin fee in satoshi
-      }
-      feeFromAmount = feeFromAmount.toNumber()
+      let preparedFees
 
       try {
-        feeValue = feeValue || await btc.estimateFeeValue({ inSatoshis: true, speed, address: from, amount, toAddress: to})
-      } catch (eFee) {
-        reject({ message: `Fail estimate fee ` + eFee.message })
-        return
+        preparedFees = await bitcoinUtils.prepareFees({
+          amount,
+          serviceFee,
+          feeValue,
+          speed,
+          from,
+          to,
+          NETWORK
+        })
+      } catch (prepareFeesError) {
+        reject({ message: `Fail prepare fees: ${prepareFeesError.message}` })
       }
+      const {
+        fundValue,
+        skipValue,
+        feeFromAmount,
+        unspents,
+      } = preparedFees
 
-      let unspents = []
+      let rawTx
       try {
-        unspents = await fetchUnspents(from)
-      } catch (eUnspents) {
-        reject({ message: `Fail get unspents `+ eUnspents.message})
-        return
-      }
-      const toAmount = amount
-      amount = new BigNumber(amount).multipliedBy(1e8).plus(feeValue).plus(feeFromAmount).multipliedBy(1e-8).toNumber()
-      unspents = await prepareUnspents({ unspents, amount })
-      const fundValue = new BigNumber(String(toAmount)).multipliedBy(1e8).integerValue().toNumber()
-      const totalUnspent = unspents.reduce((summ, { satoshis }) => summ + satoshis, 0)
-      const residue = totalUnspent - fundValue - feeValue - feeFromAmount
-      const psbt = new bitcoin.Psbt({ network: btc.network })
-
-      // add main output for recipient
-      psbt.addOutput({
-        address: to,
-        value: fundValue,
-      })
-      // if we have residue wich more then DUST value
-      // then return this value to the sender wallet
-      if (residue > 546) {
-        psbt.addOutput({
-          address: from,
-          value: residue
+        rawTx = await bitcoinUtils.prepareRawTx({
+          from,
+          to,
+          fundValue,
+          skipValue,
+          serviceFee,
+          feeFromAmount,
+          unspents,
+          privateKey,
+          network: btc.network,
+          NETWORK
         })
+      } catch (prepareRawTxError) {
+        reject({ message: `Fail prepare raw tx: ${prepareRawTxError.message}` })
       }
-
-      if (serviceFee) {
-        try {
-          psbt.addOutput({
-            address: serviceFee.address,
-            value: feeFromAmount,
-          })
-        } catch (eAdminFee) {
-          reject({ message: `Fail add service fee` + eAdminFee.message })
-          return
-        }
-      }
-
-      for (let i = 0; i < unspents.length; i++) {
-        const { txid, vout } = unspents[i]
-        let rawTx = false
-
-        try {
-          rawTx = await fetchTxRaw(txid, false)
-        } catch (eFetchTxRaw) {
-          reject({ message: `Fail fetch tx raw `+ txid + `(`+eFetchTxRaw.message+`)` })
-          return
-        }
-
-        psbt.addInput({
-          hash: txid,
-          index: vout,
-          //@ts-ignore
-          nonWitnessUtxo: Buffer.from(rawTx, 'hex'),
-        })
-      }
-
-      psbt.signAllInputs(keyPair)
-      psbt.finalizeAllInputs()
-
-      const rawTx = psbt.extractTransaction().toHex();
 
       try {
         const broadcastAnswer = await broadcastTx(rawTx)
@@ -597,6 +542,7 @@ const broadcastTx = (txRaw) => bitcoinUtils.broadcastTx({
 
 const signMessage = (message, encodedPrivateKey) => {
   const keyPair = bitcoin.ECPair.fromWIF(encodedPrivateKey, [bitcoin.networks.bitcoin, bitcoin.networks.testnet])
+  //@ts-ignore: strictNullChecks
   const privateKeyBuff = Buffer.from(keyPair.privateKey)
 
   const signature = bitcoinMessage.sign(message, privateKeyBuff, keyPair.compressed)
@@ -630,8 +576,6 @@ export default {
   getLinkToInfo,
   getInvoices,
   getWalletByWords,
-  getRandomMnemonicWords,
-  validateMnemonicWords,
   sweepToMnemonic,
   isSweeped,
   getSweepAddress,
@@ -641,6 +585,5 @@ export default {
   getTxRouter,
   fetchTxRaw,
   addressIsCorrect,
-  convertMnemonicToValid,
   prepareUnspents,
 }

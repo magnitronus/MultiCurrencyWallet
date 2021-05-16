@@ -67,16 +67,17 @@ const webpackConfig = {
       config.paths.core(''),
     ],
     extensions: [ '.js', '.jsx', '.tsx', '.ts', '.scss' ],
-    plugins: [],
     fallback: {
+      fs: false,
       os: false,
       url: false,
       http: require.resolve('http-browserify'),
       https: require.resolve('https-browserify'),
       stream: require.resolve('stream-browserify'),
-      assert: require.resolve("assert/"),
+      assert: require.resolve('assert/'),
       path: require.resolve('path-browserify'),
-      crypto: false,
+      crypto: require.resolve('crypto-browserify'),
+      buffer: require.resolve('buffer/')
     }
   },
 
@@ -107,13 +108,14 @@ const webpackConfig = {
     new HtmlWebpackPlugin({
       title: 'Hot Wallet with p2p exchange',
       isWidget: config.isWidget,
+      isBinanceBuild: config.binance,
       template: config.paths.client('index.html'),
       hash: false,
       filename: 'index.html',
       inject: 'body',
       ... (config.firebug) ? {
-        firebugMark: `debug="true"`,
-        firebugScript: `<script type="text/javascript" src="./firebug/firebug.js"></script>`,
+        firebugMark: 'debug="true"',
+        firebugScript: '<script type="text/javascript" src="./firebug/firebug.js"></script>',
       } : {},
     }),
     new webpack.ContextReplacementPlugin(

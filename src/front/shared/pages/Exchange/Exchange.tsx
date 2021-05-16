@@ -22,6 +22,7 @@ import InlineLoader from 'components/loaders/InlineLoader/InlineLoader'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { localisedUrl } from 'helpers/locale'
 import config from 'helpers/externalConfig'
+import swapsHelper from 'helpers/swaps'
 import SwapApp from 'swap.app'
 
 import helpers, {
@@ -33,14 +34,13 @@ import helpers, {
   ethToken,
   links,
 } from 'helpers'
-import { animate } from 'helpers/domUtils'
 import Switching from 'components/controls/Switching/Switching'
 import AddressSelect from './AddressSelect/AddressSelect'
 import { AddressType, AddressRole } from 'domain/address'
 import { SwapMode } from 'domain/swap'
 import NetworkStatus from 'components/NetworkStatus/NetworkStatus'
 import Orders from './Orders/Orders'
-import erc20tokens from 'common/erc20tokens'
+import erc20Like from 'common/erc20Like'
 import turboSwap from 'common/helpers/turboSwap'
 import Toggle from 'components/controls/Toggle/Toggle'
 import TurboIcon from 'shared/components/ui/TurboIcon/TurboIcon'
@@ -63,8 +63,6 @@ type ExchangeProps = {
   match: IUniversalObj
   location: IUniversalObj
   history: IUniversalObj
-  usersData: IUniversalObj[]
-  currenciesData: IUniversalObj[]
   tokensData: IUniversalObj[]
   currencies: { [key: string]: string }[]
   allCurrencyies: CurrencyObj[]
@@ -86,7 +84,6 @@ type ExchangeState = {
   haveFiat: number
   getFiat: number
   maxBuyAmount: BigNumber
-  hasTokenAllowance: boolean
 
   getAmount: string
   haveCurrency: string
@@ -95,6 +92,8 @@ type ExchangeState = {
   getType: string
   peer: string
 
+  ordersIsOpen: boolean
+  hasTokenAllowance: boolean
   extendedControls: boolean
   isLowAmount: boolean
   isNonOffers: boolean
@@ -105,9 +104,9 @@ type ExchangeState = {
   isPending: boolean
   isTokenSell: boolean
   isPendingTokenApprove: boolean
-
   isNoAnyOrders?: boolean
   isFullLoadingComplete?: boolean
+
   exHaveRate?: string
   exGetRate?: string
   orderId?: string
@@ -123,33 +122,10 @@ type ExchangeState = {
   toAddress: Address
 }
 
-const allowedCoins = [
-  ...(!config.opts.curEnabled || config.opts.curEnabled.btc ? ['BTC'] : []),
-  ...(!config.opts.curEnabled || config.opts.curEnabled.eth ? ['ETH'] : []),
-  ...(!config.opts.curEnabled || config.opts.curEnabled.ghost ? ['GHOST'] : []),
-  ...(!config.opts.curEnabled || config.opts.curEnabled.next ? ['NEXT'] : []),
-]
-
 const isDark = localStorage.getItem(constants.localStorage.isDark)
 
-const isExchangeAllowed = (currencies) =>
-  currencies.filter((c) => {
-    const isErc = Object.keys(config.erc20)
-      .map((i) => i.toLowerCase())
-      .includes(c.value.toLowerCase())
-
-    const isAllowedCoin = allowedCoins.map((i) => i.toLowerCase()).includes(c.value.toLowerCase())
-
-    return isAllowedCoin || isErc
-  })
-
-const filterIsPartial = (orders) =>
-  orders
-    .filter((order) => order.isPartial && !order.isProcessing && !order.isHidden)
-    .filter((order) => order.sellAmount !== 0 && order.sellAmount.isGreaterThan(0)) // WTF sellAmount can be not BigNumber
-    .filter((order) => order.buyAmount !== 0 && order.buyAmount.isGreaterThan(0)) // WTF buyAmount can be not BigNumber too - need fix this
-
 const isWidgetBuild = config && config.isWidget
+const isChromeExtention = config && config.dir === 'chrome-extension/application'
 const bannedPeers = {} // rejected swap peers
 
 @connect(
@@ -157,26 +133,15 @@ const bannedPeers = {} // rejected swap peers
     currencies,
     rememberedOrders,
     core: { orders },
-    user: { ethData, btcData, ghostData, nextData, tokensData, activeFiat, ...rest },
+    user: { tokensData, activeFiat },
   }) => ({
-    currencies: isExchangeAllowed(currencies.partialItems),
+    currencies: swapsHelper.isExchangeAllowed(currencies.partialItems),
     allCurrencyies: currencies.items,
-    addSelectedItems: isExchangeAllowed(currencies.addPartialItems),
-    orders: filterIsPartial(orders),
-    currenciesData: [ethData, btcData, ghostData, nextData],
+    addSelectedItems: swapsHelper.isExchangeAllowed(currencies.addPartialItems),
+    orders: swapsHelper.filterIsPartial(orders),
     tokensData: [...Object.keys(tokensData).map((k) => tokensData[k])],
     decline: rememberedOrders.savedOrders,
     activeFiat,
-    usersData: [
-      ethData,
-      btcData,
-      ghostData,
-      nextData,
-      ...Object.values(tokensData).filter(({ address }) => address),
-      ...Object.values(rest)
-        .filter((coinData) => coinData && coinData.address)
-        .filter(({ address }) => address),
-    ],
   })
 )
 @CSSModules(styles, { allowMultiple: true })
@@ -194,7 +159,6 @@ class Exchange extends PureComponent<any, any> {
   promoContainer: Element
   fiatRates: { [key: string]: number }
   onRequestAnswer: (newOrder: IUniversalObj, isAccepted: boolean) => void
-  scrollTrigger: any // undefined | ?
 
   static getDerivedStateFromProps(props, state) {
     const { orders } = props
@@ -248,8 +212,8 @@ class Exchange extends PureComponent<any, any> {
       }
     }
 
-    let haveCurrency = sell || 'btc'
-    let getCurrency = buy || (!isWidgetBuild ? 'eth' : config.erc20token)
+    let haveCurrency = sell || config.opts.defaultExchangePair.sell
+    let getCurrency = buy || (!isWidgetBuild ? config.opts.defaultExchangePair.buy : config.erc20token)
 
     const exchangeDataStr = localStorage.getItem(constants.localStorage.exchangeSettings)
     const exchangeSettings = exchangeDataStr && JSON.parse(exchangeDataStr)
@@ -295,11 +259,14 @@ class Exchange extends PureComponent<any, any> {
       pairFees: false,
       balances: false,
       haveBalance: false,
+      //@ts-ignore: strictNullChecks
       fromAddress: this.makeAddressObject(haveType, haveCurrency.toUpperCase()),
+      //@ts-ignore: strictNullChecks
       toAddress: this.makeAddressObject(getType, getCurrency.toUpperCase()),
       isTurbo: false,
       redirectToSwap: null,
       isPending: true,
+      ordersIsOpen: false,
     }
 
     if (config.isWidget) {
@@ -442,10 +409,9 @@ class Exchange extends PureComponent<any, any> {
     timerProcess()
 
     SwapApp.onInit(() => {
+      //@ts-ignore: strictNullChecks
       SwapApp.shared().services.room.on('new orders', () => this.checkPair())
     })
-
-    document.addEventListener('scroll', this.rmScrollAdvice)
 
     setTimeout(() => {
       if (this._mounted) {
@@ -490,9 +456,12 @@ class Exchange extends PureComponent<any, any> {
       return tokenObj.name === haveCurrency.toLowerCase()
     })
 
-    const allowance = await erc20tokens.checkAllowance({
+    const allowance = await erc20Like.erc20.checkAllowance({
+      //@ts-ignore: strictNullChecks
       tokenOwnerAddress: tokenObj.address,
+      //@ts-ignore: strictNullChecks
       tokenContractAddress: tokenObj.contractAddress,
+      //@ts-ignore: strictNullChecks
       decimals: tokenObj.decimals,
     })
 
@@ -606,13 +575,6 @@ class Exchange extends PureComponent<any, any> {
     }
   }
 
-  rmScrollAdvice = () => {
-    if (window.scrollY > window.innerHeight * 0.7 && this.scrollTrigger) {
-      this.scrollTrigger.classList.add('hidden')
-      document.removeEventListener('scroll', this.rmScrollAdvice)
-    }
-  }
-
   componentWillUnmount() {
     this.updateExchangeSettings()
     this._mounted = false
@@ -720,6 +682,7 @@ class Exchange extends PureComponent<any, any> {
 
     const { haveCurrency, getCurrency } = this.state
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.Offer, {
       sellCurrency: haveCurrency,
       buyCurrency: getCurrency,
@@ -731,18 +694,19 @@ class Exchange extends PureComponent<any, any> {
       balances,
     } = this.state
 
-    return (balances && balances[`ETH`]) ? balances[`ETH`] : 0
+    const ethBalance = (balances && balances[`ETH`]) ? balances.ETH : 0
+    return ethBalance
   }
 
   checkBalanceForSwapPossibility = (checkParams) => {
     const { sellCurrency, buyCurrency, amount, fromType, isSilentError } = checkParams
     const { pairFees, balances } = this.state
 
-    const isTokenSell = ethToken.isEthToken({ name: sellCurrency })
-    const isTokenBuy = ethToken.isEthToken({ name: buyCurrency })
+    const isUserSellToken = ethToken.isEthToken({ name: sellCurrency })
+    const isUserBuyToken = ethToken.isEthToken({ name: buyCurrency })
     const sellBalance = new BigNumber(balances[sellCurrency.toUpperCase()] || 0)
     const ethBalance = new BigNumber(this.getEthBalance())
-    let hasEnoughBalanceForAmount = false
+    let hasEnoughBalanceSellAmount = false
     let hasEnoughBalanceForSellFee = false
     let hasEnoughBalanceForBuyFee = false
     let hasEnoughBalanceForFullPayment = false
@@ -751,29 +715,35 @@ class Exchange extends PureComponent<any, any> {
     try {
       const sellFee = pairFees && pairFees.sell?.fee
       const buyFee = pairFees && pairFees.buy?.fee
+      const isUTXOSell = pairFees && pairFees.sell?.isUTXO
 
-      hasEnoughBalanceForAmount = sellBalance.isGreaterThanOrEqualTo(amount)
+      hasEnoughBalanceSellAmount = sellBalance.isGreaterThanOrEqualTo(amount)
 
-      hasEnoughBalanceForSellFee = isTokenSell
+      hasEnoughBalanceForSellFee = isUserSellToken
         ? ethBalance.isGreaterThanOrEqualTo(sellFee)
         : sellBalance.isGreaterThanOrEqualTo(sellFee)
 
-      hasEnoughBalanceForBuyFee = isTokenBuy
+      hasEnoughBalanceForBuyFee = isUserBuyToken
         ? ethBalance.isGreaterThanOrEqualTo(buyFee)
         : sellBalance.isGreaterThanOrEqualTo(buyFee)
 
-      hasEnoughBalanceForFullPayment =
-        fromType === AddressType.Custom ||
-        isTokenSell
-          ? hasEnoughBalanceForAmount && ethBalance.isGreaterThanOrEqualTo(sellFee)
-          : isTokenBuy
-            ? hasEnoughBalanceForAmount && ethBalance.isGreaterThanOrEqualTo(buyFee)
-            : sellBalance.isGreaterThanOrEqualTo(new BigNumber(amount).plus(sellFee))
+      if (isUserSellToken && hasEnoughBalanceSellAmount && ethBalance.isGreaterThanOrEqualTo(sellFee)) {
+        hasEnoughBalanceForFullPayment = true
+      } else if (isUserBuyToken && (fromType === AddressType.Custom || hasEnoughBalanceSellAmount) && ethBalance.isGreaterThanOrEqualTo(buyFee)) {
+        hasEnoughBalanceForFullPayment = true
+      } else if (isUTXOSell && sellBalance.isGreaterThanOrEqualTo(new BigNumber(amount).plus(sellFee)) && ethBalance.isGreaterThanOrEqualTo(buyFee)) {
+        hasEnoughBalanceForFullPayment = true
+      } else if (fromType === AddressType.Custom && ethBalance.isGreaterThanOrEqualTo(buyFee)) {
+        hasEnoughBalanceForFullPayment = true
+      } else if (sellBalance.isGreaterThanOrEqualTo(new BigNumber(amount).plus(sellFee))) {
+        hasEnoughBalanceForFullPayment = true
+      }
 
       if (hasEnoughBalanceForFullPayment) {
         balanceIsOk = true
       }
     } catch (error) {
+      console.log('>>> fail check fee')
       this.reportError(error, `from checkBalanceForSwapPossibility()`)
       return false
     }
@@ -802,17 +772,18 @@ class Exchange extends PureComponent<any, any> {
               defaultMessage="You must have at least {amount} {currency} on your balance. {br} Miner commission {sellFee} {sellCoin} and {buyFee} {buyCoin}"
               values={{
                 amount: amount.toNumber(),
-                currency: sellCurrency.toUpperCase(),
+                currency: this.renderCoinName(sellCurrency),
                 sellFee,
-                sellCoin,
+                sellCoin: this.renderCoinName(sellCoin),
                 buyFee,
-                buyCoin,
+                buyCoin: this.renderCoinName(buyCoin),
                 br: <br />,
               }}
             />
           )}
         </Fragment>
       )
+      //@ts-ignore: strictNullChecks
       actions.modals.open(constants.modals.AlertWindow, {
         title: (
           <FormattedMessage
@@ -822,7 +793,7 @@ class Exchange extends PureComponent<any, any> {
         ),
         message: alertMessage,
         canClose: true,
-        currency: buyCurrency,
+        currency: this.renderCoinName(buyCurrency),
         address,
         actionType: 'deposit',
       })
@@ -849,14 +820,14 @@ class Exchange extends PureComponent<any, any> {
     this.setState(() => ({
       isPendingTokenApprove: true,
     }))
-
-    actions.token
+    // TODO: replace actions with erc20, bep20 ...
+    actions.erc20
       .approve({
         to: config.swapContract.erc20,
         name: haveCurrency,
         amount: new BigNumber(haveAmount).dp(0, BigNumber.ROUND_UP),
       })
-      .then((response) => {
+      .then((txHash) => {
         this.updateTokenAllowance()
 
         actions.notifications.show(
@@ -866,7 +837,7 @@ class Exchange extends PureComponent<any, any> {
               id="ExchangeTokenWasApproved"
               defaultMessage="Token was approved.{br}Explorer link: {txLink}"
               values={{
-                txLink: <a href={`${config.link.etherscan}/tx/${response.transactionHash}`} target="_blank">Transaction</a>,
+                txLink: <a href={`${config.link.etherscan}/tx/${txHash}`} target="_blank">Transaction</a>,
                 br: <br />,
               }}
             />
@@ -885,7 +856,7 @@ class Exchange extends PureComponent<any, any> {
 
   // @ToDo - need refactiong without BTC
   initSwap = async () => {
-    const { decline, usersData } = this.props
+    const { decline } = this.props
 
     const { haveCurrency, haveAmount, getCurrency, haveType } = this.state
     const haveTicker = haveCurrency.toUpperCase()
@@ -924,6 +895,7 @@ class Exchange extends PureComponent<any, any> {
     const declineSwap = actions.core.getSwapById(this.props.decline[indexOfDecline])
 
     if (declineSwap !== undefined) {
+      //@ts-ignore: strictNullChecks
       actions.modals.open(constants.modals.DeclineOrdersModal, {
         declineSwap,
       })
@@ -989,6 +961,7 @@ class Exchange extends PureComponent<any, any> {
   }
 
   getLinkToDeclineSwap = () => {
+    //@ts-ignore: strictNullChecks
     const orders = SwapApp.shared().services.orders.items
 
     const unfinishedOrder = orders
@@ -1019,6 +992,7 @@ class Exchange extends PureComponent<any, any> {
             title: item.toUpperCase(),
             icon: item.toLowerCase(),
             value: item.toLowerCase(),
+            fullTitle: item.toLowerCase(),
           })
           reducers.currencies.updatePartialItems(partialItemsArray)
         }
@@ -1071,7 +1045,11 @@ class Exchange extends PureComponent<any, any> {
         maxAmount: 0,
       }
     }, () => {
-      this.updateTokenAllowance()
+      const { isTokenSell, haveAmount } = this.state
+
+      if (isTokenSell && haveAmount) {
+        this.updateTokenAllowance()
+      }
     })
   }
 
@@ -1354,12 +1332,13 @@ class Exchange extends PureComponent<any, any> {
         ? haveCurrency
         : noPairToken
 
-    const selected = actions.pairs.selectPairPartial(checkingValue)
-    const check = selected.map((item) => item.value).includes(getCurrency)
+    const dropDownCurrencies = actions.pairs.selectPairPartial(checkingValue)
+    const check = dropDownCurrencies.map((item) => item.value).includes(getCurrency)
+
     this.getFiatBalance()
 
-    if (!check || getCurrency === checkingValue) {
-      this.chooseCurrencyToRender(selected)
+    if (dropDownCurrencies.length && (!check || getCurrency === checkingValue)) {
+      this.chooseCurrencyToRender(dropDownCurrencies)
     }
   }
 
@@ -1457,11 +1436,22 @@ class Exchange extends PureComponent<any, any> {
     })
   }
 
+  toggleOrdersVisibility = () => {
+    this.setState((state) => ({
+      ordersIsOpen: !state.ordersIsOpen
+    }))
+  }
+
   showIncompleteSwap = () => {
     const { desclineOrders } = this.state
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.IncompletedSwaps, {
       desclineOrders,
     })
+  }
+
+  renderCoinName = (coin) => {
+    return coin.toUpperCase()
   }
 
   render() {
@@ -1473,7 +1463,6 @@ class Exchange extends PureComponent<any, any> {
         params: { linkedOrderId },
       },
     } = this.props
-
     const {
       isTokenSell,
       isPendingTokenApprove,
@@ -1505,7 +1494,9 @@ class Exchange extends PureComponent<any, any> {
       haveBalance,
       isTurbo,
       isPending,
+      ordersIsOpen,
     } = this.state
+
 
     const sellCoin = haveCurrency.toUpperCase()
     const buyCoin = getCurrency.toUpperCase()
@@ -1528,7 +1519,7 @@ class Exchange extends PureComponent<any, any> {
 
     if (pairFees && pairFees.byCoins) {
       const sellCoinFee = pairFees.byCoins[sellCoin] || false
-      
+      //@ts-ignore: strictNullChecks
       balanceTooltip = (
         <p styleName="maxAmount">
           {new BigNumber(balance).toNumber() === 0 ||
@@ -1547,15 +1538,17 @@ class Exchange extends PureComponent<any, any> {
                     .toString()
                 : new BigNumber(balance).dp(5, BigNumber.ROUND_FLOOR).toString()}
               {'  '}
-              {sellCoin}
+              {this.renderCoinName(sellCoin)}
             </>
           )}
         </p>
       )
     }
 
+    //@ts-ignore: strictNullChecks
     const haveFiat = new BigNumber(exHaveRate).times(haveAmount).dp(2, BigNumber.ROUND_CEIL)
 
+    //@ts-ignore: strictNullChecks
     const getFiat = new BigNumber(exGetRate).times(getAmount).dp(2, BigNumber.ROUND_CEIL)
 
     const fiatFeeCalculation =
@@ -1628,6 +1621,8 @@ class Exchange extends PureComponent<any, any> {
 
     const isIncompletedSwaps = !!desclineOrders.length
 
+    const isDevBuild = (config.env === 'development')
+
     const Form = (
       <div styleName="section">
         <div styleName="formExchange">
@@ -1652,6 +1647,7 @@ class Exchange extends PureComponent<any, any> {
                 label={<FormattedMessage id="Exchange_FromAddress" defaultMessage="From address" />}
                 isDark={isDark}
                 currency={haveCurrency}
+                balance={balances[sellCoin]}
                 selectedType={haveType}
                 role={AddressRole.Send}
                 hasError={false}
@@ -1684,6 +1680,7 @@ class Exchange extends PureComponent<any, any> {
                 isDark={isDark}
                 role={AddressRole.Receive}
                 currency={getCurrency}
+                balance={balances[buyCoin]}
                 selectedType={getType}
                 hasError={false}
                 placeholder="To address"
@@ -1732,8 +1729,8 @@ class Exchange extends PureComponent<any, any> {
                     id="PartialPriceNoOrdersReduceAllInfo"
                     defaultMessage="This trade amount is too high for present market liquidity. Please reduce amount to {maxForSell}."
                     values={{
-                      maxForBuy: `${maxAmount} ${getCurrency.toUpperCase()}`,
-                      maxForSell: `${maxBuyAmount.toFixed(8)} ${haveCurrency.toUpperCase()}`,
+                      maxForBuy: `${maxAmount} ${this.renderCoinName(getCurrency)}`,
+                      maxForSell: `${maxBuyAmount.toFixed(8)} ${this.renderCoinName(haveCurrency)}`,
                     }}
                   />
                 </p>
@@ -1793,7 +1790,7 @@ class Exchange extends PureComponent<any, any> {
               {isPrice &&
                 `1 ${getCurrency.toUpperCase()} = ${oneCryptoCost.toFixed(
                   5
-                )} ${haveCurrency.toUpperCase()}`}
+                )} ${this.renderCoinName(haveCurrency)}`}
               {isErrorNoOrders && '?'}
             </div>
 
@@ -1891,39 +1888,51 @@ class Exchange extends PureComponent<any, any> {
               </Button>
             )}
 
-            <>
-              <Button
-                id="createOrderReactTooltipMessageForUser"
-                styleName={`button link-like ${haveBalance ? '' : 'noMany'}`}
-                onClick={haveBalance ? this.createOffer : null}
-              >
-                <FormattedMessage id="orders128" defaultMessage="Create offer" />
-              </Button>
+            {(isWidgetBuild || isDevBuild) && (
+              <>
+                <Button
+                  id="createOrderReactTooltipMessageForUser"
+                  styleName={`button link-like ${haveBalance ? '' : 'noMany'}`}
+                  //@ts-ignore: strictNullChecks
+                  onClick={haveBalance ? this.createOffer : null}
+                >
+                  <FormattedMessage id="orders128" defaultMessage="Create offer" />
+                </Button>
 
-              {haveBalance ? (
-                <ThemeTooltip
-                  id="createOrderReactTooltipMessageForUser"
-                  effect="solid"
-                  place="bottom"
-                >
-                  <FormattedMessage
-                    id="createOrderMessageForUser"
-                    defaultMessage="You must be online all the time, otherwise your order will not be visible to other users"
-                  />
-                </ThemeTooltip>
-              ) : (
-                <ThemeTooltip
-                  id="createOrderReactTooltipMessageForUser"
-                  effect="solid"
-                  place="bottom"
-                >
-                  <FormattedMessage
-                    id="createOrderNoManyMessageForUser"
-                    defaultMessage="Top up your balance"
-                  />
-                </ThemeTooltip>
-              )}
-            </>
+                {haveBalance ? (
+                  <ThemeTooltip
+                    id="createOrderReactTooltipMessageForUser"
+                    effect="solid"
+                    place="bottom"
+                  >
+                    <FormattedMessage
+                      id="createOrderMessageForUser"
+                      defaultMessage="You must be online all the time, otherwise your order will not be visible to other users"
+                    />
+                  </ThemeTooltip>
+                ) : (
+                  <ThemeTooltip
+                    id="createOrderReactTooltipMessageForUser"
+                    effect="solid"
+                    place="bottom"
+                  >
+                    <FormattedMessage
+                      id="createOrderNoManyMessageForUser"
+                      defaultMessage="Top up your balance"
+                    />
+                  </ThemeTooltip>
+                )}
+              </>
+            )}
+            {(!isWidgetBuild || isDevBuild) && (
+              <>
+                <div styleName="link button-like">
+                  <a href={!isChromeExtention ? `#${links.marketmaker}/` : `#${links.marketmaker}/WBTC`}>
+                    <FormattedMessage id="AddLiquidity" defaultMessage="Add Liquidity" />
+                  </a>
+                </div>
+              </>
+            )}
 
             {isIncompletedSwaps && (
               <Button blue styleName="buttonContinueSwap" onClick={this.showIncompleteSwap}>
@@ -1943,36 +1952,33 @@ class Exchange extends PureComponent<any, any> {
       <div styleName="exchangeWrap">
         <div
           styleName={`promoContainer ${isDark ? '--dark' : ''}`}
+          //@ts-ignore: strictNullChecks
           ref={(ref) => (this.promoContainer = ref)}
         >
-          {config && config.showHowItsWork && (
-            <div
-              styleName="scrollToTutorialSection"
-              ref={(ref) => (this.scrollTrigger = ref)}
-              onClick={() =>
-                animate((timePassed) => {
-                  window.scrollTo(0, this.promoContainer.clientHeight * (timePassed / 100))
-                }, 100)
-              }
-            >
-              <span styleName="scrollAdvice">
-                <FormattedMessage id="PartialHowItWorks10" defaultMessage="How it works?" />
-              </span>
-              <span styleName="scrollTrigger" />
-            </div>
-          )}
           <Fragment>
             <div styleName="container">
               <Promo />
               {Form}
-              <Orders
-                sell={haveCurrency}
-                buy={getCurrency}
-                linkedOrderId={linkedOrderId}
-                pairFees={pairFees}
-                balances={balances}
-                checkSwapAllow={this.checkBalanceForSwapPossibility}
-              />
+
+              <Button
+                id="orderbookBtn"
+                onClick={this.toggleOrdersVisibility}
+                styleName="button orderbook"
+                link
+              >
+                <FormattedMessage id="Orderbook" defaultMessage='Orderbook' />
+              </Button>
+
+              {ordersIsOpen ? (
+                <Orders
+                  sell={haveCurrency}
+                  buy={getCurrency}
+                  linkedOrderId={linkedOrderId}
+                  pairFees={pairFees}
+                  balances={balances}
+                  checkSwapAllow={this.checkBalanceForSwapPossibility}
+                />
+              ) : null}
             </div>
           </Fragment>
         </div>

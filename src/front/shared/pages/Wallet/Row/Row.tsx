@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import actions from 'redux/actions'
 import { connect } from 'redaction'
+import erc20Like from 'common/erc20Like'
 import helpers, { constants } from 'helpers'
 import config from 'helpers/externalConfig'
 import { isMobile } from 'react-device-detect'
@@ -17,9 +18,9 @@ import { localisedUrl } from 'helpers/locale'
 import { BigNumber } from 'bignumber.js'
 import { Button } from 'components/controls'
 import web3Icons from '../../../images'
-import PartOfAddress from '../components/PartOfAddress'
+import PartOfAddress from '../PartOfAddress'
 import Tooltip from 'components/ui/Tooltip/Tooltip'
-import { ApiEndpoint } from '../components/Endpoints'
+import { ApiEndpoint } from '../Endpoints'
 import Copy from '../../../components/ui/Copy/Copy'
 
 type RowProps = {
@@ -29,7 +30,6 @@ type RowProps = {
   itemData: IUniversalObj
   // from store
   activeFiat?: string
-  decline?: any[]
   ethDataHelper?: {
     address: string
     privateKey: string
@@ -41,9 +41,12 @@ type RowProps = {
 
 type RowState = {
   isBalanceFetching: boolean
-  isAddressCopied: boolean
   isBalanceEmpty: boolean
   isDropdownOpen: boolean
+  isToken: boolean
+  isErc20Token: boolean
+  isBep20Token: boolean
+  reduxActionName: string
 }
 
 const langLabels = defineMessages({
@@ -61,7 +64,6 @@ const langLabels = defineMessages({
 @connect(
   (
     {
-      rememberedOrders,
       user: {
         activeFiat,
         ethData: {
@@ -70,11 +72,9 @@ const langLabels = defineMessages({
         },
         multisigStatus,
       }
-    },
-    { currency }
+    }
   ) => ({
     activeFiat,
-    decline: rememberedOrders.savedOrders,
     multisigStatus,
     ethDataHelper: {
       address,
@@ -86,17 +86,25 @@ const langLabels = defineMessages({
 class Row extends Component<RowProps, RowState> {
   constructor(props) {
     super(props)
+    
+    const { currency } = props
+    const currencyName = currency.currency
+    const isErc20Token = erc20Like.erc20.isToken({ name: currencyName })
+    const isBep20Token = erc20Like.bep20.isToken({ name: currencyName })
+    const isToken = erc20Like.isToken({ name: currencyName })
+    const reduxActionName = isErc20Token ?
+      'erc20' : isBep20Token ?
+      'bep20' : currencyName.toLowerCase()
 
     this.state = {
       isBalanceFetching: false,
-      isAddressCopied: false,
       isBalanceEmpty: true,
       isDropdownOpen: false,
+      isToken,
+      isErc20Token,
+      isBep20Token,
+      reduxActionName,
     }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleSliceAddress)
   }
 
   async componentDidMount() {
@@ -105,8 +113,6 @@ class Row extends Component<RowProps, RowState> {
     this.setState({
       isBalanceEmpty: balance === 0,
     })
-
-    window.addEventListener('resize', this.handleSliceAddress)
   }
 
   componentDidUpdate(prevProps) {
@@ -135,12 +141,16 @@ class Row extends Component<RowProps, RowState> {
   }
 
   handleReloadBalance = () => {
-    const { isBalanceFetching } = this.state
     const {
+      isBalanceFetching,
+      isToken,
+      reduxActionName,
+    } = this.state
+    const {
+      itemData,
       itemData: {
         isMetamask,
         isConnected,
-        isERC20,
       }
     } = this.props
 
@@ -162,11 +172,11 @@ class Row extends Component<RowProps, RowState> {
     this.setState({
       isBalanceFetching: true,
     }, () => {
+      // here is timeout for the impression of the balance request
       setTimeout(async () => {
         const {
           itemData: { currency, address },
         } = this.props
-
         switch (currency) {
           case 'BTC (SMS-Protected)':
             await actions.btcmultisig.getBalance()
@@ -178,13 +188,10 @@ class Row extends Component<RowProps, RowState> {
             await actions.btcmultisig.getBalancePin()
             break
           default:
-            if (isMetamask && !isERC20) {
+            if (isMetamask && !isToken) {
               await metamask.getBalance()
             } else {
-              await actions[currency.toLowerCase()].getBalance(
-                currency.toLowerCase(),
-                address
-              )
+              await actions[reduxActionName].getBalance(currency)
             }
         }
 
@@ -214,43 +221,13 @@ class Row extends Component<RowProps, RowState> {
     )
   }
 
-  handleSliceAddress = () => {
-    const {
-      itemData: { address },
-    } = this.props
-
-    const firstPart = address.substr(0, 6)
-    const secondPart = address.substr(address.length - 4)
-
-    return window.innerWidth < 700 || isMobile || address.length > 42
-      ? `${firstPart}...${secondPart}`
-      : address
-  }
-
-  handleDisconnectWallet() {
-    if (metamask.isEnabled()) {
-      metamask.disconnect().then(async () => {
-        await actions.user.sign()
-        await actions.user.getBalances()
-      })
-    }
-  }
-
-  handleConnectMetamask = () => {
-    metamask.connect({}).then(async (connected) => {
-      if (connected) {
-        await actions.user.sign()
-        await actions.user.getBalances()
-      }
-    })
-  }
-
   handleWithdrawPopup = () => {
     const {
       itemData: { currency },
       itemData
     } = this.props
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.Withdraw, itemData)
   }
 
@@ -258,8 +235,10 @@ class Row extends Component<RowProps, RowState> {
     const {
       itemData: { currency, address },
       history,
+      //@ts-ignore: strictNullChecks
       intl: { locale },
     } = this.props
+    const { isToken } = this.state
 
     if (currency.toLowerCase() === 'ghost') {
       this.handleWithdrawPopup()
@@ -280,13 +259,9 @@ class Row extends Component<RowProps, RowState> {
         break
     }
 
-    const isToken = helpers.ethToken.isEthToken({ name: currency })
-
+    //@ts-ignore: strictNullChecks
     history.push(
-      localisedUrl(
-        locale,
-        (isToken ? '/token' : '') + `/${targetCurrency}/${address}/send`
-      )
+      localisedUrl(locale, (isToken ? '/token' : '') + `/${targetCurrency}/${address}/send`)
     )
   }
 
@@ -295,6 +270,7 @@ class Row extends Component<RowProps, RowState> {
       itemData: { currency, address },
     } = this.props
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.ReceiveModal, {
       currency,
       address,
@@ -302,14 +278,17 @@ class Row extends Component<RowProps, RowState> {
   }
 
   handleActivateProtected = async () => {
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.RegisterSMSProtected, {})
   }
 
   handleActivatePinProtected = async () => {
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.RegisterPINProtected, {})
   }
 
   handleGenerateMultisignLink = async () => {
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.MultisignJoinLink, {})
   }
 
@@ -318,6 +297,7 @@ class Row extends Component<RowProps, RowState> {
       itemData: { currency, address },
     } = this.props
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.HowToWithdrawModal, {
       currency,
       address,
@@ -335,6 +315,7 @@ class Row extends Component<RowProps, RowState> {
       itemData: { currency, address },
     } = this.props
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.InvoiceLinkModal, {
       currency,
       address,
@@ -358,6 +339,7 @@ class Row extends Component<RowProps, RowState> {
       },
     } = this.props
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.InvoiceModal, {
       currency,
       address,
@@ -372,17 +354,21 @@ class Row extends Component<RowProps, RowState> {
   goToExchange = () => {
     const {
       history,
+      //@ts-ignore: strictNullChecks
       intl: { locale },
     } = this.props
+    //@ts-ignore: strictNullChecks
     history.push(localisedUrl(locale, '/exchange'))
   }
 
   goToCurrencyHistory = () => {
     const {
       history,
+      //@ts-ignore: strictNullChecks
       intl: { locale },
-      itemData: { currency, balance, address },
+      itemData: { currency, address },
     } = this.props
+    const  { isToken } = this.state
 
     let targetCurrency = currency
     switch (currency.toLowerCase()) {
@@ -393,13 +379,9 @@ class Row extends Component<RowProps, RowState> {
         break
     }
 
-    const isToken = helpers.ethToken.isEthToken({ name: currency })
-
+    //@ts-ignore: strictNullChecks
     history.push(
-      localisedUrl(
-        locale,
-        (isToken ? '/token' : '') + `/${targetCurrency}/${address}`
-      )
+      localisedUrl(locale, (isToken ? '/token' : '') + `/${targetCurrency}/${address}`)
     )
   }
 
@@ -409,6 +391,7 @@ class Row extends Component<RowProps, RowState> {
     } = this.props
 
     if (balance > 0) {
+      //@ts-ignore: strictNullChecks
       actions.modals.open(constants.modals.AlertModal, {
         message: (
           <FormattedMessage
@@ -435,6 +418,7 @@ class Row extends Component<RowProps, RowState> {
       itemData: { address, fullName },
     } = this.props
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.WalletAddressModal, {
       address,
       fullName,
@@ -447,7 +431,9 @@ class Row extends Component<RowProps, RowState> {
       ethDataHelper,
     } = this.props
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.PrivateKeysModal, {
+      //@ts-ignore: strictNullChecks
       key: address === ethDataHelper.address ? ethDataHelper.privateKey : privateKey,
       fullName,
     })
@@ -457,10 +443,16 @@ class Row extends Component<RowProps, RowState> {
     actions.modals.open(constants.modals.SaveMnemonicModal)
   }
 
+  connectMetamask = () => {
+    metamask.handleConnectMetamask()
+  }
+
   render() {
     const {
       isBalanceFetching,
       isBalanceEmpty,
+      isErc20Token,
+      isBep20Token,
     } = this.state
 
     const {
@@ -476,9 +468,9 @@ class Row extends Component<RowProps, RowState> {
       balance,
       isBalanceFetched,
       fullName,
-      title,
       unconfirmedBalance,
       balanceError,
+      standard,
     } = itemData
 
     let nodeDownErrorShow = true
@@ -501,8 +493,7 @@ class Row extends Component<RowProps, RowState> {
     if (
       config &&
       config.erc20 &&
-      config.erc20[this.props.currency.currency.toLowerCase()] &&
-      config.erc20[this.props.currency.currency.toLowerCase()].howToWithdraw
+      config.erc20[this.props.currency.currency.toLowerCase()]?.howToWithdraw
     ) {
       hasHowToWithdraw = true
     }
@@ -519,6 +510,7 @@ class Row extends Component<RowProps, RowState> {
       id: number
     }
 
+    //@ts-ignore: strictNullChecks
     let dropDownMenuItems: DropDownItem[] = [
       {
         id: 1001,
@@ -645,7 +637,7 @@ class Row extends Component<RowProps, RowState> {
             defaultMessage="Подключить"
           />
         ),
-        action: this.handleConnectMetamask,
+        action: metamask.handleConnectMetamask,
         disabled: false,
       }]
     }
@@ -662,7 +654,7 @@ class Row extends Component<RowProps, RowState> {
               defaultMessage="Отключить кошелек"
             />
           ),
-          action: this.handleDisconnectWallet,
+          action: metamask.handleDisconnectWallet,
           disabled: false
         },
         ...dropDownMenuItems
@@ -790,21 +782,25 @@ class Row extends Component<RowProps, RowState> {
     
     const isMetamask = itemData.isMetamask
     const metamaskIsConnected = isMetamask && itemData.isConnected
-    const metamaskDisconnected = isMetamask && !metamaskIsConnected
+    const metamaskDisconnected = isMetamask && !itemData.isConnected
 
     return (
       !ethRowWithoutExternalProvider
       && <tr>
         <td styleName={`assetsTableRow ${isDark ? 'dark' : ''}`}>
           <div styleName="assetsTableCurrency">
-            {/* Currency icon */}
-            <Coin className={styles.assetsTableIcon} name={currency} />
+            <Coin
+              className={styles.assetsTableIcon}
+              name={ // replace currency icon if metamask is disconnected
+                web3Type === 'METAMASK' && metamaskDisconnected ? web3Type : currency
+              }
+            />
             
             {/* Title-Link */}
             <div styleName="assetsTableInfo">
               <div styleName="nameRow">
                 <a onClick={metamaskDisconnected
-                    ? this.handleConnectMetamask
+                    ? this.connectMetamask
                     : mnemonicSaved || metamaskIsConnected
                       ? this.goToCurrencyHistory
                       : () => null
@@ -819,9 +815,12 @@ class Row extends Component<RowProps, RowState> {
                   title={`Online ${fullName} wallet`}
                 >
                   {fullName}
+                  {/* label for tokens */}
+                  {standard ? (
+                    <span styleName="tokenStandard">{`${standard.toUpperCase()}`}</span>
+                  ) : ''}
                 </a>
               </div>
-              {title ? <strong>{title}</strong> : ''}
             </div>
             
             {/* Tip - if something wrong with endpoint */}
@@ -861,7 +860,7 @@ class Row extends Component<RowProps, RowState> {
                   else showing fetch-button and currency balance
                   */}
                   {metamaskDisconnected ? (
-                      <Button small empty onClick={this.handleConnectMetamask}>
+                      <Button small empty onClick={metamask.handleConnectMetamask}>
                         {web3Icon && <img styleName="web3ProviderIcon" src={web3Icon} />}
                         <FormattedMessage id="CommonTextConnect" defaultMessage="Connect" />
                       </Button>
@@ -897,6 +896,7 @@ class Row extends Component<RowProps, RowState> {
                                 <br />
                                 <span
                                   styleName="unconfirmedBalance"
+                                  //@ts-ignore: strictNullChecks
                                   title={intl.formatMessage(
                                     langLabels.unconfirmedBalance
                                   )}
@@ -942,14 +942,12 @@ class Row extends Component<RowProps, RowState> {
                               currency={itemData.currency}
                               contractAddress={itemData.contractAddress}
                               address={itemData.address}
-                              isERC20={itemData.isERC20}
-                              isBTC={itemData.isBTC}
                               style={{
                                 position: 'relative',
-                                bottom: '13px',
+                                bottom: '16px',
                               }} 
                             />
-                          ) : <p>{itemData.address}</p>
+                          ) : <p id={`${currency.toLowerCase()}Address`}>{itemData.address}</p>
                         }
                       </Copy>
                     </div>
@@ -961,6 +959,8 @@ class Row extends Component<RowProps, RowState> {
               <div styleName="assetsTableValue">
                 {msConfirmCount && !isMobile && (
                   <p styleName="txWaitConfirm" onClick={this.goToCurrencyHistory}>
+                    {/* 
+                    //@ts-ignore: strictNullChecks */}
                     {intl.formatMessage(
                       langLabels.msConfirmCount,
                       {

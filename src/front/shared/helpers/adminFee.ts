@@ -5,8 +5,14 @@ import { BigNumber } from 'bignumber.js'
 
 const isEnabled = (currency) => {
   currency = getCurrencyKey(currency, false).toLowerCase()
+
   if (config && config.opts && config.opts.fee) {
-    if ((currency === `token`) && config.opts.fee.erc20) {
+    if (
+      currency === `token` &&
+      config.opts.fee?.erc20?.fee &&
+      config.opts.fee?.erc20?.address &&
+      config.opts.fee?.erc20?.min
+    ) {
       return config.opts.fee.erc20
     } else {
       if (config.opts.fee[currency]) {

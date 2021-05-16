@@ -27,10 +27,18 @@ import CloseIcon from 'components/ui/CloseIcon/CloseIcon'
 @withRouter
 @connect(({
   core: { hiddenCoinsList },
-  user: { ethData, btcData, ghostData, nextData, tokensData } }) => ({
-    items: [ethData, btcData, ghostData, nextData, ...Object.keys(tokensData).map(k => (tokensData[k]))],
-    hiddenCoinsList,
-  }))
+  user: { ethData, bnbData, btcData, ghostData, nextData, tokensData },
+}) => ({
+  items: [
+    ethData,
+    bnbData,
+    btcData,
+    ghostData,
+    nextData, 
+    ...Object.keys(tokensData).map(k => (tokensData[k]))
+  ],
+  hiddenCoinsList,
+}))
 @CSSModules(styles, { allowMultiple: true })
 class Currency extends Component<any, any> {
 
@@ -109,6 +117,7 @@ class Currency extends Component<any, any> {
 
     currency = currency.toUpperCase()
 
+    //@ts-ignore: strictNullChecks
     actions.modals.open(constants.modals.ReceiveModal, {
       currency,
       address,

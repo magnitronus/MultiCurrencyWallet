@@ -1,16 +1,17 @@
 import config from 'app-config'
+import TOKEN_STANDARDS from 'common/helpers/constants/TOKEN_STANDARDS'
+const NETWORK = process.env.MAINNET ? 'mainnet' : 'testnet'
 
-
-const GetCustromERC20 = () => {
-  const configStorage = (process.env.MAINNET) ? 'mainnet' : 'testnet'
-
-  let tokensInfo = JSON.parse(localStorage.getItem('customERC'))
-  if (!tokensInfo || !tokensInfo[configStorage]) return {}
-  return tokensInfo[configStorage]
+const getCustomTokenConfig = () => {
+  //@ts-ignore: strictNullChecks
+  let tokensInfo = JSON.parse(localStorage.getItem('customToken'))
+  if (!tokensInfo || !tokensInfo[NETWORK]) return {}
+  return tokensInfo[NETWORK]
 }
 
 let buildOpts = {
   curEnabled: false,
+  blockchainSwapEnabled: false,
   ownTokens: false,
   addCustomERC20: true,
   invoiceEnabled: true,
@@ -31,6 +32,8 @@ if (window
 ) {
   buildOpts.ownTokens = window.widgetERC20Tokens
 }
+// TODO: need to split user's own tokens in the buildOpts.ownTokens
+// TODO: and make different objects (example: buildOpts.ownTokens[erc20|bep20|...])
 if (buildOpts.ownTokens && Object.keys(buildOpts.ownTokens).length) {
   // Multi token mode
   const cleanERC20 = {}
@@ -47,6 +50,42 @@ if (buildOpts.ownTokens && Object.keys(buildOpts.ownTokens).length) {
   config.erc20 = cleanERC20
 }
 
+const tokenItems: IUniversalObj[] = []
+
+Object.keys(TOKEN_STANDARDS).forEach((key) => {
+  const standard = TOKEN_STANDARDS[key].standard
+
+  Object.keys(config[standard]).forEach((name) => {
+    tokenItems.push({
+      name: name.toUpperCase(),
+      title: name.toUpperCase(),
+      icon: name,
+      value: name,
+      fullTitle: name,
+      addAssets: true,
+      standard,
+    })
+  })
+})
+
+const tokenPartialItems: IUniversalObj[] = []
+
+Object.keys(TOKEN_STANDARDS).forEach((key) => {
+  const standard = TOKEN_STANDARDS[key].standard
+
+  Object.keys(config[standard])
+    .filter((name) => config[standard][name].canSwap)
+    .forEach((name) => {
+      tokenPartialItems.push({
+        name: name.toUpperCase(),
+        title: name.toUpperCase(),
+        icon: name,
+        value: name,
+        fullTitle: config[standard][name].fullName || name,
+        standard,
+      })
+    })
+})
 
 const initialState = {
   items: [
@@ -57,6 +96,15 @@ const initialState = {
       icon: 'eth',
       value: 'eth',
       fullTitle: 'ethereum',
+      addAssets: true,
+    }] : [],
+     //@ts-ignore
+     ...(!buildOpts.curEnabled || buildOpts.curEnabled.bnb) ? [{
+      name: 'BNB',
+      title: 'BNB',
+      icon: 'bnb',
+      value: 'bnb',
+      fullTitle: 'binance coin',
       addAssets: true,
     }] : [],
     //@ts-ignore
@@ -113,19 +161,11 @@ const initialState = {
       addAssets: false,
       dontCreateOrder: true,
     }] : [],
-    ...(Object.keys(config.erc20)
-      .map(key => ({
-        name: key.toUpperCase(),
-        title: key.toUpperCase(),
-        icon: key,
-        value: key,
-        fullTitle: key,
-        addAssets: true,
-      }))),
+    ...tokenItems,
   ],
   partialItems: [
     //@ts-ignore
-    ...(!buildOpts.curEnabled || buildOpts.curEnabled.eth) ? [{
+    ...(!buildOpts.blockchainSwapEnabled || buildOpts.blockchainSwapEnabled.eth) ? [{
       name: 'ETH',
       title: 'ETH',
       icon: 'eth',
@@ -133,7 +173,15 @@ const initialState = {
       fullTitle: 'ethereum',
     }] : [],
     //@ts-ignore
-    ...(!buildOpts.curEnabled || buildOpts.curEnabled.ghost) ? [{
+    ...(!buildOpts.blockchainSwapEnabled || buildOpts.blockchainSwapEnabled.bnb) ? [{
+      name: 'BNB',
+      title: 'BNB',
+      icon: 'bnb',
+      value: 'bnb',
+      fullTitle: 'binance coin',
+    }] : [],
+    //@ts-ignore
+    ...(!buildOpts.blockchainSwapEnabled || buildOpts.blockchainSwapEnabled.ghost) ? [{
       name: 'GHOST',
       title: 'GHOST',
       icon: 'ghost',
@@ -141,7 +189,7 @@ const initialState = {
       fullTitle: 'ghost',
     }] : [],
     //@ts-ignore
-    ...(!buildOpts.curEnabled || buildOpts.curEnabled.next) ? [{
+    ...(!buildOpts.blockchainSwapEnabled || buildOpts.blockchainSwapEnabled.next) ? [{
       name: 'NEXT',
       title: 'NEXT',
       icon: 'next',
@@ -149,21 +197,14 @@ const initialState = {
       fullTitle: 'next',
     }] : [],
     //@ts-ignore
-    ...(!buildOpts.curEnabled || buildOpts.curEnabled.btc) ? [{
+    ...(!buildOpts.blockchainSwapEnabled || buildOpts.blockchainSwapEnabled.btc) ? [{
       name: 'BTC',
       title: 'BTC',
       icon: 'btc',
       value: 'btc',
       fullTitle: 'bitcoin',
     }] : [],
-    ...(Object.keys(config.erc20)
-      .map(key => ({
-        name: key.toUpperCase(),
-        title: key.toUpperCase(),
-        icon: key,
-        value: key,
-        fullTitle: key,
-      }))),
+    ...tokenPartialItems,
   ],
   addSelectedItems: [],
   addPartialItems: [],
@@ -173,6 +214,22 @@ const initialState = {
 if (config.isWidget) {
   //@ts-ignore
   initialState.items = [
+    //@ts-ignore
+    {
+      name: 'ETH',
+      title: 'ETH',
+      icon: 'eth',
+      value: 'eth',
+      fullTitle: 'ethereum',
+    },
+    //@ts-ignore
+    {
+      name: 'BNB',
+      title: 'BNB',
+      icon: 'bnb',
+      value: 'bnb',
+      fullTitle: 'binance coin',
+    },
     //@ts-ignore
     {
       name: 'BTC',
@@ -206,6 +263,13 @@ if (config.isWidget) {
       icon: 'eth',
       value: 'eth',
       fullTitle: 'ethereum',
+    },
+    {
+      name: 'BNB',
+      title: 'BNB',
+      icon: 'bnb',
+      value: 'bnb',
+      fullTitle: 'binance coin',
     },
     {
       name: 'BTC',
@@ -272,73 +336,50 @@ if (config.isWidget) {
       fullTitle: config.erc20[config.erc20token].fullName,
     })
   }
-  //@ts-ignore
-  initialState.items.push({
-    name: 'ETH',
-    title: 'ETH',
-    icon: 'eth',
-    value: 'eth',
-    fullTitle: 'ethereum',
-  })
-  //@ts-ignore
-  initialState.items.push({
-    name: 'GHOST',
-    title: 'GHOST',
-    icon: 'ghost',
-    value: 'ghost',
-    fullTitle: 'ghost',
-  })
-  //@ts-ignore
-  initialState.items.push({
-    name: 'NEXT',
-    title: 'NEXT',
-    icon: 'next',
-    value: 'next',
-    fullTitle: 'next',
-  })
 
   initialState.addSelectedItems = [
     {
+      //@ts-ignore: strictNullChecks
       name: config.erc20token.toUpperCase(),
+      //@ts-ignore: strictNullChecks
       title: config.erc20token.toUpperCase(),
+      //@ts-ignore: strictNullChecks
       icon: config.erc20token,
+      //@ts-ignore: strictNullChecks
       value: config.erc20token,
+      //@ts-ignore: strictNullChecks
       fullTitle: config.erc20[config.erc20token].fullName,
     },
   ]
 } else {
+  // TODO: rename - addCustomERC20 -> addCustomToken ?
   if (!config.isWidget && buildOpts.addCustomERC20) {
-    const customERC = GetCustromERC20()
-    Object.keys(customERC).forEach((tokenContract) => {
-      const symbol = customERC[tokenContract].symbol
-      //@ts-ignore
-      initialState.items.push({
-        name: symbol.toUpperCase(),
-        title: symbol.toUpperCase(),
-        icon: symbol.toLowerCase(),
-        value: symbol.toLowerCase(),
-        fullTitle: symbol,
-      })
-      initialState.partialItems.push({
-        name: symbol.toUpperCase(),
-        title: symbol.toUpperCase(),
-        icon: symbol.toLowerCase(),
-        value: symbol.toLowerCase(),
-        fullTitle: symbol,
+    const customTokenConfig = getCustomTokenConfig()
+
+    Object.keys(customTokenConfig).forEach((standard) => {
+      Object.keys(customTokenConfig[standard]).forEach((tokenContractAddr) => {
+        const tokenObj = customTokenConfig[standard][tokenContractAddr]
+        const { symbol } = tokenObj
+
+        //@ts-ignore
+        initialState.items.push({
+          name: symbol.toUpperCase(),
+          title: symbol.toUpperCase(),
+          icon: symbol.toLowerCase(),
+          value: symbol.toLowerCase(),
+          fullTitle: symbol,
+        })
+        initialState.partialItems.push({
+          name: symbol.toUpperCase(),
+          title: symbol.toUpperCase(),
+          icon: symbol.toLowerCase(),
+          value: symbol.toLowerCase(),
+          fullTitle: symbol,
+        })
       })
     })
   }
 }
-// eslint-disable-next-line
-// process.env.MAINNET && initialState.items.unshift({
-//   name: 'USDT',
-//   title: 'USDT',
-//   icon: 'usdt',
-//   value: 'usdt',
-//   fullTitle: 'USD Tether',
-// })
-// eslint-disable-next-line
-
 
 const addSelectedItems = (state, payload) => ({
   ...state,
