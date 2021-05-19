@@ -6,7 +6,7 @@ import aggregation from './aggregation'
 import events from './events'
 import Order from './Order'
 import visibleMakers from 'common/whitelists/visibleMakers'
-import peersInfo from 'common/messaging/pubsubRoom/ws.client';
+import peersInfo from 'common/messaging/pubsubRoom/wsCache/ws.client';
 
 
 const checkIncomeOrderFormat = (order) => {

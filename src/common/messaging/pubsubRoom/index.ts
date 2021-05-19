@@ -10,7 +10,7 @@ import Connection from './connection'
 import encoding from './encoding'
 import directConnection from './direct-connection-handler'
 import namedQueryRun from '../../utils/namedQuery'
-import peersInfo from 'common/messaging/pubsubRoom/ws.client';
+import peersInfo from 'common/messaging/pubsubRoom/wsCache/ws.client';
 
 const DEFAULT_OPTIONS = {
   pollInterval: 1000

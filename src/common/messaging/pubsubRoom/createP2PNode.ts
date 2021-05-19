@@ -7,7 +7,7 @@ import KadDHT from 'libp2p-kad-dht'
 import MPLEX from 'libp2p-mplex'
 import SECIO from 'libp2p-secio'
 import PeerId from 'peer-id'
-import peersInfo from 'common/messaging/pubsubRoom/ws.client';
+import peersInfo from './wsCache/ws.client';
 
 
 const createP2PNode = (options) => {
@@ -65,6 +65,7 @@ const createP2PNode = (options) => {
     //@ts-ignore: strictNullChecks
     console.log('Peer id:', peerId._idB58String)
 
+    //@ts-ignore: strictNullChecks
     peersInfo.setCurrentPeerId(peerId._idB58String)
 
     const p2pNode = new Libp2p({
