@@ -3,6 +3,7 @@ import SwapApp, { constants, Events, ServiceInterface } from 'swap.app'
 
 import createP2PNode from '../../common/messaging/pubsubRoom/createP2PNode'
 import p2pRoom from '../../common/messaging/pubsubRoom'
+import peersInfo from 'common/messaging/pubsubRoom/wsCache/ws.client';
 
 
 class SwapRoom extends ServiceInterface {
@@ -49,6 +50,7 @@ class SwapRoom extends ServiceInterface {
         'libp2p:peerIdJson',
         p2pNode.peerId.toJSON()
       )
+      peersInfo.setCurrentPeerId(p2pNode.peerId._idB58String);
       // Start p2p node
       p2pNode.start().then(async () => {
         this._init({
